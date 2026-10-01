@@ -8,12 +8,12 @@ export const siteConfig = {
 
   // PLACEHOLDER: your WhatsApp number in international format, digits only, no "+" or spaces.
   // Example: "971501234567"
-  whatsappNumber: "971XXXXXXXXX",
+  whatsappNumber: "971553267566",
 
   // PLACEHOLDER: phone number exactly as it should be shown on the site.
-  phoneDisplay: "+971 XX XXX XXXX",
+  phoneDisplay: "+971 55 326 7566",
   // PLACEHOLDER: the same phone number for tap-to-call links (keep the "+").
-  phoneLink: "+971XXXXXXXXX",
+  phoneLink: "+971553267566",
 
   // PLACEHOLDER: contact email.
   email: "hello@example.com",
