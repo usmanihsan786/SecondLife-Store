@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { categories, colors, series, sizes, type ColorId, type SizeId } from "@/data/options";
-import type { Price, ResolvedProduct, ResolvedVariant } from "@/types/product";
+import type { Availability, Price, ProductVariant, ResolvedProduct, ResolvedVariant } from "@/types/product";
 
 export const colorLabel = (id?: ColorId) => (id ? colors[id].label : undefined);
 export const sizeLabel = (id?: SizeId) => (id ? sizes[id].label : undefined);
@@ -23,7 +23,7 @@ export function productSizes(product: ResolvedProduct): SizeId[] {
   return (Object.keys(sizes) as SizeId[]).filter((s) => used.has(s));
 }
 
-export const isAvailable = (variant: ResolvedVariant) => variant.availability === "available";
+export const isAvailable = (variant: { availability: Availability }) => variant.availability === "available";
 export const isFullySoldOut = (product: ResolvedProduct) => !product.variants.some(isAvailable);
 
 /**
@@ -39,8 +39,47 @@ export function findVariant(product: ResolvedProduct, color?: ColorId, size?: Si
 }
 
 /** The variant shown first: the first available one, or the first one if all are sold out. */
-export function defaultVariant(product: ResolvedProduct) {
+export function defaultVariant<V extends ProductVariant>(product: { variants: V[] }) {
   return product.variants.find(isAvailable) ?? product.variants[0];
+}
+
+/** Turns a site path such as "/products/ikea-malm-bed" into a full link on the live domain. */
+export const absoluteUrl = (path: string) => `${siteConfig.url}${path}`;
+
+/**
+ * Link to a product page, e.g. /products/ikea-malm-bed?color=brown&size=160x200.
+ * The colour and size are only added when the product has more than one option to choose from.
+ */
+export function productPath(product: { slug: string; variants: unknown[] }, variant?: ProductVariant) {
+  const params = new URLSearchParams();
+  if (variant && product.variants.length > 1) {
+    if (variant.color) params.set("color", variant.color);
+    if (variant.size) params.set("size", variant.size);
+  }
+  const query = params.toString();
+  return `/products/${product.slug}${query ? `?${query}` : ""}`;
+}
+
+/**
+ * The variant a link asks for, from ?color=brown&size=160x200 (or the older ?variant=brown-160x200).
+ * Unknown values are ignored. If the exact combination does not exist, the colour alone, then the size alone, is tried.
+ * Returns undefined when the link does not pick a variant, so the page shows its default.
+ */
+export function variantFromParams<V extends ProductVariant>(product: { variants: V[] }, params: URLSearchParams) {
+  const byId = product.variants.find((v) => variantId(v) === params.get("variant"));
+  if (byId) return byId;
+
+  const color = params.get("color");
+  const size = params.get("size");
+  const pick = (match: (v: V) => boolean) => {
+    const matches = product.variants.filter(match);
+    return matches.find(isAvailable) ?? matches[0];
+  };
+  return (
+    (color && size ? pick((v) => v.color === color && v.size === size) : undefined) ??
+    (color ? pick((v) => v.color === color) : undefined) ??
+    (size ? pick((v) => v.size === size) : undefined)
+  );
 }
 
 export function formatPrice(price: Price | undefined): string {

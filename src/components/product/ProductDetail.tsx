@@ -11,7 +11,9 @@ import {
   formatPrice,
   isFullySoldOut,
   productColors,
+  productPath,
   productSizes,
+  variantFromParams,
   variantImageAlt,
   variantPrice,
   variantSummary,
@@ -26,13 +28,13 @@ import { VariantSelector } from "./VariantSelector";
 const noopSubscribe = () => () => {};
 
 export function ProductDetail({ product }: { product: ResolvedProduct }) {
-  // Open a specific variant from a link such as ?variant=white-160x200. Unknown ids are ignored.
-  const requestedId = useSyncExternalStore(
+  // Open a specific variant from a link such as ?color=brown&size=160x200. Invalid values are ignored.
+  const search = useSyncExternalStore(
     noopSubscribe,
-    () => new URLSearchParams(window.location.search).get("variant"),
-    () => null,
+    () => window.location.search,
+    () => "",
   );
-  const initial = product.variants.find((v) => v.id === requestedId) ?? defaultVariant(product);
+  const initial = variantFromParams(product, new URLSearchParams(search)) ?? defaultVariant(product);
 
   // The customer's choices. null means "not chosen yet", so the initial variant above is used.
   const [selectedColor, setSelectedColor] = useState<ColorId | undefined | null>(null);
@@ -48,9 +50,8 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
 
   const rememberInUrl = (next?: ResolvedVariant) => {
     if (!next) return;
-    const url = new URL(window.location.href);
-    url.searchParams.set("variant", next.id);
-    window.history.replaceState(window.history.state, "", url);
+    // Same link format as the WhatsApp message, so a copied address bar opens this exact variant.
+    window.history.replaceState(window.history.state, "", productPath(product, next));
   };
 
   const chooseColor = (nextColor: ColorId) => {
@@ -80,6 +81,12 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
     observer.observe(cta);
     return () => observer.disconnect();
   }, []);
+
+  // Lets fixed elements elsewhere (the floating WhatsApp button, the footer spacing) make room for the sticky bar.
+  useEffect(() => {
+    document.body.toggleAttribute("data-sticky-bar", showStickyBar);
+    return () => document.body.removeAttribute("data-sticky-bar");
+  }, [showStickyBar]);
 
   const soldOut = variant.availability === "sold-out";
   const summary = variantSummary(product, variant);

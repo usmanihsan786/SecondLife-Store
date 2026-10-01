@@ -21,8 +21,9 @@ export const siteConfig = {
   // PLACEHOLDER: Instagram profile URL. Set to "" to hide the Instagram link.
   instagramUrl: "",
 
-  // PLACEHOLDER: the address the site will be published at (no trailing slash).
-  url: "https://www.example.com",
+  // The address the site is published at (no trailing slash). Used for product links in
+  // WhatsApp messages, link previews (Open Graph), the sitemap and search engines.
+  url: "https://www.ikeiausedfurniture.ae",
 
   serviceArea: "United Arab Emirates",
   currency: "AED",

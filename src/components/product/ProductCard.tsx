@@ -3,6 +3,7 @@ import { colors } from "@/data/options";
 import {
   priceSummary,
   productColors,
+  productPath,
   seriesLabel,
   sizeSummary,
   variantImageAlt,
@@ -32,7 +33,7 @@ export function ProductCard({ product, variant, soldOut, showVariant = false, pr
     variant.images[0] ??
     product.variants.find((v) => v.images.length)?.images[0];
   const colorIds = productColors(product);
-  const href = showVariant ? `/products/${product.slug}?variant=${variant.id}` : `/products/${product.slug}`;
+  const href = productPath(product, showVariant ? variant : undefined);
   const details = showVariant ? variantSummary(product, variant) : sizeSummary(product);
   const price = showVariant ? formatPrice(variantPrice(product, variant)) : priceSummary(product);
 

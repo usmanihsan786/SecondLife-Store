@@ -7,9 +7,9 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
 import { categories } from "@/data/options";
-import { getProductBySlug, getProducts } from "@/lib/catalog";
+import { existingImage, getProductBySlug, getProducts } from "@/lib/catalog";
 import { filterProducts, emptyFilters } from "@/lib/filters";
-import { defaultVariant, isFullySoldOut, sizeSummary, variantPrice } from "@/lib/product-utils";
+import { absoluteUrl, defaultVariant, isFullySoldOut, productPath, sizeSummary, variantPrice } from "@/lib/product-utils";
 import type { ResolvedProduct } from "@/types/product";
 
 export const dynamicParams = false;
@@ -24,18 +24,44 @@ export async function generateMetadata({ params }: PageProps<"/products/[slug]">
   if (!product) return {};
   const size = sizeSummary(product);
   const singleSize = size && !size.includes(" to ") && !size.includes(",") ? ` ${size.replace(/ × /g, "×").replace(" cm", "")}` : "";
-  const image = defaultVariant(product)?.images[0];
+  // Link previews (WhatsApp, Facebook, X…) need full https:// addresses, so everything below is absolute.
+  const url = absoluteUrl(productPath(product));
+  const shareTitle = `${product.name} | ${siteConfig.name}`;
+  const image = previewImage(product);
   return {
     title: `${product.name}${singleSize}`,
     description: `${product.shortDescription} ${product.condition}. Ask us on WhatsApp about availability in the UAE.`,
-    alternates: { canonical: `/products/${product.slug}` },
+    alternates: { canonical: url },
     openGraph: {
-      title: product.name,
+      type: "website",
+      siteName: siteConfig.name,
+      title: shareTitle,
       description: product.shortDescription,
-      url: `/products/${product.slug}`,
-      images: image ? [{ url: image }] : undefined,
+      url,
+      images: image ? [{ url: absoluteUrl(image), alt: product.name }] : undefined,
+    },
+    twitter: {
+      card: image ? "summary_large_image" : "summary",
+      title: shareTitle,
+      description: product.shortDescription,
+      images: image ? [absoluteUrl(image)] : undefined,
     },
   };
+}
+
+/**
+ * The photo used in link previews: the product's card photo, else the first photo of the variant
+ * shown by default, else any photo of the product, else the homepage hero photo or the logo.
+ */
+function previewImage(product: ResolvedProduct) {
+  return (
+    product.cardImage ??
+    defaultVariant(product)?.images[0] ??
+    product.variants.find((v) => v.images.length)?.images[0] ??
+    existingImage("/images/hero/hero.webp") ??
+    existingImage(siteConfig.logo.main) ??
+    undefined
+  );
 }
 
 /** Product structured data. Offers are only included once a real numeric price has been entered. */

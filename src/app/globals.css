@@ -132,6 +132,52 @@ dialog.drawer-bottom[open] {
   display: none;
 }
 
+/* Floating WhatsApp button: a soft diagonal light that sweeps across now and then (once every 4s). */
+@keyframes whatsapp-shine {
+  0% {
+    transform: translateX(-150%) rotate(20deg);
+  }
+  40%,
+  100% {
+    transform: translateX(250%) rotate(20deg);
+  }
+}
+.whatsapp-shine {
+  position: absolute;
+  top: -50%;
+  bottom: -50%;
+  left: 0;
+  width: 60%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(255 255 255 / 0.12) 35%,
+    rgb(255 255 255 / 0.45) 50%,
+    rgb(255 255 255 / 0.12) 65%,
+    transparent 100%
+  );
+  transform: translateX(-150%) rotate(20deg);
+  animation: whatsapp-shine 4s ease-in-out 1.5s infinite;
+}
+/* On hover the light is a little brighter and sweeps more often. */
+.group:hover .whatsapp-shine {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(255 255 255 / 0.18) 35%,
+    rgb(255 255 255 / 0.65) 50%,
+    rgb(255 255 255 / 0.18) 65%,
+    transparent 100%
+  );
+  animation: whatsapp-shine 2.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-shine {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
