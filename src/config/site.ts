@@ -3,8 +3,9 @@
  * Every value marked PLACEHOLDER must be replaced before the site goes live.
  */
 export const siteConfig = {
-  // PLACEHOLDER: your business name (used for the logo alt text, footer and metadata).
-  name: "Preloved Furniture UAE",
+  // Your business name (used for the logo alt text, footer, page titles and link previews).
+  name: "SecondLife",
+  tagline: "The Pre-Owned Furniture Store",
 
   // PLACEHOLDER: your WhatsApp number in international format, digits only, no "+" or spaces.
   // Example: "971501234567"
@@ -31,9 +32,12 @@ export const siteConfig = {
   // Shown wherever a price has not been entered yet.
   priceFallback: "Contact for price",
 
-  // Paths for the logo you supply. See OWNER-GUIDE.md.
+  // The logo, used in the header, footer and as the link-preview image (WhatsApp, Facebook…).
+  // width/height are the file's real pixel size; update them if you replace the file.
   logo: {
     main: "/images/brand/logo.png",
+    width: 1254,
+    height: 1254,
   },
 } as const;
 

@@ -9,7 +9,7 @@ import { DesktopNav } from "./NavLinks";
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line/80 bg-canvas/95 backdrop-blur-sm supports-[backdrop-filter]:bg-canvas/85">
-      <Container className="flex h-16 items-center justify-between gap-4">
+      <Container className="flex h-18 items-center justify-between gap-4 lg:h-20">
         <Logo />
         <DesktopNav />
         <div className="flex items-center gap-1">

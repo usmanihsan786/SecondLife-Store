@@ -51,7 +51,7 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
         }}
       >
         <div className="flex h-full flex-col bg-canvas">
-          <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-4">
+          <div className="flex h-18 shrink-0 items-center justify-between border-b border-line px-4">
             {logo}
             <button
               type="button"

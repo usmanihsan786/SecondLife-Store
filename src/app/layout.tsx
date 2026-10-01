@@ -20,22 +20,38 @@ const body = Jost({
   display: "swap",
 });
 
-const description =
-  "Preloved genuine IKEA beds, mattresses, daybeds and sofa beds in excellent condition, available in the UAE. Browse sizes and colours, then ask us on WhatsApp.";
+const description = "Quality preloved furniture in the UAE.";
+const shareTitle = `${siteConfig.name} | ${siteConfig.tagline}`;
+const shareImage = {
+  url: siteConfig.logo.main,
+  width: siteConfig.logo.width,
+  height: siteConfig.logo.height,
+  alt: `${siteConfig.name} - ${siteConfig.tagline}`,
+};
 
+// Site-wide defaults. metadataBase turns every relative URL below into https://www.ikeiausedfurniture.ae/…
+// Product pages override the title, description and image with their own product data.
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Preloved IKEA Furniture UAE | Beds, Daybeds & Sofa Beds",
-    template: "%s - Preloved Furniture UAE",
+    default: `${siteConfig.name} | Pre-Owned Furniture UAE`,
+    template: `%s | ${siteConfig.name}`,
   },
   description,
   openGraph: {
     type: "website",
     siteName: siteConfig.name,
     locale: "en_AE",
-    title: "Preloved IKEA Furniture UAE | Beds, Daybeds & Sofa Beds",
+    title: shareTitle,
     description,
+    url: siteConfig.url,
+    images: [shareImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: shareTitle,
+    description,
+    images: [siteConfig.logo.main],
   },
 };
 
