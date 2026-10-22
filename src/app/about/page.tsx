@@ -7,14 +7,14 @@ import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: "We offer quality preloved IKEA furniture in the UAE, helping customers find well-kept IKEA beds, daybeds and sofa beds at more affordable prices.",
+  description: "We offer quality used IKEA furniture in the UAE, helping customers find well-kept IKEA beds, daybeds and sofa beds at more affordable prices.",
   alternates: { canonical: "/about" },
 };
 
 const points = [
   {
     title: "What we sell",
-    text: "Preloved genuine IKEA beds, mattresses, daybeds, sofa beds and storage beds from ranges such as MALM, BRIMNES, HEMNES and FRIHETEN.",
+    text: "Used, genuine IKEA beds, mattresses, daybeds, sofa beds and storage beds from ranges such as MALM, BRIMNES, HEMNES and FRIHETEN.",
   },
   {
     title: "How we choose",
@@ -37,7 +37,7 @@ export default function AboutPage() {
             title="Well-kept IKEA furniture, at a fairer price"
             description={
               <p>
-                We provide quality preloved IKEA furniture in the UAE, helping customers find well-kept IKEA furniture
+                We provide quality second-hand IKEA furniture in the UAE, helping customers find well-kept IKEA furniture
                 at more affordable prices.
               </p>
             }

@@ -29,6 +29,8 @@ export type Product = {
   shortName?: string;
   series: SeriesId;
   category: CategoryId;
+  /** Optional page title for Google, e.g. "Used IKEA MALM Bed with Mattress – 90, 140, 160, 180 cm, UAE". Falls back to name. */
+  seoTitle?: string;
   /** One or two sentences. Used for search engines and link previews. */
   shortDescription: string;
   /** Your full product description, shown on the product page. */

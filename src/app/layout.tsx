@@ -20,8 +20,10 @@ const body = Jost({
   display: "swap",
 });
 
-const description = "Quality preloved furniture in the UAE.";
-const shareTitle = `${siteConfig.name} | ${siteConfig.tagline}`;
+const description =
+  "Genuine second-hand IKEA beds with mattress, daybeds and sofa beds in excellent condition: MALM, BRIMNES, HEMNES and FRIHETEN. Real photos of every size. Message us on WhatsApp.";
+const homeTitle = `Used IKEA Furniture in UAE – Beds, Daybeds & Sofa Beds | ${siteConfig.name}`;
+const shareTitle = homeTitle;
 const shareImage = {
   url: siteConfig.logo.main,
   width: siteConfig.logo.width,
@@ -34,7 +36,7 @@ const shareImage = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} | Pre-Owned Furniture UAE`,
+    default: homeTitle,
     template: `%s | ${siteConfig.name}`,
   },
   description,
@@ -53,6 +55,36 @@ export const metadata: Metadata = {
     description,
     images: [siteConfig.logo.main],
   },
+};
+
+/**
+ * Site-wide structured data: who runs the site and what the site is.
+ * Only real business details go here. Add the email once the placeholder in site.ts is replaced,
+ * and add Instagram / Google Business Profile links to sameAs when they exist.
+ */
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteConfig.url}/#organization`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+      logo: `${siteConfig.url}${siteConfig.logo.main}`,
+      description: "Independent reseller of used, genuine IKEA furniture in the UAE. Not affiliated with or endorsed by IKEA.",
+      telephone: siteConfig.phoneLink,
+      areaServed: { "@type": "Country", name: siteConfig.serviceArea },
+      ...(siteConfig.instagramUrl ? { sameAs: [siteConfig.instagramUrl] } : {}),
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}/#website`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+      inLanguage: "en-AE",
+      publisher: { "@id": `${siteConfig.url}/#organization` },
+    },
+  ],
 };
 
 export const viewport: Viewport = {
@@ -78,6 +110,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <Footer />
         <WhatsAppFloatingButton />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd).replace(/</g, "\\u003c") }}
+        />
       </body>
     </html>
   );

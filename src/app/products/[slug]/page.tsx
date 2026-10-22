@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps<"/products/[slug]">
   const shareTitle = `${product.name} | ${siteConfig.name}`;
   const image = previewImage(product);
   return {
-    title: `${product.name}${singleSize}`,
+    title: product.seoTitle ?? `${product.name}${singleSize}`,
     description: `${product.shortDescription} ${product.condition}. Ask us on WhatsApp about availability in the UAE.`,
     alternates: { canonical: url },
     openGraph: {
@@ -92,6 +92,20 @@ function productJsonLd(product: ResolvedProduct) {
   };
 }
 
+/** Breadcrumb structured data, matching the breadcrumb shown at the top of the page. */
+function breadcrumbJsonLd(product: ResolvedProduct) {
+  const trail = [
+    { name: "Home", url: siteConfig.url },
+    { name: categories[product.category].label, url: absoluteUrl(categories[product.category].href) },
+    { name: product.name, url: absoluteUrl(productPath(product)) },
+  ];
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: trail.map((item, i) => ({ "@type": "ListItem", position: i + 1, name: item.name, item: item.url })),
+  };
+}
+
 export default async function ProductPage({ params }: PageProps<"/products/[slug]">) {
   const { slug } = await params;
   const product = getProductBySlug(slug);
@@ -129,6 +143,10 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd(product)).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(product)).replace(/</g, "\\u003c") }}
       />
     </>
   );

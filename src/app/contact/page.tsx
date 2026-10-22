@@ -9,7 +9,7 @@ import { whatsappUrl } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Contact us on WhatsApp, by phone or by email about preloved IKEA beds, daybeds and sofa beds in the UAE.",
+  description: "Contact us on WhatsApp, by phone or by email about used IKEA beds, daybeds and sofa beds in the UAE.",
   alternates: { canonical: "/contact" },
 };
 

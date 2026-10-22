@@ -115,7 +115,7 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
             <span>{product.condition}</span>
             <span aria-hidden="true" className="h-1 w-1 rounded-full bg-muted/50" />
-            <span>Preloved, genuine IKEA</span>
+            <span>Used, genuine IKEA</span>
           </div>
           <p className="mt-5 text-xl font-medium text-espresso" aria-live="polite">
             {price}

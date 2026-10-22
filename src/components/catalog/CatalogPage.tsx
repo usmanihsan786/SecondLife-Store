@@ -19,7 +19,7 @@ export function CatalogPage({ title, intro, products, searchParams }: Props) {
     <>
       <div className="border-b border-line/70 bg-sand/50">
         <Container className="py-8 sm:py-12">
-          <SectionHeading as="h1" eyebrow="Preloved IKEA furniture" title={title} description={<p>{intro}</p>} />
+          <SectionHeading as="h1" eyebrow="Second-hand IKEA furniture" title={title} description={<p>{intro}</p>} />
         </Container>
       </div>
       <Container className="py-8 sm:py-10">

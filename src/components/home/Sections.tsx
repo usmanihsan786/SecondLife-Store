@@ -56,7 +56,7 @@ const benefits = [
   {
     icon: SparkleIcon,
     title: "Excellent condition",
-    text: "Preloved furniture chosen for its condition, with clear photos of each option.",
+    text: "Second-hand furniture chosen for its condition, with clear photos of each option.",
   },
   {
     icon: TagIcon,
@@ -112,7 +112,7 @@ export function ConditionSection() {
     <section className="py-14 sm:py-20">
       <Container className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
         <div className="relative order-last aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-sand lg:order-first">
-          <SmartImage src={image} alt="Preloved furniture in good condition" kind="room" sizes="(min-width: 1024px) 50vw, 100vw" />
+          <SmartImage src={image} alt="Used IKEA furniture in good condition" kind="room" sizes="(min-width: 1024px) 50vw, 100vw" />
         </div>
         <div>
           <SectionHeading
