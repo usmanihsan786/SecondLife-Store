@@ -33,7 +33,7 @@ export function ShopBySeries() {
               <CollectionCard
                 title={series[id].label}
                 description={series[id].blurb}
-                href={`/shop?series=${id}`}
+                href={series[id].href}
                 image={existingImage(series[id].image)}
                 kind={placeholderKind(items[0].category)}
                 meta={`${items.length} ${items.length === 1 ? "product" : "products"}`}

@@ -5,7 +5,7 @@
 export const siteConfig = {
   // Your business name (used for the logo alt text, footer, page titles and link previews).
   name: "SecondLife",
-  tagline: "The Pre-Owned Furniture Store",
+  tagline: "Used IKEA Furniture in the UAE",
 
   // PLACEHOLDER: your WhatsApp number in international format, digits only, no "+" or spaces.
   // Example: "971501234567"

@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Faq, LinkCards } from "@/components/content/ContentBlocks";
 import { ConditionSection, ShopBySeries, WhatsAppCta, WhyBuy } from "@/components/home/Sections";
 import { Hero } from "@/components/home/Hero";
 import { ArrowRightIcon } from "@/components/icons";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { categoryLinks, faqDelivery, faqGenuine, faqHowToBuy, faqPhotos } from "@/data/faq";
+import { guideLinks } from "@/data/guides";
 import { getProducts } from "@/lib/catalog";
 import { emptyFilters, filterProducts } from "@/lib/filters";
 
@@ -29,7 +32,7 @@ export default function HomePage() {
           <Container>
             <SectionHeading
               eyebrow="Featured"
-              title="Featured furniture"
+              title="Featured used IKEA furniture"
               description={<p>A few favourites from our current selection.</p>}
               action={
                 <Link
@@ -49,6 +52,48 @@ export default function HomePage() {
 
       <WhyBuy />
       <ConditionSection />
+
+      <section className="pb-14 sm:pb-20">
+        <Container className="space-y-14">
+          <LinkCards title="Shop used IKEA furniture by category" links={categoryLinks} />
+          <div className="max-w-3xl space-y-3 text-[0.9375rem] leading-relaxed text-ink/85 sm:text-base">
+            <h2 className="font-display text-2xl font-semibold leading-tight text-ink sm:text-[1.75rem]">
+              Second-hand IKEA furniture for Dubai, Sharjah, Ajman and Abu Dhabi
+            </h2>
+            <p>
+              We sell genuine used IKEA furniture to customers across the UAE. Every bed comes with an IKEA mattress,
+              every daybed with two, and each listing shows photos of the exact colour and size. Message us on WhatsApp
+              to check availability and delivery to your area.{" "}
+              <Link href="/delivery-areas" className="font-medium text-espresso underline underline-offset-4">
+                See areas we serve
+              </Link>
+              .
+            </p>
+          </div>
+          <Faq
+            title="Questions about used IKEA furniture"
+            items={[
+              faqGenuine,
+              {
+                question: "Which IKEA ranges do you sell?",
+                answer: (
+                  <p>
+                    Mainly beds, daybeds and sofa beds from <Link href="/products/ikea-malm-bed">MALM</Link>,{" "}
+                    <Link href="/ikea-brimnes">BRIMNES</Link>, <Link href="/ikea-hemnes">HEMNES</Link> and{" "}
+                    <Link href="/products/ikea-friheten-sofa-bed">FRIHETEN</Link>. Stock changes, so ask us if you are
+                    looking for something specific.
+                  </p>
+                ),
+              },
+              faqPhotos,
+              faqDelivery,
+              faqHowToBuy,
+            ]}
+          />
+          <LinkCards title="Buying guides" links={guideLinks} />
+        </Container>
+      </section>
+
       <WhatsAppCta />
     </>
   );

@@ -104,13 +104,13 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
 
         <div className="min-w-0">
           <Link
-            href={`/shop?series=${product.series}`}
+            href={series[product.series].href}
             className="text-xs font-medium uppercase tracking-[0.16em] text-accent-strong hover:text-espresso"
           >
             {series[product.series].label} series
           </Link>
           <h1 className="mt-2 font-display text-[1.875rem] font-semibold leading-[1.15] text-ink sm:text-[2.25rem]">
-            {product.name}
+            Used {product.name}
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
             <span>{product.condition}</span>
@@ -191,7 +191,7 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
               )}
             </dl>
             <p className="mt-5 rounded-lg bg-sand/70 p-4 text-sm leading-relaxed text-muted">
-              This is preloved furniture. We select pieces in good condition, and the photos show the item for each
+              This is used furniture. We select pieces in good condition, and the photos show the item for each
               option. If you would like more photos or measurements, just ask us on WhatsApp.
             </p>
           </section>

@@ -73,13 +73,19 @@ const siteJsonLd = {
       logo: `${siteConfig.url}${siteConfig.logo.main}`,
       description: "Independent reseller of used, genuine IKEA furniture in the UAE. Not affiliated with or endorsed by IKEA.",
       telephone: siteConfig.phoneLink,
-      areaServed: { "@type": "Country", name: siteConfig.serviceArea },
+      // ✏️ Only areas you really serve.
+      areaServed: [
+        { "@type": "Country", name: siteConfig.serviceArea },
+        ...["Dubai", "Sharjah", "Ajman", "Abu Dhabi"].map((name) => ({ "@type": "City", name })),
+      ],
       ...(siteConfig.instagramUrl ? { sameAs: [siteConfig.instagramUrl] } : {}),
     },
     {
       "@type": "WebSite",
       "@id": `${siteConfig.url}/#website`,
       name: siteConfig.name,
+      // Google's documented fallback: the lowercase domain as the last alternate name.
+      alternateName: ["ikeiausedfurniture.ae"],
       url: siteConfig.url,
       inLanguage: "en-AE",
       publisher: { "@id": `${siteConfig.url}/#organization` },
