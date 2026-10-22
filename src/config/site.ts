@@ -2,19 +2,28 @@
  * Central business settings.
  * Every value marked PLACEHOLDER must be replaced before the site goes live.
  */
+
+// The official business phone and WhatsApp number, in international format.
+// This is the ONLY place the number is typed: the shown number, tap-to-call links,
+// WhatsApp links and structured data are all derived from it below.
+const PHONE = "+971553267566";
+
+const phoneDigits = PHONE.replace(/\D/g, "");
+// "+971553267566" → "+971 55 326 7566"
+const phoneDisplay = `+${phoneDigits.slice(0, 3)} ${phoneDigits.slice(3, 5)} ${phoneDigits.slice(5, 8)} ${phoneDigits.slice(8)}`;
+
 export const siteConfig = {
   // Your business name (used for the logo alt text, footer, page titles and link previews).
   name: "SecondLife",
   tagline: "Used IKEA Furniture in the UAE",
 
-  // PLACEHOLDER: your WhatsApp number in international format, digits only, no "+" or spaces.
-  // Example: "971501234567"
-  whatsappNumber: "971553267566",
-
-  // PLACEHOLDER: phone number exactly as it should be shown on the site.
-  phoneDisplay: "+971 55 326 7566",
-  // PLACEHOLDER: the same phone number for tap-to-call links (keep the "+").
-  phoneLink: "+971553267566",
+  // Derived from PHONE above; change the number there, not here.
+  // WhatsApp: digits only, e.g. https://wa.me/971553267566
+  whatsappNumber: phoneDigits,
+  // As shown on the site, e.g. "+971 55 326 7566".
+  phoneDisplay,
+  // Tap-to-call and structured data, e.g. tel:+971553267566
+  phoneLink: PHONE,
 
   // PLACEHOLDER: contact email.
   email: "hello@example.com",

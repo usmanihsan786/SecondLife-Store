@@ -128,15 +128,15 @@ Set `availability: "sold-out"` on every variant of that product. The product car
 
 To remove a product from the site completely, delete its whole block (or a single variant line to remove just that option).
 
-## 10. Change the WhatsApp number
+## 10. Change the phone / WhatsApp number
 
-Open `src/config/site.ts` and change:
+The phone and WhatsApp number is typed in **one place only**. Open `src/config/site.ts` and change:
 
 ```ts
-whatsappNumber: "971501234567",
+const PHONE = "+971553267566";
 ```
 
-International format, digits only: country code `971`, then the number without the leading 0. No `+`, spaces or dashes. Every WhatsApp button on the site uses this one value.
+International format: `+971`, then the number without the leading 0. No spaces or dashes. Everything else is worked out from it automatically: the number shown on the site (`+971 55 326 7566`), tap-to-call links, every WhatsApp button and message, and the structured data search engines read.
 
 ## 11. Add my logo
 
@@ -150,11 +150,9 @@ For a browser tab icon, replace `src/app/favicon.ico` with your own icon file.
 
 ## 12. Update phone and email
 
-In `src/config/site.ts`:
+The phone number is set once with `PHONE` (see section 10). The other contact details are in `src/config/site.ts`:
 
 ```ts
-phoneDisplay: "+971 50 123 4567",   // how it is shown
-phoneLink: "+971501234567",         // used for tap-to-call
 email: "hello@yourdomain.ae",
 instagramUrl: "https://instagram.com/yourpage",   // leave "" to hide
 name: "Your Business Name",
@@ -196,7 +194,7 @@ Leave it out and nothing extra is shown.
 
 ## Placeholders still to replace
 
-All in `src/config/site.ts`: `name`, `whatsappNumber`, `phoneDisplay`, `phoneLink`, `email`, `instagramUrl`, `url`.
+All in `src/config/site.ts`: `name`, `PHONE` (phone and WhatsApp), `email`, `instagramUrl`, `url`.
 Also: your logo, product photos, and prices (all currently `null`, shown as "Contact for price").
 
 ## Running the site
