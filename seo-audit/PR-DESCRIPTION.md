@@ -1,57 +1,53 @@
-## IKEA-focused SEO: on-page, new indexable pages, structured data
+## Used-IKEA SEO: on-page targeting, new indexable pages, structured data, one phone number
 
-> **Draft PR. Do not merge or deploy to production until the owner approves.**
-> The store name (SecondLife), the domain and every existing URL are unchanged. The "IKEA Used Furniture" branding is on a separate local branch (`draft/site-name-ikea-used-furniture`) and is **not** part of this PR.
+Targets searches from people buying **genuine used IKEA furniture in Dubai and the UAE**.
 
-**Commits:** `f99f5e7` quick wins · `a2281dc` new pages and content · `45d739c` remove unconfirmed claims and tidy metadata
-**Files:** 30 changed (10 added, 20 modified), +1,307 / −62. All in `src/`; no config, dependency, domain or redirect changes.
+- **Unchanged:** store name (SecondLife), domain, existing URLs, prices, and the Google Business Profile.
+- **Not included:** the "IKEA Used Furniture" branding draft. It stays on a separate local branch until trademark clearance.
 
-### New pages: 9 (sitemap 14 → 23 URLs)
-| URL | Purpose |
-|---|---|
-| `/storage-beds` | Ottoman / hydraulic storage beds. Replaces the `/shop?category=storage-beds` filter, which canonicalised to `/shop`. Does not call the frames IKEA |
-| `/ikea-brimnes` | IKEA BRIMNES range (bed + daybed). Replaces `/shop?series=brimnes` |
-| `/ikea-hemnes` | IKEA HEMNES range (daybed + sold-out bed). Replaces `/shop?series=hemnes` |
-| `/delivery-areas` | One location page for Dubai, Sharjah, Ajman and Abu Dhabi searches (no city doorway pages). **Makes no delivery promise:** "message us with your area" |
-| `/guides` | Guides index |
-| `/guides/ikea-bed-sizes-uae` | IKEA bed and mattress sizes in cm |
-| `/guides/buying-used-ikea-furniture-uae` | What to check when buying used IKEA |
-| `/guides/ikea-malm-vs-brimnes-vs-hemnes` | Range comparison |
-| `/guides/ikea-daybed-vs-sofa-bed` | Daybed vs sofa bed |
+### Commits
+- `f99f5e7` Used-IKEA titles, homepage copy, Organization/WebSite and breadcrumb schema
+- `a2281dc` New indexable range, storage-bed, area and guide pages; category content
+- `45d739c` Removed unconfirmed delivery claims; copy matches current stock; metadata within length limits
+- `c949ed0` Dubai wording on pages already ranking; "sofa cum bed"; Google reviews link; image sitemap; guide dates only when real
+- `a762c59` Phone/WhatsApp number (+971 55 326 7566) typed once as `PHONE`, everything else derived from it
 
-The old `/shop?series=…` and `/shop?category=…` links still work.
+### What changes
+- **9 new pages** (sitemap goes from 14 to 23 URLs):
+  - `/storage-beds`, `/ikea-brimnes`, `/ikea-hemnes`. These replace `/shop?…` filters that canonicalised to `/shop`.
+  - `/delivery-areas`: one location page with no delivery promise and no city doorway pages.
+  - `/guides`, plus 4 buying guides.
+- **Titles, descriptions and headings** lead with "Used / Second-hand IKEA". Dubai and the UAE are named on the pages already ranking for:
+  - *used ikea daybed dubai* (observed ~#6)
+  - *ikea bed with mattress used dubai* (~#7)
+  - *used ikea malm bed dubai* (~#8)
+  - *used ikea bed dubai* (~#10)
+- **"Sofa cum bed"** (customers' own wording) on `/sofa-beds`, FRIHETEN and one guide. FRIHETEN is described as the corner (L-shape) version with storage, which matches the stock photos.
+- **Content:** FAQs, size and range links, internal links, footer links, and a "Read our customer reviews on Google" link. There's no review markup.
+- **Structured data:**
+  - Organization (areaServed: UAE; `sameAs` only for profiles that are filled in) and WebSite on every page.
+  - BreadcrumbList on catalog, content and product pages.
+  - Article on guides, with `datePublished` and `image` only once real values exist.
+- **Image sitemap:** 45 real product photos listed.
+- **Phone:** `+971 55 326 7566` is set once in `src/config/site.ts`. The displayed number, `tel:` links, `wa.me` links and the Organization `telephone` all come from it. No number changed visibly.
 
-### Changes to existing pages
-- **Homepage:** title "Used IKEA Furniture in UAE – Beds, Daybeds & Sofa Beds \| SecondLife", new description, H1 "Used IKEA Furniture in the UAE, in Excellent Condition", plus category links, an FAQ and guide links.
-- **`/beds`, `/daybeds`, `/sofa-beds`, `/shop`:** "Used / Second-hand IKEA" titles, descriptions and H1s, plus size links, range links, what's included, FAQs and related links under the grid.
-- **Product pages:** a new optional `seoTitle` is set for 6 products (the **ottoman bed is untouched**). "Used" is added to the H1, short descriptions and image alt text. A "Helpful links" block is added, and the series label links to the range page.
-- **About / Contact:** descriptive titles. "Preloved" wording is replaced with "used / second-hand" (the term UAE searchers use).
-- **Footer:** links to "Delivery & areas" and "Buying guides". The main navigation is unchanged.
-- **Tagline:** now "Used IKEA Furniture in the UAE" (used in link-preview alt text).
-
-### Structured data
-- **Every page:** Organization (`areaServed`: UAE only, until delivery areas are confirmed) and WebSite (`name` SecondLife, `alternateName` the domain).
-- **BreadcrumbList:** on catalog, content and product pages. **Article:** on guides.
-- **Product:** unchanged, and still has no `offers` because no prices are set.
-
-### Verification
+### Verification (local production build)
 - `tsc`, `eslint` and `next build` pass.
-- All 23 sitemap URLs (local production build): HTTP 200, self-referencing canonical, no `noindex`, exactly one H1, JSON-LD parses, titles 30–75 characters, descriptions 70–175 characters, no duplicate titles or descriptions.
-- 27 unique internal links: none broken.
-- Schema Markup Validator: **0 errors, 0 warnings** (Product, BreadcrumbList, Article, WebSite/Organization). Google's Rich Results Test wasn't run because it requires sign-in. Expect it to flag Product as missing `offers` until prices are added; that was already the case before this PR.
-- At 375 px, no page scrolls horizontally. Mobile menu, colour/size selection (the URL and WhatsApp message update), size filter and FAQ toggles all work.
-- The Vercel deployment of this branch is **Preview** only (GitHub deployment environment "Preview"). Production is still `a3827be` (`main`).
+- **All 23 sitemap URLs:** HTTP 200, self-referencing canonical, no `noindex`, one H1, valid JSON-LD. Titles are 44–75 characters and descriptions 100–170 characters, with no duplicates.
+- **Links:** 27 internal links, none broken.
+- **Phone:** only `tel:+971553267566` and `wa.me/971553267566`, including the messages built when a WhatsApp button is tapped.
+- **Mobile:** no horizontal scroll at 375 px. Menu, colour/size selection, filters and FAQs all work.
+- **Schema Markup Validator:** 0 errors, 0 warnings. Google's Rich Results Test wasn't run (it needs sign-in). Product markup has no `offers` until prices are set; that was already the case before this PR.
 
-### Not in this PR
-- `seo-audit/` (audit, keyword database and plans): local files, uncommitted.
-- The "IKEA Used Furniture" name and logo draft: a separate local branch, blocked on trademark clearance.
+### Needs owner confirmation (no claims published)
+- Delivery and installation areas, fees and timings (`✏️ CONFIRM` in `src/data/faq.tsx`, `src/app/delivery-areas/page.tsx`, `src/app/layout.tsx`).
+- Prices; the ottoman bed frame brand; the HEMNES bed (sold out, no photos); a real email (`hello@example.com` placeholder, already present before this PR).
+- A public Facebook URL (`facebookUrl` left empty) and, optionally, a full Google Maps profile URL instead of the share link.
+- Guide `published` dates, to set at deployment.
 
-### Needs owner confirmation before production
-1. Delivery areas, fees, timings and assembly (`✏️ CONFIRM` in `src/data/faq.tsx`, `src/app/delivery-areas/page.tsx`, `src/app/layout.tsx`).
-2. Ottoman bed frame brand. It is still named "IKEA Hydraulic Ottoman Bed" with `brand: IKEA` in its markup (pre-existing), and it has 0 photos.
-3. HEMNES bed: sold out, 0 photos, sizes unconfirmed.
-4. Prices (none set).
-5. Real email (`hello@example.com` placeholder, pre-existing).
-6. Wording of the 4 guides and the category FAQs.
+### After merging
+- Submit the sitemap in Search Console.
+- Request indexing for the home, category and product pages.
+- Then, with separate approval, update the Business Profile website link and phone.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
