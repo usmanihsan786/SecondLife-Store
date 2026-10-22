@@ -15,6 +15,13 @@ export type Guide = {
   description: string;
   /** Date the guide was written or last reviewed, YYYY-MM-DD. */
   updated: string;
+  /**
+   * ✏️ Date the guide first went live on the website, YYYY-MM-DD. Leave it out until it is actually published,
+   * then set it to the deployment date. Used for search engines only when set.
+   */
+  published?: string;
+  /** ✏️ Optional photo for the guide, e.g. "/images/guides/bed-sizes.webp". Must be your own real photo. */
+  image?: string;
   intro: string;
   sections: ContentSection[];
   faq?: FaqItem[];
@@ -279,7 +286,7 @@ export const guides: Guide[] = [
     seoTitle: "IKEA Daybed vs Sofa Bed – Which Is Better for Your Home?",
     description:
       "Compare IKEA daybeds such as BRIMNES and HEMNES with the FRIHETEN sofa bed: seating, sleeping comfort, storage and space, for UAE apartments and guest rooms.",
-    updated: "2026-10-22",
+    updated: "2026-10-23",
     intro:
       "Both a daybed and a sofa bed give you seating by day and a bed at night, but they suit different rooms. Here is how IKEA's daybeds compare with the FRIHETEN sofa bed.",
     sections: [
@@ -298,8 +305,9 @@ export const guides: Guide[] = [
         heading: "How the IKEA FRIHETEN sofa bed works",
         body: (
           <p>
-            FRIHETEN is a sofa first. It converts into a bed for guests and has a storage space for bedding. It is the
-            better choice when the room is mainly a living room and the bed is only needed now and then.
+            FRIHETEN is a sofa first; in the UAE it is often called a sofa cum bed. It converts into a bed for guests and
+            has a storage space for bedding. It is the better choice when the room is mainly a living room and the bed is
+            only needed now and then.
           </p>
         ),
       },

@@ -10,7 +10,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   return [
     ...pages.map((path) => ({ url: `${siteConfig.url}${path}` })),
-    ...getProducts().map((p) => ({ url: `${siteConfig.url}/products/${p.slug}` })),
+    // Product photos are listed as image sitemap entries so Google can find the real stock photos.
+    ...getProducts().map((p) => ({
+      url: `${siteConfig.url}/products/${p.slug}`,
+      images: [...new Set([p.cardImage, ...p.variants.flatMap((v) => v.images)].filter((src): src is string => Boolean(src)))]
+        .slice(0, 20)
+        .map((src) => (/^https?:\/\//.test(src) ? src : `${siteConfig.url}${src}`)),
+    })),
     ...guides.map((g) => ({ url: `${siteConfig.url}/guides/${g.slug}`, lastModified: g.updated })),
   ];
 }

@@ -6,7 +6,7 @@ import { faqDelivery, faqGenuine, faqHowToBuy } from "@/data/faq";
 import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Used IKEA Beds with Mattress – Single to King, UAE",
+  title: "Used IKEA Beds with Mattress – Dubai & UAE, Single to King",
   description: "Second-hand IKEA MALM, BRIMNES and HEMNES beds sold with an IKEA mattress, plus ottoman storage beds. Single 90 cm to king 180 cm, with real photos.",
   alternates: { canonical: "/beds" },
 };
@@ -18,7 +18,8 @@ export default async function BedsPage({ searchParams }: PageProps<"/beds">) {
       intro={
         <p>
           Genuine second-hand IKEA bed frames sold together with an IKEA mattress, from MALM, BRIMNES and HEMNES, plus
-          hydraulic ottoman storage beds. Pick a size and colour to see that bed.
+          hydraulic ottoman storage beds, for customers in Dubai and across the UAE. Pick a size and colour to see that
+          bed.
         </p>
       }
       breadcrumb={[{ name: "Used IKEA Beds", path: "/beds" }]}

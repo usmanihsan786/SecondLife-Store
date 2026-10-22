@@ -69,6 +69,17 @@ export default function ContactPage() {
                   Customers across the {siteConfig.serviceArea}
                 </span>
               </li>
+              {siteConfig.googleReviewsUrl && (
+                <li>
+                  <a href={siteConfig.googleReviewsUrl} target="_blank" rel="noopener noreferrer" className={rowClass}>
+                    <span aria-hidden="true" className="w-5 shrink-0 text-center text-lg leading-none text-accent-strong">★</span>
+                    <span>
+                      <span className="block text-sm text-muted">Google</span>
+                      Read our customer reviews
+                    </span>
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
 

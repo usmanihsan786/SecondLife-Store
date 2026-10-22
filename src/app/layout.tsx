@@ -21,8 +21,8 @@ const body = Jost({
 });
 
 const description =
-  "Genuine second-hand IKEA beds with mattress, daybeds and sofa beds in excellent condition: MALM, BRIMNES, HEMNES, FRIHETEN. Real photos of our own stock.";
-const homeTitle = `Used IKEA Furniture in UAE – Beds, Daybeds & Sofa Beds | ${siteConfig.name}`;
+  "Second-hand IKEA beds with mattress, daybeds and sofa cum beds in excellent condition, for Dubai and the UAE: MALM, BRIMNES, HEMNES, FRIHETEN. Real photos of our stock.";
+const homeTitle = `Used IKEA Furniture Dubai & UAE – Beds, Daybeds, Sofa Beds | ${siteConfig.name}`;
 const shareTitle = homeTitle;
 const shareImage = {
   url: siteConfig.logo.main,
@@ -62,6 +62,9 @@ export const metadata: Metadata = {
  * Only real business details go here. Add the email once the placeholder in site.ts is replaced,
  * and add Instagram / Google Business Profile links to sameAs when they exist.
  */
+// Public profiles of this business. Empty values are skipped.
+const sameAs = [siteConfig.instagramUrl, siteConfig.facebookUrl].filter(Boolean);
+
 const siteJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -75,7 +78,7 @@ const siteJsonLd = {
       telephone: siteConfig.phoneLink,
       // ✏️ CONFIRM: add the cities or emirates you deliver to (e.g. { "@type": "City", name: "Dubai" }) once confirmed.
       areaServed: { "@type": "Country", name: siteConfig.serviceArea },
-      ...(siteConfig.instagramUrl ? { sameAs: [siteConfig.instagramUrl] } : {}),
+      ...(sameAs.length ? { sameAs } : {}),
     },
     {
       "@type": "WebSite",

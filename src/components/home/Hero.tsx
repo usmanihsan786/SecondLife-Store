@@ -3,6 +3,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { Container } from "@/components/ui/Container";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { siteConfig } from "@/config/site";
 import { existingImage } from "@/lib/catalog";
 
 // Add your own photo at /public/images/hero/hero.webp to replace the placeholder.
@@ -16,10 +17,10 @@ export function Hero() {
         <div className="animate-rise">
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent-strong">Second-hand · Genuine IKEA · UAE</p>
           <h1 className="mt-3 font-display text-[2.125rem] font-semibold leading-[1.08] text-ink min-[400px]:text-[2.375rem] sm:text-5xl md:text-[2.75rem] lg:text-[3.5rem]">
-            Used IKEA Furniture in the UAE, in Excellent Condition
+            Used IKEA Furniture in Dubai &amp; Across the UAE
           </h1>
           <p className="mt-4 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
-            Carefully selected second-hand IKEA beds with mattress, daybeds and sofa beds.
+            Carefully selected second-hand IKEA beds with mattress, daybeds and sofa cum beds, in excellent condition.
           </p>
           <div className="mt-6 flex flex-col gap-3 min-[420px]:flex-row md:flex-col lg:flex-row sm:mt-8">
             <Link href="/shop" className={buttonClasses("primary", "lg", "min-[420px]:px-7")}>
@@ -27,6 +28,16 @@ export function Hero() {
             </Link>
             <WhatsAppButton variant="secondary">Contact on WhatsApp</WhatsAppButton>
           </div>
+          {siteConfig.googleReviewsUrl && (
+            <a
+              href={siteConfig.googleReviewsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-[0.9375rem] font-medium text-espresso underline-offset-4 hover:underline"
+            >
+              <span aria-hidden="true" className="text-accent">★</span> Read our customer reviews on Google
+            </a>
+          )}
         </div>
 
         <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-sand shadow-[var(--shadow-card)] sm:aspect-[16/9] md:aspect-[4/5] lg:aspect-[5/4]">

@@ -22,6 +22,15 @@ export const siteConfig = {
   // PLACEHOLDER: Instagram profile URL. Set to "" to hide the Instagram link.
   instagramUrl: "",
 
+  // ✏️ CONFIRM: your Google Business Profile. Used for the "Read our Google reviews" links.
+  // Set to "" to hide them. Better: replace with the profile's full Google Maps link (Business Profile → Share).
+  googleReviewsUrl: "https://share.google/gXVPryfmEhJFmsG8R",
+
+  // ✏️ CONFIRM: your public Facebook page. Shown in structured data (sameAs) only when set.
+  // Left empty on purpose: facebook.com/ikeausedfurniturebedsofa showed "This content isn't available"
+  // to logged-out visitors on 23 Oct 2026. Fill it in once the page is public.
+  facebookUrl: "",
+
   // The address the site is published at (no trailing slash). Used for product links in
   // WhatsApp messages, link previews (Open Graph), the sitemap and search engines.
   url: "https://www.ikeiausedfurniture.ae",

@@ -6,8 +6,8 @@ import { faqDelivery, faqGenuine, faqHowToBuy } from "@/data/faq";
 import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Used IKEA Daybeds with 2 Mattresses – BRIMNES & HEMNES",
-  description: "Second-hand IKEA BRIMNES and HEMNES daybeds, each with two IKEA mattresses. A sofa by day and a bed at night. Ask about availability in the UAE on WhatsApp.",
+  title: "Used IKEA Daybeds with 2 Mattresses – Dubai & UAE",
+  description: "Second-hand IKEA BRIMNES and HEMNES daybeds, each with two IKEA mattresses. A sofa by day and a bed at night, for Dubai and the UAE. Ask on WhatsApp.",
   alternates: { canonical: "/daybeds" },
 };
 
@@ -18,7 +18,7 @@ export default async function DaybedsPage({ searchParams }: PageProps<"/daybeds"
       intro={
         <p>
           A sofa by day and a bed at night. Our genuine second-hand IKEA BRIMNES and HEMNES daybeds each come with two
-          IKEA mattresses.
+          IKEA mattresses, for customers in Dubai and across the UAE.
         </p>
       }
       breadcrumb={[{ name: "Used IKEA Daybeds", path: "/daybeds" }]}

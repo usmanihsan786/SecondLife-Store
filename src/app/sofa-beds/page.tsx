@@ -6,8 +6,8 @@ import { faqDelivery, faqGenuine, faqHowToBuy } from "@/data/faq";
 import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Used IKEA Sofa Beds – FRIHETEN with Storage, UAE",
-  description: "Second-hand IKEA FRIHETEN sofa beds with storage, in gray and beige. Seating every day and a bed for guests. Ask about availability in the UAE on WhatsApp.",
+  title: "Used IKEA Sofa Beds & Sofa Cum Beds – FRIHETEN, UAE",
+  description: "Second-hand IKEA FRIHETEN corner sofa cum bed with storage, in gray and beige. A sofa every day and a bed for guests, for Dubai and the UAE. Ask on WhatsApp.",
   alternates: { canonical: "/sofa-beds" },
 };
 
@@ -15,7 +15,7 @@ export default async function SofaBedsPage({ searchParams }: PageProps<"/sofa-be
   return (
     <CatalogPage
       title="Second-hand IKEA Sofa Beds"
-      intro={<p>Seating for every day and a bed for guests, with storage built in. Genuine used IKEA FRIHETEN sofa beds in gray and beige.</p>}
+      intro={<p>Seating for every day and a bed for guests, with storage built in. Genuine used IKEA FRIHETEN corner sofa beds, also called a sofa cum bed, in gray and beige.</p>}
       breadcrumb={[{ name: "Used IKEA Sofa Beds", path: "/sofa-beds" }]}
       products={getProducts().filter((p) => p.category === "sofa-beds")}
       searchParams={await searchParams}
@@ -23,12 +23,13 @@ export default async function SofaBedsPage({ searchParams }: PageProps<"/sofa-be
       <ContentSections
         sections={[
           {
-            heading: "IKEA FRIHETEN sofa bed with storage",
+            heading: "IKEA FRIHETEN corner sofa cum bed with storage",
             body: (
               <p>
-                <Link href="/products/ikea-friheten-sofa-bed">IKEA FRIHETEN</Link> is a sofa that converts into a bed and
-                has a storage space for bedding. It is a practical choice for a living room that sometimes has to host
-                guests. Choose gray or beige to see photos of that sofa bed.
+                Our <Link href="/products/ikea-friheten-sofa-bed">IKEA FRIHETEN</Link> is the corner (L-shape) version: the
+                chaise lifts up to reveal storage for bedding, and the seat pulls out into a bed. It is a practical choice
+                for a living room that sometimes has to host guests. Choose gray or beige to see photos of that sofa
+                cum bed.
               </p>
             ),
           },
@@ -48,7 +49,11 @@ export default async function SofaBedsPage({ searchParams }: PageProps<"/sofa-be
         items={[
           {
             question: "Does the FRIHETEN sofa bed have storage?",
-            answer: <p>Yes. FRIHETEN has a storage space, useful for bedding and pillows.</p>,
+            answer: <p>Yes. The chaise of our FRIHETEN corner sofa bed lifts up to give you storage for bedding and pillows.</p>,
+          },
+          {
+            question: "Is a sofa bed the same as a sofa cum bed?",
+            answer: <p>Yes. &quot;Sofa cum bed&quot; is another name for a sofa bed: a sofa that converts into a bed.</p>,
           },
           faqGenuine,
           faqDelivery,

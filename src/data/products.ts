@@ -25,7 +25,7 @@ export const products: Product[] = [
     slug: "ikea-malm-bed",
     name: "IKEA MALM Bed with IKEA Mattress",
     // ✏️ SEO TITLE: the title Google shows (" | SecondLife" is added). Keep it under ~65 characters.
-    seoTitle: "Used IKEA MALM Bed with Mattress – 90, 140, 160, 180 cm, UAE",
+    seoTitle: "Used IKEA MALM Bed with Mattress, Dubai – 90 to 180 cm",
     shortName: "IKEA MALM Bed", // used in WhatsApp messages
     series: "malm",
     category: "beds",
@@ -170,12 +170,12 @@ export const products: Product[] = [
     slug: "ikea-friheten-sofa-bed",
     name: "IKEA FRIHETEN Sofa Bed with Storage",
     // ✏️ SEO TITLE: the title Google shows (" | SecondLife" is added). Keep it under ~65 characters.
-    seoTitle: "Used IKEA FRIHETEN Sofa Bed with Storage – Gray & Beige",
+    seoTitle: "Used IKEA FRIHETEN L-Shape Sofa Cum Bed with Storage",
     shortName: "IKEA FRIHETEN Sofa Bed", // used in WhatsApp messages
     series: "friheten",
     category: "sofa-beds",
     // ✏️ SHORT DESCRIPTION: one or two sentences, used for Google and link previews
-    shortDescription: "Used IKEA FRIHETEN sofa bed with storage, in gray or beige.",
+    shortDescription: "Used IKEA FRIHETEN corner (L-shape) sofa cum bed with storage, in gray or beige.",
     // ✏️ DESCRIPTION: write your own description for this product here. Shown on the product page.
     description:
       "A preloved genuine IKEA FRIHETEN sofa bed with storage. It gives you a sofa, a bed for guests and a place to keep bedding, all in one piece. Choose a colour to see the photos for that sofa bed.",

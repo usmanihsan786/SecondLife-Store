@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { siteConfig } from "@/config/site";
 import { getGuide, guides } from "@/data/guides";
+import { existingImage } from "@/lib/catalog";
 import { absoluteUrl } from "@/lib/product-utils";
 import { breadcrumbJsonLd, JsonLd } from "@/lib/seo";
 
@@ -64,6 +65,9 @@ export default async function GuidePage({ params }: PageProps<"/guides/[slug]">)
           description: guide.description,
           url: absoluteUrl(path),
           dateModified: guide.updated,
+          // Only real data: the go-live date and your own photo, once they exist.
+          ...(guide.published ? { datePublished: guide.published } : {}),
+          ...(guide.image && existingImage(guide.image) ? { image: [absoluteUrl(guide.image)] } : {}),
           author: { "@id": `${siteConfig.url}/#organization` },
           publisher: { "@id": `${siteConfig.url}/#organization` },
         }}
