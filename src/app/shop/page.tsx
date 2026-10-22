@@ -6,9 +6,9 @@ import { guideLinks } from "@/data/guides";
 import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Shop Used IKEA Furniture in UAE",
+  title: "Shop All Used IKEA Furniture – Dubai & UAE",
   description:
-    "Browse used IKEA beds, daybeds, sofa beds and ottoman storage beds in the UAE. Filter by series, colour, size and availability.",
+    "Browse all our second-hand IKEA beds, daybeds, sofa beds and ottoman storage beds for Dubai and the UAE. Filter by IKEA range, colour, size and availability.",
   alternates: { canonical: "/shop" },
 };
 

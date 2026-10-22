@@ -103,7 +103,7 @@ const CONDITION_IMAGE = "/images/hero/condition.webp";
 export function ConditionSection() {
   const image = existingImage(CONDITION_IMAGE);
   const points = [
-    { icon: ShieldCheckIcon, text: "Every piece is preloved, not brand new." },
+    { icon: ShieldCheckIcon, text: "Every piece is second-hand, not brand new." },
     { icon: SparkleIcon, text: "We inspect furniture and select it for good condition." },
     { icon: CameraIcon, text: "Photos are shown for each colour and size we have." },
     { icon: ChatIcon, text: "Ask us for extra photos or details before you decide." },
@@ -120,7 +120,7 @@ export function ConditionSection() {
             title="Quality furniture, carefully selected"
             description={
               <p>
-                Our furniture is preloved. Before we list a piece, we inspect it and only choose items in good
+                Our furniture is used IKEA furniture. Before we list a piece, we inspect it and only choose items in good
                 condition, so you can furnish your home with genuine IKEA furniture for less.
               </p>
             }

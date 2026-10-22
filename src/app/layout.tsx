@@ -21,8 +21,8 @@ const body = Jost({
 });
 
 const description =
-  "Second-hand IKEA beds with mattress, daybeds and sofa cum beds in excellent condition, for Dubai and the UAE: MALM, BRIMNES, HEMNES, FRIHETEN. Real photos of our stock.";
-const homeTitle = `Used IKEA Furniture Dubai & UAE – Beds, Daybeds, Sofa Beds | ${siteConfig.name}`;
+  "Shop genuine used IKEA furniture in Dubai and the UAE: second-hand IKEA beds with mattress, daybeds and sofa beds. Real photos of our stock. Ask on WhatsApp.";
+const homeTitle = `IKEA Used Furniture Dubai & UAE – Second-Hand Beds & Sofa Beds | ${siteConfig.name}`;
 const shareTitle = homeTitle;
 const shareImage = {
   url: siteConfig.logo.main,

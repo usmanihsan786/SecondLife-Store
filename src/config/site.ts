@@ -31,9 +31,9 @@ export const siteConfig = {
   // PLACEHOLDER: Instagram profile URL. Set to "" to hide the Instagram link.
   instagramUrl: "",
 
-  // ✏️ CONFIRM: your Google Business Profile. Used for the "Read our Google reviews" links.
-  // Set to "" to hide them. Better: replace with the profile's full Google Maps link (Business Profile → Share).
-  googleReviewsUrl: "https://share.google/gXVPryfmEhJFmsG8R",
+  // Your OWN Google Business Profile, used for the "Read our customer reviews on Google" links.
+  // Leave "" until this business has its own profile: showing another business's reviews as ours would mislead customers.
+  googleReviewsUrl: "",
 
   // ✏️ CONFIRM: your public Facebook page. Shown in structured data (sameAs) only when set.
   // Left empty on purpose: facebook.com/ikeausedfurniturebedsofa showed "This content isn't available"

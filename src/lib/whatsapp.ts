@@ -7,7 +7,7 @@ import type { Product, ProductVariant } from "@/types/product";
 type MessageProduct = Pick<Product, "name" | "shortName" | "slug" | "sizeNames" | "variants">;
 
 export const defaultWhatsAppMessage =
-  "Hello, I'm interested in your preloved IKEA furniture. Could you tell me what is currently available?";
+  "Hello, I'm interested in your used IKEA furniture. Could you tell me what is currently available?";
 
 /** The message is always URL-encoded here, so callers pass plain text. */
 export function whatsappUrl(message: string = defaultWhatsAppMessage) {

@@ -58,7 +58,7 @@ export default function HomePage() {
           <LinkCards title="Shop used IKEA furniture by category" links={categoryLinks} />
           <div className="max-w-3xl space-y-3 text-[0.9375rem] leading-relaxed text-ink/85 sm:text-base">
             <h2 className="font-display text-2xl font-semibold leading-tight text-ink sm:text-[1.75rem]">
-              Second-hand IKEA furniture in the UAE
+              IKEA used furniture in Dubai and the UAE
             </h2>
             <p>
               We are based in the UAE and sell genuine used IKEA furniture. Every bed comes with an IKEA mattress,
