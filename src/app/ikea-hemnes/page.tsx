@@ -7,7 +7,7 @@ import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Used IKEA HEMNES Daybed & Bed – White and Gray, UAE",
-  description: "Second-hand IKEA HEMNES furniture: the HEMNES daybed with two IKEA mattresses in white or gray, and HEMNES beds with an IKEA mattress.",
+  description: "Second-hand IKEA HEMNES furniture: the HEMNES daybed with two IKEA mattresses in white or gray, plus HEMNES beds with an IKEA mattress when in stock.",
   alternates: { canonical: "/ikea-hemnes" },
 };
 

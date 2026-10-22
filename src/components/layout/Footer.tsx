@@ -38,7 +38,7 @@ export function Footer() {
           <nav aria-label="Information">
             <h2 className="text-sm font-medium uppercase tracking-[0.14em] text-ink">Information</h2>
             <ul className="mt-3">
-              <li><Link href="/delivery-areas" className={linkClass}>Areas we serve</Link></li>
+              <li><Link href="/delivery-areas" className={linkClass}>Delivery &amp; areas</Link></li>
               <li><Link href="/guides" className={linkClass}>Buying guides</Link></li>
               <li><Link href="/about" className={linkClass}>About us</Link></li>
               <li><Link href="/contact" className={linkClass}>Contact</Link></li>

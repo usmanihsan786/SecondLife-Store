@@ -58,14 +58,15 @@ export default function HomePage() {
           <LinkCards title="Shop used IKEA furniture by category" links={categoryLinks} />
           <div className="max-w-3xl space-y-3 text-[0.9375rem] leading-relaxed text-ink/85 sm:text-base">
             <h2 className="font-display text-2xl font-semibold leading-tight text-ink sm:text-[1.75rem]">
-              Second-hand IKEA furniture for Dubai, Sharjah, Ajman and Abu Dhabi
+              Second-hand IKEA furniture in the UAE
             </h2>
             <p>
-              We sell genuine used IKEA furniture to customers across the UAE. Every bed comes with an IKEA mattress,
-              every daybed with two, and each listing shows photos of the exact colour and size. Message us on WhatsApp
-              to check availability and delivery to your area.{" "}
+              We are based in the UAE and sell genuine used IKEA furniture. Every bed comes with an IKEA mattress,
+              every daybed with two, and our photos show our own stock, colour by colour and size by size. Whether you are in
+              Dubai, Sharjah, Ajman or Abu Dhabi, message us on WhatsApp to check availability and ask about delivery
+              to your area.{" "}
               <Link href="/delivery-areas" className="font-medium text-espresso underline underline-offset-4">
-                See areas we serve
+                Delivery and areas
               </Link>
               .
             </p>

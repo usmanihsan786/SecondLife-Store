@@ -8,7 +8,7 @@ import { siteConfig } from "@/config/site";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
+  title: "Contact Us – Used IKEA Furniture on WhatsApp",
   description: "Contact us on WhatsApp, by phone or by email about used IKEA beds, daybeds and sofa beds in the UAE.",
   alternates: { canonical: "/contact" },
 };

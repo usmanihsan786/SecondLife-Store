@@ -7,7 +7,7 @@ import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Used IKEA Beds with Mattress – Single to King, UAE",
-  description: "Second-hand IKEA MALM, BRIMNES and HEMNES beds sold with an IKEA mattress, plus hydraulic ottoman storage beds. Single 90, double 140, queen 160 and king 180 cm. Real photos of each bed.",
+  description: "Second-hand IKEA MALM, BRIMNES and HEMNES beds sold with an IKEA mattress, plus ottoman storage beds. Single 90 cm to king 180 cm, with real photos.",
   alternates: { canonical: "/beds" },
 };
 
@@ -18,7 +18,7 @@ export default async function BedsPage({ searchParams }: PageProps<"/beds">) {
       intro={
         <p>
           Genuine second-hand IKEA bed frames sold together with an IKEA mattress, from MALM, BRIMNES and HEMNES, plus
-          hydraulic ottoman storage beds. Pick a size and colour to see photos of that exact bed.
+          hydraulic ottoman storage beds. Pick a size and colour to see that bed.
         </p>
       }
       breadcrumb={[{ name: "Used IKEA Beds", path: "/beds" }]}
@@ -50,7 +50,7 @@ export default async function BedsPage({ searchParams }: PageProps<"/beds">) {
               <ul>
                 <li><Link href="/products/ikea-malm-bed">IKEA MALM bed</Link>: simple, modern frame in white, black and brown, from single to king.</li>
                 <li><Link href="/products/ikea-brimnes-bed">IKEA BRIMNES bed</Link>: bright white, in Double, Queen and King.</li>
-                <li><Link href="/products/ikea-hemnes-bed">IKEA HEMNES bed</Link>: classic style in white or gray.</li>
+                <li><Link href="/products/ikea-hemnes-bed">IKEA HEMNES bed</Link>: classic style in white or gray (currently sold out; ask us when it is back).</li>
                 <li><Link href="/storage-beds">Hydraulic ottoman storage beds</Link>: the base lifts up for storage underneath.</li>
               </ul>
             ),
@@ -60,7 +60,7 @@ export default async function BedsPage({ searchParams }: PageProps<"/beds">) {
             body: (
               <p>
                 Each bed is sold together with an IKEA mattress of the right size, so it is ready to sleep on. Our
-                furniture is used, not new: we check its condition before listing it and show photos of each option.
+                furniture is used, not new: we check its condition before listing it and photograph our own stock.
                 Compare the ranges in our <Link href="/guides/ikea-malm-vs-brimnes-vs-hemnes">MALM vs BRIMNES vs HEMNES guide</Link>.
               </p>
             ),

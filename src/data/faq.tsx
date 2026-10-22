@@ -12,12 +12,14 @@ export const faqGenuine: FaqItem = {
   ),
 };
 
+// ✏️ CONFIRM: once your delivery areas, fees or timings are fixed, state them here instead of "ask us".
 export const faqDelivery: FaqItem = {
-  question: "Do you deliver in Dubai, Sharjah, Ajman and Abu Dhabi?",
+  question: "Can you deliver to Dubai, Sharjah, Ajman or Abu Dhabi?",
   answer: (
     <p>
-      We serve customers across the UAE, including Dubai, Sharjah, Ajman and Abu Dhabi. Message us on WhatsApp with
-      your area and we will confirm the delivery options for the item you want. <Link href="/delivery-areas">See areas we serve</Link>.
+      Message us on WhatsApp with your area, whether that is Dubai, Sharjah, Ajman, Abu Dhabi or elsewhere in the UAE,
+      and we will tell you whether delivery is possible for the item you want and how it would work.{" "}
+      <Link href="/delivery-areas">Delivery and areas</Link>.
     </p>
   ),
 };
@@ -34,7 +36,7 @@ export const faqHowToBuy: FaqItem = {
 
 export const faqPhotos: FaqItem = {
   question: "Are the photos of the actual furniture?",
-  answer: <p>Yes. The photos show the item for each colour and size we list. Ask us if you would like more photos or measurements.</p>,
+  answer: <p>Yes. We use photos of our own stock, not catalogue images. If a listing has no photo yet, or you would like more photos or measurements, ask us on WhatsApp.</p>,
 };
 
 export const categoryLinks: PageLink[] = [

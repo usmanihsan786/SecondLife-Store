@@ -91,7 +91,7 @@ export const guides: Guide[] = [
           <ul>
             <li>Confirm the size in cm, not only the name (single, queen, king).</li>
             <li>Ask whether the slatted base and all fittings are included.</li>
-            <li>Check the photos for the exact colour and size you want. We show photos for each option.</li>
+            <li>Check photos of the exact colour and size you want, not catalogue images.</li>
             <li>Ask about delivery to your area and whether the bed comes assembled or flat.</li>
           </ul>
         ),
@@ -117,7 +117,7 @@ export const guides: Guide[] = [
       },
     ],
     related: [
-      { href: "/beds", label: "Used IKEA beds with mattress", description: "Single to king, with photos of every size" },
+      { href: "/beds", label: "Used IKEA beds with mattress", description: "Single to king, with an IKEA mattress" },
       { href: "/products/ikea-malm-bed", label: "IKEA MALM bed", description: "90, 140, 160 and 180 cm" },
       { href: "/daybeds", label: "Used IKEA daybeds", description: "Two mattresses included" },
       { href: "/guides/ikea-malm-vs-brimnes-vs-hemnes", label: "MALM vs BRIMNES vs HEMNES" },
@@ -128,7 +128,7 @@ export const guides: Guide[] = [
     title: "Buying Used IKEA Furniture in the UAE: A Practical Guide",
     seoTitle: "Buying Used IKEA Furniture in the UAE – What to Check",
     description:
-      "Is second-hand IKEA furniture worth it? What to check on a used IKEA bed, daybed or sofa bed, how to compare listings, and how buying from us works in Dubai, Sharjah, Ajman and Abu Dhabi.",
+      "Is second-hand IKEA furniture worth it? What to check on a used IKEA bed, daybed or sofa bed, how to compare listings, and how buying from us works.",
     updated: "2026-10-22",
     intro:
       "Second-hand IKEA furniture is one of the easiest ways to furnish a UAE apartment for less. The ranges are well known, sizes are standard and many pieces last for years. Here is what to look for so you get a good piece, whoever you buy from.",
@@ -180,7 +180,7 @@ export const guides: Guide[] = [
             <p>
               Choose a colour and size on the product page, then tap the WhatsApp button. The message includes the
               exact item, so we can confirm availability, send extra photos or measurements and answer questions about
-              delivery to your area. See <Link href="/delivery-areas">areas we serve</Link>.
+              delivery to your area. See <Link href="/delivery-areas">delivery and areas</Link>.
             </p>
             <p>
               We are an independent business, not part of IKEA. We resell genuine IKEA furniture that has had a
@@ -196,7 +196,8 @@ export const guides: Guide[] = [
         answer: (
           <p>
             Marketplaces and classifieds have individual listings. We specialise in genuine used IKEA beds, daybeds and
-            sofa beds for customers in Dubai, Sharjah, Ajman and Abu Dhabi. <Link href="/shop">Browse current stock</Link>.
+            sofa beds; message us with your area in Dubai or elsewhere in the UAE to ask about delivery.{" "}
+            <Link href="/shop">Browse current stock</Link>.
           </p>
         ),
       },
@@ -215,7 +216,7 @@ export const guides: Guide[] = [
   {
     slug: "ikea-malm-vs-brimnes-vs-hemnes",
     title: "IKEA MALM vs BRIMNES vs HEMNES: Which Bed Should You Buy Used?",
-    seoTitle: "IKEA MALM vs BRIMNES vs HEMNES Bed – Used Buyer's Comparison",
+    seoTitle: "IKEA MALM vs BRIMNES vs HEMNES: Used Bed Comparison",
     description:
       "MALM, BRIMNES and HEMNES are three of IKEA's best-known bed ranges. Compare their style, sizes and storage to choose the right used IKEA bed for your room.",
     updated: "2026-10-22",
@@ -227,7 +228,7 @@ export const guides: Guide[] = [
         body: (
           <p>
             MALM has a low, clean-lined frame with a plain headboard. It suits modern bedrooms and comes in several
-            finishes. We have MALM in 90 (single), 140, 160 and 180 cm, in white, black and brown.{" "}
+            finishes. We list MALM in 90 (single), 140, 160 and 180 cm, in white, black and brown.{" "}
             <Link href="/products/ikea-malm-bed">See our used IKEA MALM beds</Link>.
           </p>
         ),

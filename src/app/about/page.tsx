@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "About Us – Independent Used IKEA Furniture Reseller",
   description: "We offer quality used IKEA furniture in the UAE, helping customers find well-kept IKEA beds, daybeds and sofa beds at more affordable prices.",
   alternates: { canonical: "/about" },
 };
