@@ -9,11 +9,31 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { categoryLinks, faqDelivery, faqGenuine, faqHowToBuy, faqPhotos } from "@/data/faq";
 import { guideLinks } from "@/data/guides";
+import { siteConfig } from "@/config/site";
 import { getProducts } from "@/lib/catalog";
 import { emptyFilters, filterProducts } from "@/lib/filters";
+import { defaultShareImage, HOME_DESCRIPTION, HOME_TITLE } from "@/lib/seo";
 
+// `absolute` stops the layout's "%s | SecondLife" template from adding anything to the homepage title.
 export const metadata: Metadata = {
+  title: { absolute: HOME_TITLE },
+  description: HOME_DESCRIPTION,
   alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.name,
+    locale: "en_AE",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    url: siteConfig.url,
+    images: [defaultShareImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    images: [siteConfig.logo.main],
+  },
 };
 
 export default function HomePage() {

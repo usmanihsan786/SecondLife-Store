@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { WhatsAppFloatingButton } from "@/components/ui/WhatsAppFloatingButton";
 import { siteConfig } from "@/config/site";
+import { defaultShareImage, HOME_TITLE } from "@/lib/seo";
 import "./globals.css";
 
 const heading = Cormorant_Garamond({
@@ -20,39 +21,23 @@ const body = Jost({
   display: "swap",
 });
 
-const description =
-  "Shop genuine used IKEA furniture in Dubai and the UAE: second-hand IKEA beds with mattress, daybeds and sofa beds. Real photos of our stock. Ask on WhatsApp.";
-const homeTitle = `IKEA Used Furniture Dubai & UAE – Second-Hand Beds & Sofa Beds | ${siteConfig.name}`;
-const shareTitle = homeTitle;
-const shareImage = {
-  url: siteConfig.logo.main,
-  width: siteConfig.logo.width,
-  height: siteConfig.logo.height,
-  alt: `${siteConfig.name} - ${siteConfig.tagline}`,
-};
-
-// Site-wide defaults. metadataBase turns every relative URL below into https://www.ikeiausedfurniture.ae/…
-// Product pages override the title, description and image with their own product data.
+// Site-wide defaults only. metadataBase turns every relative URL below into https://www.ikeiausedfurniture.ae/…
+// The homepage sets its own exact title, description and social titles in app/page.tsx. No page-specific title,
+// description or URL lives here, so other pages never inherit the homepage's.
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: homeTitle,
+    default: HOME_TITLE,
     template: `%s | ${siteConfig.name}`,
   },
-  description,
   openGraph: {
     type: "website",
     siteName: siteConfig.name,
     locale: "en_AE",
-    title: shareTitle,
-    description,
-    url: siteConfig.url,
-    images: [shareImage],
+    images: [defaultShareImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: shareTitle,
-    description,
     images: [siteConfig.logo.main],
   },
 };

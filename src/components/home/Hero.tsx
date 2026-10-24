@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { siteConfig } from "@/config/site";
+import { HOME_TITLE } from "@/lib/seo";
 import { existingImage } from "@/lib/catalog";
 
 // Add your own photo at /public/images/hero/hero.webp to replace the placeholder.
@@ -17,10 +18,11 @@ export function Hero() {
         <div className="animate-rise">
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent-strong">Second-hand · Genuine IKEA · UAE</p>
           <h1 className="mt-3 font-display text-[2.125rem] font-semibold leading-[1.08] text-ink min-[400px]:text-[2.375rem] sm:text-5xl md:text-[2.75rem] lg:text-[3.5rem]">
-            Used IKEA Furniture in Dubai &amp; Across the UAE
+            {HOME_TITLE}
           </h1>
           <p className="mt-4 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
-            Carefully selected second-hand IKEA beds with mattress, daybeds and sofa cum beds, in excellent condition.
+            Genuine used IKEA beds with mattress, daybeds and sofa cum beds in excellent condition, for Dubai and
+            across the UAE.
           </p>
           <div className="mt-6 flex flex-col gap-3 min-[420px]:flex-row md:flex-col lg:flex-row sm:mt-8">
             <Link href="/shop" className={buttonClasses("primary", "lg", "min-[420px]:px-7")}>
