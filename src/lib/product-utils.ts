@@ -125,6 +125,6 @@ export function variantSummary(product: ResolvedProduct, variant?: ResolvedVaria
 }
 
 export function variantImageAlt(product: ResolvedProduct, variant: ResolvedVariant | undefined, index = 0) {
-  const parts = [product.name, colorLabel(variant?.color), sizeLabel(variant?.size)].filter(Boolean);
+  const parts = [`Used ${product.name}`, colorLabel(variant?.color), sizeLabel(variant?.size)].filter(Boolean);
   return `${parts.join(", ")}${index > 0 ? `, photo ${index + 1}` : ""}`;
 }

@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { WhatsAppFloatingButton } from "@/components/ui/WhatsAppFloatingButton";
 import { siteConfig } from "@/config/site";
+import { defaultShareImage, HOME_TITLE } from "@/lib/seo";
 import "./globals.css";
 
 const heading = Cormorant_Garamond({
@@ -20,39 +21,61 @@ const body = Jost({
   display: "swap",
 });
 
-const description = "Quality preloved furniture in the UAE.";
-const shareTitle = `${siteConfig.name} | ${siteConfig.tagline}`;
-const shareImage = {
-  url: siteConfig.logo.main,
-  width: siteConfig.logo.width,
-  height: siteConfig.logo.height,
-  alt: `${siteConfig.name} - ${siteConfig.tagline}`,
-};
-
-// Site-wide defaults. metadataBase turns every relative URL below into https://www.ikeiausedfurniture.ae/…
-// Product pages override the title, description and image with their own product data.
+// Site-wide defaults only. metadataBase turns every relative URL below into https://www.ikeiausedfurniture.ae/…
+// The homepage sets its own exact title, description and social titles in app/page.tsx. No page-specific title,
+// description or URL lives here, so other pages never inherit the homepage's.
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} | Pre-Owned Furniture UAE`,
+    default: HOME_TITLE,
     template: `%s | ${siteConfig.name}`,
   },
-  description,
   openGraph: {
     type: "website",
     siteName: siteConfig.name,
     locale: "en_AE",
-    title: shareTitle,
-    description,
-    url: siteConfig.url,
-    images: [shareImage],
+    images: [defaultShareImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: shareTitle,
-    description,
     images: [siteConfig.logo.main],
   },
+};
+
+/**
+ * Site-wide structured data: who runs the site and what the site is.
+ * Only real business details go here. Add the email once the placeholder in site.ts is replaced,
+ * and add Instagram / Google Business Profile links to sameAs when they exist.
+ */
+// Public profiles of this business. Empty values are skipped.
+const sameAs = [siteConfig.instagramUrl, siteConfig.facebookUrl].filter(Boolean);
+
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteConfig.url}/#organization`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+      logo: `${siteConfig.url}${siteConfig.logo.main}`,
+      description: "Independent reseller of used, genuine IKEA furniture in the UAE. Not affiliated with or endorsed by IKEA.",
+      telephone: siteConfig.phoneLink,
+      // ✏️ CONFIRM: add the cities or emirates you deliver to (e.g. { "@type": "City", name: "Dubai" }) once confirmed.
+      areaServed: { "@type": "Country", name: siteConfig.serviceArea },
+      ...(sameAs.length ? { sameAs } : {}),
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}/#website`,
+      name: siteConfig.name,
+      // Google's documented fallback: the lowercase domain as the last alternate name.
+      alternateName: ["ikeiausedfurniture.ae"],
+      url: siteConfig.url,
+      inLanguage: "en-AE",
+      publisher: { "@id": `${siteConfig.url}/#organization` },
+    },
+  ],
 };
 
 export const viewport: Viewport = {
@@ -78,6 +101,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <Footer />
         <WhatsAppFloatingButton />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd).replace(/</g, "\\u003c") }}
+        />
       </body>
     </html>
   );

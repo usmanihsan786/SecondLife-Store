@@ -8,8 +8,8 @@ import { siteConfig } from "@/config/site";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Contact us on WhatsApp, by phone or by email about preloved IKEA beds, daybeds and sofa beds in the UAE.",
+  title: "Contact Us – Used IKEA Furniture on WhatsApp",
+  description: "Contact us on WhatsApp, by phone or by email about used IKEA beds, daybeds and sofa beds in the UAE.",
   alternates: { canonical: "/contact" },
 };
 
@@ -69,6 +69,17 @@ export default function ContactPage() {
                   Customers across the {siteConfig.serviceArea}
                 </span>
               </li>
+              {siteConfig.googleReviewsUrl && (
+                <li>
+                  <a href={siteConfig.googleReviewsUrl} target="_blank" rel="noopener noreferrer" className={rowClass}>
+                    <span aria-hidden="true" className="w-5 shrink-0 text-center text-lg leading-none text-accent-strong">★</span>
+                    <span>
+                      <span className="block text-sm text-muted">Google</span>
+                      Read our customer reviews
+                    </span>
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
 

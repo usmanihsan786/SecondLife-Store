@@ -6,10 +6,12 @@ import { ProductGrid } from "@/components/product/ProductGrid";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
-import { categories } from "@/data/options";
+import { LinkCards, type PageLink } from "@/components/content/ContentBlocks";
+import { categories, series } from "@/data/options";
 import { existingImage, getProductBySlug, getProducts } from "@/lib/catalog";
 import { filterProducts, emptyFilters } from "@/lib/filters";
 import { absoluteUrl, defaultVariant, isFullySoldOut, productPath, sizeSummary, variantPrice } from "@/lib/product-utils";
+import { breadcrumbJsonLd, JsonLd } from "@/lib/seo";
 import type { ResolvedProduct } from "@/types/product";
 
 export const dynamicParams = false;
@@ -29,7 +31,7 @@ export async function generateMetadata({ params }: PageProps<"/products/[slug]">
   const shareTitle = `${product.name} | ${siteConfig.name}`;
   const image = previewImage(product);
   return {
-    title: `${product.name}${singleSize}`,
+    title: product.seoTitle ?? `${product.name}${singleSize}`,
     description: `${product.shortDescription} ${product.condition}. Ask us on WhatsApp about availability in the UAE.`,
     alternates: { canonical: url },
     openGraph: {
@@ -92,6 +94,24 @@ function productJsonLd(product: ResolvedProduct) {
   };
 }
 
+/** Links that help shoppers (and Google) move from a product to its range, category and buying help. */
+function helpfulLinks(product: ResolvedProduct): PageLink[] {
+  const range = series[product.series];
+  const links: PageLink[] = [
+    { href: categories[product.category].href, label: `All ${categories[product.category].label.toLowerCase()}` },
+  ];
+  if (range.href !== productPath(product) && range.href !== categories[product.category].href) {
+    links.push({ href: range.href, label: product.series === "ottoman" ? range.label : `All IKEA ${range.label}` });
+  }
+  if (product.category === "beds" || product.category === "storage-beds") {
+    links.push({ href: "/guides/ikea-bed-sizes-uae", label: "IKEA bed sizes in cm" });
+  } else {
+    links.push({ href: "/guides/ikea-daybed-vs-sofa-bed", label: "IKEA daybed or sofa bed?" });
+  }
+  links.push({ href: "/delivery-areas", label: "Delivery and areas", description: "Ask about delivery to your area" });
+  return links;
+}
+
 export default async function ProductPage({ params }: PageProps<"/products/[slug]">) {
   const { slug } = await params;
   const product = getProductBySlug(slug);
@@ -125,10 +145,17 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
             </div>
           </section>
         )}
+
+        <div className="mt-16 border-t border-line pt-12">
+          <LinkCards title="Helpful links" links={helpfulLinks(product)} />
+        </div>
       </Container>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd(product)).replace(/</g, "\\u003c") }}
+      <JsonLd data={productJsonLd(product)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: categories[product.category].label, path: categories[product.category].href },
+          { name: product.name, path: productPath(product) },
+        ])}
       />
     </>
   );

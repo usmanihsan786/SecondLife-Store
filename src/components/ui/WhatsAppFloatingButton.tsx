@@ -6,7 +6,7 @@ import { products } from "@/data/products";
 import { defaultVariant, variantFromParams } from "@/lib/product-utils";
 import { productInquiryMessage, similarItemsMessage, whatsappUrl } from "@/lib/whatsapp";
 
-const DEFAULT_MESSAGE = "Hello, I'm interested in your preloved furniture. Can you help me?";
+const DEFAULT_MESSAGE = "Hello, I'm interested in your used IKEA furniture. Can you help me?";
 
 /**
  * On a product page, the message for the colour and size on screen.

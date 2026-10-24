@@ -33,7 +33,7 @@ export function ShopBySeries() {
               <CollectionCard
                 title={series[id].label}
                 description={series[id].blurb}
-                href={`/shop?series=${id}`}
+                href={series[id].href}
                 image={existingImage(series[id].image)}
                 kind={placeholderKind(items[0].category)}
                 meta={`${items.length} ${items.length === 1 ? "product" : "products"}`}
@@ -56,7 +56,7 @@ const benefits = [
   {
     icon: SparkleIcon,
     title: "Excellent condition",
-    text: "Preloved furniture chosen for its condition, with clear photos of each option.",
+    text: "Second-hand furniture chosen for its condition, with clear photos of each option.",
   },
   {
     icon: TagIcon,
@@ -103,7 +103,7 @@ const CONDITION_IMAGE = "/images/hero/condition.webp";
 export function ConditionSection() {
   const image = existingImage(CONDITION_IMAGE);
   const points = [
-    { icon: ShieldCheckIcon, text: "Every piece is preloved, not brand new." },
+    { icon: ShieldCheckIcon, text: "Every piece is second-hand, not brand new." },
     { icon: SparkleIcon, text: "We inspect furniture and select it for good condition." },
     { icon: CameraIcon, text: "Photos are shown for each colour and size we have." },
     { icon: ChatIcon, text: "Ask us for extra photos or details before you decide." },
@@ -112,7 +112,7 @@ export function ConditionSection() {
     <section className="py-14 sm:py-20">
       <Container className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
         <div className="relative order-last aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-sand lg:order-first">
-          <SmartImage src={image} alt="Preloved furniture in good condition" kind="room" sizes="(min-width: 1024px) 50vw, 100vw" />
+          <SmartImage src={image} alt="Used IKEA furniture in good condition" kind="room" sizes="(min-width: 1024px) 50vw, 100vw" />
         </div>
         <div>
           <SectionHeading
@@ -120,7 +120,7 @@ export function ConditionSection() {
             title="Quality furniture, carefully selected"
             description={
               <p>
-                Our furniture is preloved. Before we list a piece, we inspect it and only choose items in good
+                Our furniture is used IKEA furniture. Before we list a piece, we inspect it and only choose items in good
                 condition, so you can furnish your home with genuine IKEA furniture for less.
               </p>
             }

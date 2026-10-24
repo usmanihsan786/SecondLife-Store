@@ -17,7 +17,7 @@ export function Footer() {
           <div className="max-w-xs">
             <Logo size="footer" />
             <p className="mt-4 text-[0.9375rem] text-muted">
-              Quality preloved IKEA beds, mattresses, daybeds and sofa beds in the {siteConfig.serviceArea}.
+              Quality used IKEA beds, mattresses, daybeds and sofa beds in the {siteConfig.serviceArea}.
             </p>
           </div>
 
@@ -38,6 +38,8 @@ export function Footer() {
           <nav aria-label="Information">
             <h2 className="text-sm font-medium uppercase tracking-[0.14em] text-ink">Information</h2>
             <ul className="mt-3">
+              <li><Link href="/delivery-areas" className={linkClass}>Delivery &amp; areas</Link></li>
+              <li><Link href="/guides" className={linkClass}>Buying guides</Link></li>
               <li><Link href="/about" className={linkClass}>About us</Link></li>
               <li><Link href="/contact" className={linkClass}>Contact</Link></li>
             </ul>
@@ -76,7 +78,7 @@ export function Footer() {
           <p>
             © {year} {siteConfig.name}. {siteConfig.serviceArea}.
           </p>
-          <p className="sm:text-right">Independent reseller of preloved furniture. Not affiliated with or endorsed by IKEA.</p>
+          <p className="sm:text-right">Independent reseller of used IKEA furniture. Not affiliated with or endorsed by IKEA.</p>
         </div>
       </Container>
     </footer>
