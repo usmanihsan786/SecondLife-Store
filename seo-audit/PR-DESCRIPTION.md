@@ -1,53 +1,56 @@
-## Used-IKEA SEO: on-page targeting, new indexable pages, structured data, one phone number
+## SEO: homepage "IKEA Used Furniture", used-IKEA pages, structured data, one phone number
 
-Targets searches from people buying **genuine used IKEA furniture in Dubai and the UAE**.
+Brings all SEO work to production. Targets people buying **genuine used IKEA furniture in Dubai and the UAE**.
 
-- **Unchanged:** store name (SecondLife), domain, existing URLs, prices, and the Google Business Profile.
-- **Not included:** the "IKEA Used Furniture" branding draft. It stays on a separate local branch until trademark clearance.
+- **Unchanged:** domain and existing URLs, products and prices, store branding (logo, site name "SecondLife"), and the Google Business Profile.
+- **Not included:** the "IKEA Used Furniture" store-name/logo draft. It stays separate, pending trademark clearance.
 
-### Commits
-- `f99f5e7` Used-IKEA titles, homepage copy, Organization/WebSite and breadcrumb schema
-- `a2281dc` New indexable range, storage-bed, area and guide pages; category content
-- `45d739c` Removed unconfirmed delivery claims; copy matches current stock; metadata within length limits
-- `c949ed0` Dubai wording on pages already ranking; "sofa cum bed"; Google reviews link; image sitemap; guide dates only when real
-- `a762c59` Phone/WhatsApp number (+971 55 326 7566) typed once as `PHONE`, everything else derived from it
+### Homepage
 
-### What changes
-- **9 new pages** (sitemap goes from 14 to 23 URLs):
-  - `/storage-beds`, `/ikea-brimnes`, `/ikea-hemnes`. These replace `/shop?…` filters that canonicalised to `/shop`.
-  - `/delivery-areas`: one location page with no delivery promise and no city doorway pages.
+| | Before (production `a3827be`) | After |
+|---|---|---|
+| `<title>` | SecondLife \| Pre-Owned Furniture UAE | **IKEA Used Furniture** |
+| H1 | Quality Preloved IKEA Furniture in the UAE | **IKEA Used Furniture** |
+| og:title / twitter:title | SecondLife \| The Pre-Owned Furniture Store | **IKEA Used Furniture** |
+| Description | Quality preloved furniture in the UAE. | IKEA Used Furniture. Shop genuine used IKEA beds, daybeds, sofa beds and more in Dubai and across the UAE. Contact us on WhatsApp for availability. |
+
+The homepage title uses `title.absolute`, so the `%s | SecondLife` template is not appended. Homepage metadata lives in `app/page.tsx`; the layout keeps only site-wide defaults, so other pages no longer inherit the homepage's `og:title`, `og:description` or `og:url`.
+
+### Rest of the site
+- **9 new indexable pages** (sitemap 14 → 23 URLs):
+  - `/storage-beds`, `/ikea-brimnes`, `/ikea-hemnes`, which replace `/shop?…` filters that canonicalised to `/shop`.
+  - `/delivery-areas`: one location page, no delivery promise.
   - `/guides`, plus 4 buying guides.
-- **Titles, descriptions and headings** lead with "Used / Second-hand IKEA". Dubai and the UAE are named on the pages already ranking for:
-  - *used ikea daybed dubai* (observed ~#6)
-  - *ikea bed with mattress used dubai* (~#7)
-  - *used ikea malm bed dubai* (~#8)
-  - *used ikea bed dubai* (~#10)
-- **"Sofa cum bed"** (customers' own wording) on `/sofa-beds`, FRIHETEN and one guide. FRIHETEN is described as the corner (L-shape) version with storage, which matches the stock photos.
-- **Content:** FAQs, size and range links, internal links, footer links, and a "Read our customer reviews on Google" link. There's no review markup.
+- **Titles, descriptions and H1s** lead with "Used / Second-hand IKEA". The pages that already rank name Dubai and the UAE: daybeds, beds, the MALM page.
+- **"Sofa cum bed"** on `/sofa-beds` and FRIHETEN (corner/L-shape with storage, matching the stock photos).
+- **"Preloved" / "pre-owned" removed** from copy, product descriptions and WhatsApp prefilled messages.
+- **Content:** FAQs, size and range links, internal links, footer links.
 - **Structured data:**
-  - Organization (areaServed: UAE; `sameAs` only for profiles that are filled in) and WebSite on every page.
-  - BreadcrumbList on catalog, content and product pages.
-  - Article on guides, with `datePublished` and `image` only once real values exist.
-- **Image sitemap:** 45 real product photos listed.
-- **Phone:** `+971 55 326 7566` is set once in `src/config/site.ts`. The displayed number, `tel:` links, `wa.me` links and the Organization `telephone` all come from it. No number changed visibly.
+  - Organization (areaServed UAE) and WebSite (name "SecondLife") on every page.
+  - BreadcrumbList on catalog, content and product pages; Article on guides (`datePublished` and `image` only once real).
+  - Image sitemap with 45 stock photos.
+- **Phone:** `+971 55 326 7566` is set once (`PHONE` in `src/config/site.ts`). `tel:`, `wa.me` and the Organization `telephone` derive from it.
+- **Reviews links:** hidden (`googleReviewsUrl: ""`). The linked profile belongs to another business.
+- **Repo hygiene:** `seo-audit/drafts/` and `seo-audit/competitor-profiles/raw/` are ignored and absent from history. SEO reports, keyword databases and `.claude/skills` are committed.
 
 ### Verification (local production build)
 - `tsc`, `eslint` and `next build` pass.
-- **All 23 sitemap URLs:** HTTP 200, self-referencing canonical, no `noindex`, one H1, valid JSON-LD. Titles are 44–75 characters and descriptions 100–170 characters, with no duplicates.
-- **Links:** 27 internal links, none broken.
-- **Phone:** only `tel:+971553267566` and `wa.me/971553267566`, including the messages built when a WhatsApp button is tapped.
-- **Mobile:** no horizontal scroll at 375 px. Menu, colour/size selection, filters and FAQs all work.
-- **Schema Markup Validator:** 0 errors, 0 warnings. Google's Rich Results Test wasn't run (it needs sign-in). Product markup has no `offers` until prices are set; that was already the case before this PR.
+- **Homepage HTML:** exactly one `<title>IKEA Used Furniture</title>` and one H1 "IKEA Used Furniture"; og/twitter titles match; canonical `https://www.ikeiausedfurniture.ae`; no `noindex`.
+- **All 23 sitemap URLs:** HTTP 200, self canonical, one H1, valid JSON-LD, unique titles and descriptions. 27 internal links, none broken.
+- **Phone:** only `tel:+971553267566` and `https://wa.me/971553267566`, including the messages built when a WhatsApp button is tapped.
+- **Mobile:** no horizontal scroll at 375 px.
+
+### After merge
+1. Verify the live `<title>`, H1 and canonical on https://www.ikeiausedfurniture.ae/.
+2. Search Console:
+   - URL Inspection → Test live URL → Request indexing (homepage, then categories and products).
+   - Resubmit `/sitemap.xml`.
+3. Google controls the displayed title and snippet, and updates only after recrawling.
 
 ### Needs owner confirmation (no claims published)
-- Delivery and installation areas, fees and timings (`✏️ CONFIRM` in `src/data/faq.tsx`, `src/app/delivery-areas/page.tsx`, `src/app/layout.tsx`).
-- Prices; the ottoman bed frame brand; the HEMNES bed (sold out, no photos); a real email (`hello@example.com` placeholder, already present before this PR).
-- A public Facebook URL (`facebookUrl` left empty) and, optionally, a full Google Maps profile URL instead of the share link.
-- Guide `published` dates, to set at deployment.
-
-### After merging
-- Submit the sitemap in Search Console.
-- Request indexing for the home, category and product pages.
-- Then, with separate approval, update the Business Profile website link and phone.
+- Delivery and installation areas, fees and timings (`✏️ CONFIRM` spots).
+- Prices; the ottoman bed frame brand; the HEMNES bed; a real email (placeholder already in production).
+- A public Facebook URL; guide `published` dates at deploy.
+- Trademark clearance before using "IKEA Used Furniture" as the store name, logo or site name.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
