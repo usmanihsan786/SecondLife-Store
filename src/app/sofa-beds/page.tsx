@@ -11,14 +11,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/sofa-beds" },
 };
 
-export default async function SofaBedsPage({ searchParams }: PageProps<"/sofa-beds">) {
+export default function SofaBedsPage() {
   return (
     <CatalogPage
       title="Second-hand IKEA Sofa Beds"
       intro={<p>Seating for every day and a bed for guests, with storage built in. Genuine used IKEA FRIHETEN corner sofa beds, also called a sofa cum bed, in gray and beige.</p>}
       breadcrumb={[{ name: "Used IKEA Sofa Beds", path: "/sofa-beds" }]}
       products={getProducts().filter((p) => p.category === "sofa-beds")}
-      searchParams={await searchParams}
     >
       <ContentSections
         sections={[

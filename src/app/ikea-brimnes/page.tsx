@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/ikea-brimnes" },
 };
 
-export default async function BrimnesPage({ searchParams }: PageProps<"/ikea-brimnes">) {
+export default function BrimnesPage() {
   return (
     <CatalogPage
       title="Used IKEA BRIMNES Beds & Daybed"
@@ -19,7 +19,6 @@ export default async function BrimnesPage({ searchParams }: PageProps<"/ikea-bri
       intro={<p>Genuine second-hand IKEA BRIMNES furniture in white, with a bright, simple look.</p>}
       breadcrumb={[{ name: "IKEA BRIMNES", path: "/ikea-brimnes" }]}
       products={getProducts().filter((p) => p.series === "brimnes")}
-      searchParams={await searchParams}
     >
       <ContentSections
         sections={[

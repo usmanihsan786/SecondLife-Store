@@ -58,11 +58,13 @@ export function Footer() {
                   <PhoneIcon size={18} /> {siteConfig.phoneDisplay}
                 </a>
               </li>
-              <li>
-                <a href={`mailto:${siteConfig.email}`} className={`${linkClass} gap-2.5 break-all`}>
-                  <MailIcon size={18} className="shrink-0" /> {siteConfig.email}
-                </a>
-              </li>
+              {siteConfig.email && (
+                <li>
+                  <a href={`mailto:${siteConfig.email}`} className={`${linkClass} gap-2.5 break-all`}>
+                    <MailIcon size={18} className="shrink-0" /> {siteConfig.email}
+                  </a>
+                </li>
+              )}
               {siteConfig.instagramUrl && (
                 <li>
                   <a href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer" className={`${linkClass} gap-2.5`}>

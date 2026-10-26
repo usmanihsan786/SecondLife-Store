@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/storage-beds" },
 };
 
-export default async function StorageBedsPage({ searchParams }: PageProps<"/storage-beds">) {
+export default function StorageBedsPage() {
   return (
     <CatalogPage
       title="Ottoman Storage Beds with Mattress"
@@ -23,7 +23,6 @@ export default async function StorageBedsPage({ searchParams }: PageProps<"/stor
         { name: "Storage Beds", path: "/storage-beds" },
       ]}
       products={getProducts().filter((p) => p.category === "storage-beds")}
-      searchParams={await searchParams}
     >
       <ContentSections
         sections={[

@@ -156,7 +156,7 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
             </p>
           )}
 
-          <div ref={ctaRef} className="mt-7">
+          <div ref={ctaRef} className="mt-7" data-cta="product_inquiry">
             <ProductInquiry product={product} variant={variant} />
             <p className="mt-3 text-center text-sm text-muted">
               We reply on WhatsApp. Ask us about available delivery options in the UAE.
@@ -205,6 +205,7 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
         }`}
         aria-hidden={!showStickyBar}
         inert={!showStickyBar}
+        data-cta="sticky_bar"
       >
         <div className="mx-auto flex max-w-2xl items-center gap-3">
           <div className="min-w-0 flex-1">

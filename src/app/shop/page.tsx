@@ -12,14 +12,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/shop" },
 };
 
-export default async function ShopPage({ searchParams }: PageProps<"/shop">) {
+export default function ShopPage() {
   return (
     <CatalogPage
       title="Shop all used IKEA furniture"
       intro={<p>Every piece we currently list, from MALM and BRIMNES beds to HEMNES daybeds and FRIHETEN sofa beds. Filter by series, colour or size.</p>}
       breadcrumb={[{ name: "Shop", path: "/shop" }]}
       products={getProducts()}
-      searchParams={await searchParams}
     >
       <LinkCards title="Shop by category" links={categoryLinks} />
       <LinkCards title="Buying guides" links={guideLinks} />

@@ -25,8 +25,8 @@ export function SmartImage({ src, alt, sizes, kind, priority, className = "objec
       alt={alt}
       fill
       sizes={sizes}
-      preload={priority}
       loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : undefined}
       className={className}
       onError={() => setFailedSrc(src)}
     />

@@ -25,8 +25,9 @@ export const siteConfig = {
   // Tap-to-call and structured data, e.g. tel:+971553267566
   phoneLink: PHONE,
 
-  // PLACEHOLDER: contact email.
-  email: "hello@example.com",
+  // ✏️ Your real contact email, e.g. "info@yourdomain.ae". Leave "" to hide every email link on the site
+  // (footer, Contact page, "Send by email" button). It was the placeholder hello@example.com until Oct 2026.
+  email: "" as string,
 
   // PLACEHOLDER: Instagram profile URL. Set to "" to hide the Instagram link.
   instagramUrl: "",

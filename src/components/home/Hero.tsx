@@ -24,7 +24,7 @@ export function Hero() {
             Genuine used IKEA beds with mattress, daybeds and sofa cum beds in excellent condition, for Dubai and
             across the UAE.
           </p>
-          <div className="mt-6 flex flex-col gap-3 min-[420px]:flex-row md:flex-col lg:flex-row sm:mt-8">
+          <div className="mt-6 flex flex-col gap-3 min-[420px]:flex-row md:flex-col lg:flex-row sm:mt-8" data-cta="hero">
             <Link href="/shop" className={buttonClasses("primary", "lg", "min-[420px]:px-7")}>
               Shop Furniture
             </Link>

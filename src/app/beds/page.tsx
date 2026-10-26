@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/beds" },
 };
 
-export default async function BedsPage({ searchParams }: PageProps<"/beds">) {
+export default function BedsPage() {
   return (
     <CatalogPage
       title="Used IKEA Beds with Mattress"
@@ -24,7 +24,6 @@ export default async function BedsPage({ searchParams }: PageProps<"/beds">) {
       }
       breadcrumb={[{ name: "Used IKEA Beds", path: "/beds" }]}
       products={getProducts().filter((p) => p.category === "beds" || p.category === "storage-beds")}
-      searchParams={await searchParams}
     >
       <ContentSections
         sections={[

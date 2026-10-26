@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { CloseIcon } from "@/components/icons";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { buttonClasses } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import {
   countActive,
   emptyFilters,
   filterProducts,
+  filtersFromParams,
   filtersToQuery,
   type FilterGroup,
   type FilterKey,
@@ -22,12 +23,28 @@ import { FilterSidebar } from "./FilterSidebar";
 type Props = {
   products: ResolvedProduct[];
   groups: FilterGroup[];
-  initialFilters: Filters;
 };
 
-/** Product listing with filters. Used by the Shop page and every category page. */
-export function CatalogView({ products, groups, initialFilters }: Props) {
-  const [filters, setFilters] = useState<Filters>(initialFilters);
+const noopSubscribe = () => () => {};
+
+/**
+ * Product listing with filters. Used by the Shop page and every category page.
+ * The page is prerendered with every product (what search engines see). A shared filtered link such as
+ * /beds?size=160x200 is applied in the browser, so the pages stay static and cacheable.
+ */
+export function CatalogView({ products, groups }: Props) {
+  const search = useSyncExternalStore(
+    noopSubscribe,
+    () => window.location.search,
+    () => "",
+  );
+  const fromUrl = useMemo(
+    () => filtersFromParams(Object.fromEntries(new URLSearchParams(search)), groups),
+    [search, groups],
+  );
+  // The customer's own choices. null means "not changed yet", so the filters from the URL are used.
+  const [chosen, setFilters] = useState<Filters | null>(null);
+  const filters = chosen ?? fromUrl;
   const items = useMemo(() => filterProducts(products, filters), [products, filters]);
   const activeCount = countActive(filters);
 
@@ -54,6 +71,7 @@ export function CatalogView({ products, groups, initialFilters }: Props) {
       <FilterSidebar groups={groups} filters={filters} activeCount={activeCount} onToggle={toggle} onClear={clear} />
 
       <div className="min-w-0">
+        <h2 className="sr-only">Available items</h2>
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <p className="text-[0.9375rem] text-muted" aria-live="polite">
             {items.length} {items.length === 1 ? "item" : "items"}

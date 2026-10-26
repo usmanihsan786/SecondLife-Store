@@ -53,15 +53,17 @@ export default function ContactPage() {
                   </span>
                 </a>
               </li>
-              <li>
-                <a href={`mailto:${siteConfig.email}`} className={rowClass}>
-                  <MailIcon size={20} className="shrink-0 text-accent-strong" />
-                  <span className="min-w-0">
-                    <span className="block text-sm text-muted">Email</span>
-                    <span className="break-all">{siteConfig.email}</span>
-                  </span>
-                </a>
-              </li>
+              {siteConfig.email && (
+                <li>
+                  <a href={`mailto:${siteConfig.email}`} className={rowClass}>
+                    <MailIcon size={20} className="shrink-0 text-accent-strong" />
+                    <span className="min-w-0">
+                      <span className="block text-sm text-muted">Email</span>
+                      <span className="break-all">{siteConfig.email}</span>
+                    </span>
+                  </a>
+                </li>
+              )}
               <li className={`${rowClass} hover:text-inherit`}>
                 <MapPinIcon size={20} className="shrink-0 text-accent-strong" />
                 <span>

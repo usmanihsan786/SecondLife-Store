@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Breadcrumbs } from "@/components/content/ContentBlocks";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { buildFilterGroups, filtersFromParams } from "@/lib/filters";
+import { buildFilterGroups } from "@/lib/filters";
 import { breadcrumbJsonLd, JsonLd, type Crumb } from "@/lib/seo";
 import type { ResolvedProduct } from "@/types/product";
 import { CatalogView } from "./CatalogView";
@@ -11,7 +11,6 @@ type Props = {
   title: string;
   intro: ReactNode;
   products: ResolvedProduct[];
-  searchParams: Record<string, string | string[] | undefined>;
   /** Breadcrumb trail after Home, ending with this page. */
   breadcrumb: Crumb[];
   eyebrow?: string;
@@ -20,9 +19,8 @@ type Props = {
 };
 
 /** Page shell shared by /shop, the category pages and the range pages. */
-export function CatalogPage({ title, intro, products, searchParams, breadcrumb, eyebrow = "Second-hand IKEA furniture", children }: Props) {
+export function CatalogPage({ title, intro, products, breadcrumb, eyebrow = "Second-hand IKEA furniture", children }: Props) {
   const groups = buildFilterGroups(products);
-  const initialFilters = filtersFromParams(searchParams, groups);
   return (
     <>
       <div className="border-b border-line/70 bg-sand/50">
@@ -32,7 +30,7 @@ export function CatalogPage({ title, intro, products, searchParams, breadcrumb, 
         </Container>
       </div>
       <Container className="py-8 sm:py-10">
-        <CatalogView products={products} groups={groups} initialFilters={initialFilters} />
+        <CatalogView products={products} groups={groups} />
       </Container>
       {children && (
         <div className="border-t border-line/70">
