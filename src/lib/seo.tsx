@@ -5,14 +5,14 @@ import { absoluteUrl } from "@/lib/product-utils";
 export const HOME_TITLE = "IKEA Used Furniture";
 
 export const HOME_DESCRIPTION =
-  "IKEA Used Furniture. Shop genuine used IKEA beds, daybeds, sofa beds and more in Dubai and across the UAE. Contact us on WhatsApp for availability.";
+  "Shop genuine used IKEA furniture in Dubai and across the UAE. Explore used IKEA beds, daybeds, sofa beds and more. Contact us on WhatsApp.";
 
 /** Link-preview image used wherever a page has no photo of its own. */
 export const defaultShareImage = {
-  url: siteConfig.logo.main,
-  width: siteConfig.logo.width,
-  height: siteConfig.logo.height,
-  alt: `${siteConfig.name} - ${siteConfig.tagline}`,
+  url: siteConfig.logo.share,
+  width: siteConfig.logo.shareWidth,
+  height: siteConfig.logo.shareHeight,
+  alt: `${siteConfig.name} – ${siteConfig.tagline}`,
 };
 
 /** Structured data script. `<` is escaped so the JSON can never close the script tag early. */

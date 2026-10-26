@@ -53,14 +53,14 @@ export async function generateMetadata({ params }: PageProps<"/products/[slug]">
 
 /**
  * The photo used in link previews: the product's card photo, else the first photo of the variant
- * shown by default, else any photo of the product, else the SecondLife logo (the site-wide preview image).
+ * shown by default, else any photo of the product, else the brand share image (the site-wide preview image).
  */
 function previewImage(product: ResolvedProduct) {
   return (
     product.cardImage ??
     defaultVariant(product)?.images[0] ??
     product.variants.find((v) => v.images.length)?.images[0] ??
-    existingImage(siteConfig.logo.main) ??
+    existingImage(siteConfig.logo.share) ??
     undefined
   );
 }

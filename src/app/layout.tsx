@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: [siteConfig.logo.main],
+    images: [siteConfig.logo.share],
   },
 };
 
@@ -59,7 +59,7 @@ const siteJsonLd = {
       "@id": `${siteConfig.url}/#organization`,
       name: siteConfig.name,
       url: siteConfig.url,
-      logo: `${siteConfig.url}${siteConfig.logo.main}`,
+      logo: `${siteConfig.url}${siteConfig.logo.mark}`,
       description: "Independent reseller of used, genuine IKEA furniture in the UAE. Not affiliated with or endorsed by IKEA.",
       telephone: siteConfig.phoneLink,
       // ✏️ CONFIRM: add the cities or emirates you deliver to (e.g. { "@type": "City", name: "Dubai" }) once confirmed.

@@ -138,15 +138,16 @@ const PHONE = "+971553267566";
 
 International format: `+971`, then the number without the leading 0. No spaces or dashes. Everything else is worked out from it automatically: the number shown on the site (`+971 55 326 7566`), tap-to-call links, every WhatsApp button and message, and the structured data search engines read.
 
-## 11. Add my logo
+## 11. Logo, store name and link-preview image
 
-Place your main logo here:
+The logo in the header, mobile menu and footer is made of two parts:
 
-`/public/images/brand/logo.png`
+- **The mark** (house and lamp): `/public/images/brand/mark.png`, a square PNG (512 × 512 px). It is also used as the business logo for search engines.
+- **The store name**, written next to it in the site's own font. It comes from `name` in `src/config/site.ts`, so changing the name there changes the logo, footer, page titles and link previews everywhere.
 
-A PNG with a transparent background works best. It is shown in the header, the mobile menu and the footer, always scaled to fit without stretching or cropping. Until it is added, a neutral "Your logo" placeholder is shown.
+The picture shown when someone shares a page without its own photo (WhatsApp, Facebook, X) is `/public/images/brand/share.png` (1200 × 630 px).
 
-For a browser tab icon, replace `src/app/favicon.ico` with your own icon file.
+For the browser tab icon, replace `src/app/favicon.ico`, `src/app/icon.png` and `src/app/apple-icon.png`.
 
 ## 12. Update phone and email
 

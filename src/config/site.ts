@@ -13,9 +13,12 @@ const phoneDigits = PHONE.replace(/\D/g, "");
 const phoneDisplay = `+${phoneDigits.slice(0, 3)} ${phoneDigits.slice(3, 5)} ${phoneDigits.slice(5, 8)} ${phoneDigits.slice(8)}`;
 
 export const siteConfig = {
-  // Your business name (used for the logo alt text, footer, page titles and link previews).
-  name: "SecondLife",
-  tagline: "Used IKEA Furniture in the UAE",
+  // The store name, typed once. Used for the header/footer logo, inner page titles ("… | name"),
+  // link previews, the copyright line and the site name in structured data.
+  // ⚠️ DRAFT – pending trademark clearance: "IKEA" is a registered trademark of Inter IKEA Systems B.V.
+  // Do not publish this branch until the name is cleared (see seo-audit/REBRAND-RISK-AND-MIGRATION.md).
+  name: "IKEA Used Furniture",
+  tagline: "Genuine used IKEA furniture in Dubai & the UAE",
 
   // Derived from PHONE above; change the number there, not here.
   // WhatsApp: digits only, e.g. https://wa.me/971553267566
@@ -51,12 +54,16 @@ export const siteConfig = {
   // Shown wherever a price has not been entered yet.
   priceFallback: "Contact for price",
 
-  // The logo, used in the header, footer and as the link-preview image (WhatsApp, Facebook…).
-  // width/height are the file's real pixel size; update them if you replace the file.
+  // Brand images. The header/footer logo is this mark plus the store name set in the site's own fonts.
+  // width/height are each file's real pixel size; update them if you replace a file.
   logo: {
-    main: "/images/brand/logo.png",
-    width: 1254,
-    height: 1254,
+    // Square house-and-lamp mark (also the favicon artwork). Used in the logo and as the Organization logo.
+    mark: "/images/brand/mark.png",
+    markSize: 512,
+    // Link-preview image for pages without a photo of their own (WhatsApp, Facebook, X…).
+    share: "/images/brand/share.png",
+    shareWidth: 1200,
+    shareHeight: 630,
   },
 } as const;
 

@@ -10,7 +10,7 @@ export type Guide = {
   slug: string;
   /** H1 on the page. */
   title: string;
-  /** Title Google shows (" | SecondLife" is added). */
+  /** Title Google shows (" | " + the store name is added). */
   seoTitle: string;
   description: string;
   /** Date the guide was written or last reviewed, YYYY-MM-DD. */
