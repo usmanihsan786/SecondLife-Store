@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/ikea-hemnes" },
 };
 
-export default async function HemnesPage({ searchParams }: PageProps<"/ikea-hemnes">) {
+export default function HemnesPage() {
   return (
     <CatalogPage
       title="Used IKEA HEMNES Daybed & Bed"
@@ -19,7 +19,6 @@ export default async function HemnesPage({ searchParams }: PageProps<"/ikea-hemn
       intro={<p>Genuine second-hand IKEA HEMNES furniture with a classic, traditional look, in white or gray.</p>}
       breadcrumb={[{ name: "IKEA HEMNES", path: "/ikea-hemnes" }]}
       products={getProducts().filter((p) => p.series === "hemnes")}
-      searchParams={await searchParams}
     >
       <ContentSections
         sections={[

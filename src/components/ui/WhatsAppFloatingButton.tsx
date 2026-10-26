@@ -32,6 +32,7 @@ export function WhatsAppFloatingButton() {
     <a
       href={whatsappUrl(DEFAULT_MESSAGE)}
       onClick={updateLink}
+      data-cta="floating"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contact us on WhatsApp"

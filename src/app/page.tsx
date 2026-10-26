@@ -36,6 +36,13 @@ export const metadata: Metadata = {
   },
 };
 
+// The real buying process (no cart): only facts the site already states elsewhere.
+const orderSteps = [
+  { title: "Choose your piece", text: "Pick the IKEA range, colour and size. Each option shows photos of our own stock." },
+  { title: "Message us on WhatsApp", text: "Tap the WhatsApp button. Your message already includes the exact item you chose." },
+  { title: "We confirm the details", text: "We confirm availability, send extra photos if you want them and tell you the delivery options for your area." },
+];
+
 export default function HomePage() {
   const featured = filterProducts(
     getProducts().filter((p) => p.featured),
@@ -69,6 +76,25 @@ export default function HomePage() {
           </Container>
         </section>
       )}
+
+      <section className="pb-14 sm:pb-20" aria-labelledby="how-to-order">
+        <Container>
+          <h2 id="how-to-order" className="font-display text-[1.75rem] font-semibold leading-tight text-ink sm:text-[2.125rem]">
+            How to order on WhatsApp
+          </h2>
+          <ol className="mt-6 grid gap-4 sm:grid-cols-3">
+            {orderSteps.map((step, i) => (
+              <li key={step.title} className="rounded-[var(--radius-card)] border border-line/70 bg-paper p-5 shadow-[var(--shadow-card)]">
+                <span aria-hidden="true" className="font-display text-2xl font-semibold leading-none text-accent">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-2 text-base font-medium text-ink">{step.title}</h3>
+                <p className="mt-1 text-[0.9375rem] leading-relaxed text-muted">{step.text}</p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
 
       <WhyBuy />
       <ConditionSection />

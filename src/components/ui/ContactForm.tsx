@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { WhatsAppIcon } from "@/components/icons";
 import { siteConfig } from "@/config/site";
+import { trackEvent } from "@/lib/analytics";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { buttonClasses } from "./button";
 
@@ -21,6 +22,7 @@ export function ContactForm() {
       className="space-y-5"
       onSubmit={(e) => {
         e.preventDefault();
+        trackEvent("whatsapp_click", { cta_location: "contact_form", page_path: window.location.pathname });
         window.open(whatsappUrl(text()), "_blank", "noopener,noreferrer");
       }}
     >
@@ -58,14 +60,19 @@ export function ContactForm() {
           <WhatsAppIcon />
           Send on WhatsApp
         </button>
-        <a
-          href={`mailto:${siteConfig.email}?subject=${encodeURIComponent("Furniture enquiry")}&body=${encodeURIComponent(text())}`}
-          className={buttonClasses("secondary", "lg", "sm:flex-1")}
-        >
-          Send by email
-        </a>
+        {siteConfig.email && (
+          <a
+            href={`mailto:${siteConfig.email}?subject=${encodeURIComponent("Furniture enquiry")}&body=${encodeURIComponent(text())}`}
+            className={buttonClasses("secondary", "lg", "sm:flex-1")}
+          >
+            Send by email
+          </a>
+        )}
       </div>
-      <p className="text-sm text-muted">Your message opens in WhatsApp or your email app, ready to send. Nothing is stored on this website.</p>
+      <p className="text-sm text-muted">
+        Your message opens in {siteConfig.email ? "WhatsApp or your email app" : "WhatsApp"}, ready to send. Nothing is
+        stored on this website.
+      </p>
     </form>
   );
 }
