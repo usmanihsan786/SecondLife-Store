@@ -155,9 +155,11 @@ All paths below are inside your project folder.
 
 ## Other images on the site
 
-**Your logo** (required)  
-Place your main logo here: `/public/images/brand/logo.png`  
-A PNG with a transparent background works best. Any shape is fine; it is scaled to fit and never stretched or cropped.
+**Your logo mark** (required)  
+`/public/images/brand/mark.png`: a square PNG (512 × 512 px) with a transparent background. The store name is written next to it automatically (see OWNER-GUIDE.md, section 11).
+
+**Link-preview image** (required)  
+`/public/images/brand/share.png`: 1200 × 630 px, shown when a page without its own photo is shared.
 
 **Homepage hero photo** (optional)  
 `/public/images/hero/hero.webp`  

@@ -17,7 +17,7 @@ export function Footer() {
           <div className="max-w-xs">
             <Logo size="footer" />
             <p className="mt-4 text-[0.9375rem] text-muted">
-              Quality used IKEA beds, mattresses, daybeds and sofa beds in the {siteConfig.serviceArea}.
+              Genuine used IKEA beds, mattresses, daybeds and sofa beds for Dubai and the {siteConfig.serviceArea}.
             </p>
           </div>
 
@@ -80,7 +80,10 @@ export function Footer() {
           <p>
             © {year} {siteConfig.name}. {siteConfig.serviceArea}.
           </p>
-          <p className="sm:text-right">Independent reseller of used IKEA furniture. Not affiliated with or endorsed by IKEA.</p>
+          <p className="sm:text-right">
+            {siteConfig.name} is an independent reseller of genuine used IKEA furniture. Not affiliated with, sponsored or
+            endorsed by IKEA.
+          </p>
         </div>
       </Container>
     </footer>

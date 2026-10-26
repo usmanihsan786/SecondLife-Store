@@ -4,6 +4,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "About Us – Independent Used IKEA Furniture Reseller",
@@ -53,7 +54,8 @@ export default function AboutPage() {
               sofa bed that has been looked after can serve a new home just as well.
             </p>
             <p>
-              We are an independent business. We are not part of IKEA and are not affiliated with or endorsed by IKEA.
+              {siteConfig.name} is an independent business. We are not part of IKEA and are not affiliated with, sponsored
+              or endorsed by IKEA.
               We resell genuine IKEA products that have had a previous owner, and we describe them honestly.
             </p>
           </div>

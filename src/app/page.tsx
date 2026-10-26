@@ -14,7 +14,7 @@ import { getProducts } from "@/lib/catalog";
 import { emptyFilters, filterProducts } from "@/lib/filters";
 import { defaultShareImage, HOME_DESCRIPTION, HOME_TITLE } from "@/lib/seo";
 
-// `absolute` stops the layout's "%s | SecondLife" template from adding anything to the homepage title.
+// `absolute` stops the layout's "%s | <store name>" template from adding anything to the homepage title.
 export const metadata: Metadata = {
   title: { absolute: HOME_TITLE },
   description: HOME_DESCRIPTION,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
-    images: [siteConfig.logo.main],
+    images: [siteConfig.logo.share],
   },
 };
 

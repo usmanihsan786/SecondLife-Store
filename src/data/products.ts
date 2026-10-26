@@ -24,7 +24,7 @@ export const products: Product[] = [
     id: "malm-bed",
     slug: "ikea-malm-bed",
     name: "IKEA MALM Bed with IKEA Mattress",
-    // ✏️ SEO TITLE: the title Google shows (" | SecondLife" is added). Keep it under ~65 characters.
+    // ✏️ SEO TITLE: the title Google shows (" | " + the store name is added). Keep it under ~65 characters.
     seoTitle: "Used IKEA MALM Bed with Mattress, Dubai – 90 to 180 cm",
     shortName: "IKEA MALM Bed", // used in WhatsApp messages
     series: "malm",
@@ -65,7 +65,7 @@ export const products: Product[] = [
     id: "brimnes-bed",
     slug: "ikea-brimnes-bed",
     name: "IKEA BRIMNES Bed with IKEA Mattress",
-    // ✏️ SEO TITLE: the title Google shows (" | SecondLife" is added). Keep it under ~65 characters.
+    // ✏️ SEO TITLE: the title Google shows (" | " + the store name is added). Keep it under ~65 characters.
     seoTitle: "Used IKEA BRIMNES Bed with Mattress – Double, Queen, King, UAE",
     shortName: "IKEA BRIMNES Bed", // used in WhatsApp messages
     series: "brimnes",
@@ -91,7 +91,7 @@ export const products: Product[] = [
     id: "brimnes-daybed",
     slug: "ikea-brimnes-daybed",
     name: "IKEA BRIMNES Daybed",
-    // ✏️ SEO TITLE: the title Google shows (" | SecondLife" is added). Keep it under ~65 characters.
+    // ✏️ SEO TITLE: the title Google shows (" | " + the store name is added). Keep it under ~65 characters.
     seoTitle: "Used IKEA BRIMNES Daybed with 2 Mattresses, UAE",
     shortName: "IKEA BRIMNES Daybed", // used in WhatsApp messages
     series: "brimnes",
@@ -116,7 +116,7 @@ export const products: Product[] = [
     id: "hemnes-daybed",
     slug: "ikea-hemnes-daybed",
     name: "IKEA HEMNES Daybed",
-    // ✏️ SEO TITLE: the title Google shows (" | SecondLife" is added). Keep it under ~65 characters.
+    // ✏️ SEO TITLE: the title Google shows (" | " + the store name is added). Keep it under ~65 characters.
     seoTitle: "Used IKEA HEMNES Daybed with 2 Mattresses – White & Gray",
     shortName: "IKEA HEMNES Daybed", // used in WhatsApp messages
     series: "hemnes",
@@ -140,7 +140,7 @@ export const products: Product[] = [
     id: "hemnes-bed",
     slug: "ikea-hemnes-bed",
     name: "IKEA HEMNES Bed with IKEA Mattress",
-    // ✏️ SEO TITLE: the title Google shows (" | SecondLife" is added). Keep it under ~65 characters.
+    // ✏️ SEO TITLE: the title Google shows (" | " + the store name is added). Keep it under ~65 characters.
     seoTitle: "Used IKEA HEMNES Bed with Mattress – Queen & King, UAE",
     shortName: "IKEA HEMNES Bed", // used in WhatsApp messages
     series: "hemnes",
@@ -169,7 +169,7 @@ export const products: Product[] = [
     id: "friheten-sofa-bed",
     slug: "ikea-friheten-sofa-bed",
     name: "IKEA FRIHETEN Sofa Bed with Storage",
-    // ✏️ SEO TITLE: the title Google shows (" | SecondLife" is added). Keep it under ~65 characters.
+    // ✏️ SEO TITLE: the title Google shows (" | " + the store name is added). Keep it under ~65 characters.
     seoTitle: "Used IKEA FRIHETEN L-Shape Sofa Cum Bed with Storage",
     shortName: "IKEA FRIHETEN Sofa Bed", // used in WhatsApp messages
     series: "friheten",
