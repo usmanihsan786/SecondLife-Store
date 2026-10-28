@@ -4,8 +4,10 @@ import { absoluteUrl } from "@/lib/product-utils";
 /** The homepage's exact search title (also its Open Graph and X title). Nothing is added to it. */
 export const HOME_TITLE = "IKEA Used Furniture";
 
+// Written for the searches the homepage already ranks for in Search Console (Oct 2026): "ikea used furniture",
+// "ikea used furniture dubai / sharjah / abu dhabi" and "ikea second hand furniture". Google may still show its own snippet.
 export const HOME_DESCRIPTION =
-  "Shop genuine used IKEA furniture in Dubai and across the UAE. Explore used IKEA beds, daybeds, sofa beds and more. Contact us on WhatsApp.";
+  "Genuine used IKEA furniture for Dubai, Sharjah, Ajman and Abu Dhabi: second-hand IKEA beds with mattress, daybeds and sofa beds. Real photos. Ask on WhatsApp.";
 
 /** Link-preview image used wherever a page has no photo of its own. */
 export const defaultShareImage = {

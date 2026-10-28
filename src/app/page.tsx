@@ -73,19 +73,25 @@ export default function HomePage() {
       <section className="border-t border-line py-14 sm:py-20">
         <Container className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] lg:gap-20">
           <div className="max-w-xl space-y-3 text-[0.9375rem] leading-relaxed text-ink/85 sm:text-base">
-            <p className="text-xs font-medium uppercase tracking-[0.16em] text-accent-strong">Dubai and the UAE</p>
+            <p className="text-xs font-medium uppercase tracking-[0.16em] text-accent-strong">Dubai · Sharjah · Ajman · Abu Dhabi</p>
             <h2 className="font-display text-[1.875rem] leading-[1.08] text-ink sm:text-[2.375rem]">
               IKEA used furniture in Dubai and the UAE
             </h2>
             <p>
               We are based in the UAE and sell genuine used IKEA furniture. Every bed comes with an IKEA mattress,
-              every daybed with two, and our photos show our own stock, colour by colour and size by size. Whether you are in
-              Dubai, Sharjah, Ajman or Abu Dhabi, message us on WhatsApp to check availability and ask about delivery
-              to your area.{" "}
+              every daybed with two, and our photos show our own stock, colour by colour and size by size.
+            </p>
+            <p>
+              Looking for IKEA used furniture in Dubai, Sharjah, Ajman or Abu Dhabi? Choose the piece, size and colour here,
+              then message us on WhatsApp with your area. We will confirm whether it is still available and whether
+              delivery to your area is possible.
+            </p>
+            <p>
+              See{" "}
               <Link href="/delivery-areas" className="font-medium text-ink underline decoration-accent underline-offset-4 hover:decoration-ink">
-                Delivery and areas
-              </Link>
-              .
+                used IKEA furniture in Sharjah, Ajman and Abu Dhabi
+              </Link>{" "}
+              for how buying and delivery enquiries work in each emirate.
             </p>
           </div>
           <Faq
