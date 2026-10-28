@@ -14,6 +14,7 @@ import {
 import type { ResolvedProduct, ResolvedVariant } from "@/types/product";
 import { placeholderKind } from "@/components/ui/ImagePlaceholder";
 import { SmartImage } from "@/components/ui/SmartImage";
+import { RotatingImage, RotationLink, RotationScope, type RotationFrame } from "@/components/ui/AutoRotate";
 import { SoldOutBadge } from "./Badges";
 
 type Props = {
@@ -26,6 +27,12 @@ type Props = {
   priority?: boolean;
   /** Passed to the photo so the browser downloads the right width for the grid it sits in. */
   sizes?: string;
+  /**
+   * Optional photo rotation (homepage). The first frame must be the card's normal photo. The card's link follows the
+   * photo on screen, so it opens the colour and size shown.
+   */
+  frames?: RotationFrame[];
+  rotationDelay?: number;
 };
 
 /**
@@ -39,6 +46,8 @@ export function ProductCard({
   showVariant = false,
   priority,
   sizes = "(min-width: 1280px) 300px, (min-width: 1024px) 25vw, 50vw",
+  frames,
+  rotationDelay = 0,
 }: Props) {
   // A card for a specific filtered variant shows that variant's photo; otherwise the product's own cover photo comes first.
   const image =
@@ -50,18 +59,26 @@ export function ProductCard({
   const details = showVariant ? variantSummary(product, variant) : sizeSummary(product);
   const price = showVariant ? formatPrice(variantPrice(product, variant)) : priceSummary(product);
 
-  return (
+  const rotating = !!frames && frames.length > 1;
+  const imageClass = `object-cover ${soldOut ? "opacity-70" : ""}`;
+  const titleLinkClass = "after:absolute after:inset-0 focus-visible:outline-none";
+
+  const card = (
     <article className="group relative flex h-full flex-col">
       <div className="relative aspect-square overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
         <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
-          <SmartImage
-            src={image}
-            alt={variantImageAlt(product, variant)}
-            kind={placeholderKind(product.category)}
-            sizes={sizes}
-            priority={priority}
-            className={`object-cover ${soldOut ? "opacity-70" : ""}`}
-          />
+          {rotating ? (
+            <RotatingImage sizes={sizes} priority={priority} className={imageClass} />
+          ) : (
+            <SmartImage
+              src={image}
+              alt={variantImageAlt(product, variant)}
+              kind={placeholderKind(product.category)}
+              sizes={sizes}
+              priority={priority}
+              className={imageClass}
+            />
+          )}
         </div>
         {soldOut && <SoldOutBadge className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3" />}
       </div>
@@ -69,9 +86,13 @@ export function ProductCard({
       <div className="flex flex-1 flex-col pt-3 sm:pt-4">
         <p className="text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-accent-strong sm:text-xs">{seriesLabel(product)}</p>
         <h3 className="mt-1 text-[0.9375rem] font-medium leading-snug text-ink sm:text-base">
-          <Link href={href} className="after:absolute after:inset-0 focus-visible:outline-none">
-            {product.name}
-          </Link>
+          {rotating ? (
+            <RotationLink className={titleLinkClass}>{product.name}</RotationLink>
+          ) : (
+            <Link href={href} className={titleLinkClass}>
+              {product.name}
+            </Link>
+          )}
         </h3>
         {details && <p className="mt-1 text-[0.8125rem] text-muted sm:text-sm">{details}</p>}
 
@@ -103,5 +124,13 @@ export function ProductCard({
         aria-hidden="true"
       />
     </article>
+  );
+
+  return rotating ? (
+    <RotationScope frames={frames} delay={rotationDelay} className="h-full">
+      {card}
+    </RotationScope>
+  ) : (
+    card
   );
 }

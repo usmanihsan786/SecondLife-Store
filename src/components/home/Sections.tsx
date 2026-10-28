@@ -5,19 +5,33 @@ import { Container } from "@/components/ui/Container";
 import { placeholderKind } from "@/components/ui/ImagePlaceholder";
 import { ArrowLink, SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
+import { RotatingImage, RotationLink, RotationScope } from "@/components/ui/AutoRotate";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { categories, series, type CategoryId, type SeriesId } from "@/data/options";
 import { guides } from "@/data/guides";
 import { existingImage, getProducts } from "@/lib/catalog";
+import { categoryFrames } from "@/lib/rotation-frames";
 import { CollectionCard } from "./CollectionCard";
 
 const countLabel = (n: number) => `${n} ${n === 1 ? "product" : "products"}`;
 
-/** Large photo tiles for the four product categories. Counts come from the product data. */
+/**
+ * Large photo tiles for the four product categories. Counts come from the product data.
+ * Each tile rotates through real photos of the products in that category only (storage beds also show the
+ * open storage photo, since that is what the bed is for).
+ */
 export function ShopByCategory() {
   const products = getProducts();
   const entries = (Object.keys(categories) as CategoryId[])
-    .map((id) => ({ id, ...categories[id], count: products.filter((p) => p.category === id).length }))
+    .map((id) => {
+      const inCategory = products.filter((p) => p.category === id);
+      const frames = categoryFrames(inCategory, {
+        href: categories[id].href,
+        image: existingImage(categories[id].image),
+        photosPerVariant: id === "storage-beds" ? 2 : 1,
+      });
+      return { id, ...categories[id], count: inCategory.length, frames };
+    })
     .filter((c) => c.count > 0);
 
   return (
@@ -29,26 +43,27 @@ export function ShopByCategory() {
           action={<ArrowLink href="/shop">Shop all furniture</ArrowLink>}
         />
         <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
-          {entries.map((c) => (
+          {entries.map((c, i) => (
             <li key={c.id}>
-              <Link href={c.href} className="group block">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
-                  <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
-                    <SmartImage
-                      src={existingImage(c.image)}
-                      alt=""
-                      kind={placeholderKind(c.id)}
-                      sizes="(min-width: 1024px) 25vw, 50vw"
-                    />
+              <RotationScope frames={c.frames.length ? c.frames : [{ src: "", alt: "", href: c.href }]} delay={400 + i * 700}>
+                <RotationLink className="group block">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
+                    <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
+                      {c.frames.length ? (
+                        <RotatingImage sizes="(min-width: 1024px) 25vw, 50vw" />
+                      ) : (
+                        <SmartImage src={null} alt="" kind={placeholderKind(c.id)} sizes="(min-width: 1024px) 25vw, 50vw" />
+                      )}
+                    </div>
                   </div>
-                </div>
-                <h3 className="mt-3 flex items-center justify-between gap-2 text-[1.0625rem] font-medium leading-snug text-ink sm:mt-4 sm:text-lg">
-                  {c.title}
-                  <ArrowRightIcon size={18} className="hidden shrink-0 text-accent-strong transition-transform group-hover:translate-x-1 sm:block" />
-                </h3>
-                <p className="mt-1 text-sm leading-snug text-muted">{c.blurb}</p>
-                <p className="mt-1.5 text-xs text-muted">{countLabel(c.count)}</p>
-              </Link>
+                  <h3 className="mt-3 flex items-center justify-between gap-2 text-[1.0625rem] font-medium leading-snug text-ink sm:mt-4 sm:text-lg">
+                    {c.title}
+                    <ArrowRightIcon size={18} className="hidden shrink-0 text-accent-strong transition-transform group-hover:translate-x-1 sm:block" />
+                  </h3>
+                  <p className="mt-1 text-sm leading-snug text-muted">{c.blurb}</p>
+                  <p className="mt-1.5 text-xs text-muted">{countLabel(c.count)}</p>
+                </RotationLink>
+              </RotationScope>
             </li>
           ))}
         </ul>

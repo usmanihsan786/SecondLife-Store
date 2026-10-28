@@ -2,17 +2,19 @@ import Link from "next/link";
 import { CameraIcon, ChatIcon, ShieldCheckIcon } from "@/components/icons";
 import { buttonClasses } from "@/components/ui/button";
 import { Container } from "@/components/ui/Container";
-import { SmartImage } from "@/components/ui/SmartImage";
+import { RotatingImage, RotationDetail, RotationLink, RotationScope } from "@/components/ui/AutoRotate";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import type { ColorId, SizeId } from "@/data/options";
 import { getProductBySlug } from "@/lib/catalog";
-import { findVariant, productPath, variantImageAlt, variantSummary } from "@/lib/product-utils";
+import { findVariant } from "@/lib/product-utils";
+import { productFrames } from "@/lib/rotation-frames";
 import { HOME_TITLE } from "@/lib/seo";
 
 /**
  * The hero shows three photos of our own stock, each linking to that exact item.
  * ✏️ To change them, pick a product slug and the colour/size whose first photo you want. Sold-out or missing
  * items are skipped automatically, so the hero never shows something that cannot be bought.
+ * Each tile then rotates through the product's other available colours and sizes; the label and link follow the photo.
  */
 const heroPicks: { slug: string; color?: ColorId; size?: SizeId; label: string }[] = [
   { slug: "ikea-malm-bed", color: "brown", size: "160x200", label: "MALM bed" },
@@ -32,7 +34,7 @@ function resolvePicks() {
     const variant = product && findVariant(product, pick.color, pick.size);
     const image = variant?.images[0];
     if (!product || !variant || !image || variant.availability !== "available") return [];
-    return [{ ...pick, product, variant, image, href: productPath(product, variant), alt: variantImageAlt(product, variant) }];
+    return [{ ...pick, frames: productFrames(product, { start: variant }) }];
   });
 }
 
@@ -73,8 +75,9 @@ export function Hero() {
         {main && (
           <div className={`grid gap-3 sm:gap-4 ${side.length ? "grid-cols-[1.15fr_1fr]" : ""}`}>
             <HeroTile pick={main} priority className={side.length ? "row-span-2 aspect-[4/5] sm:aspect-[3/4]" : "aspect-[4/3]"} />
-            {side.map((pick) => (
-              <HeroTile key={pick.slug} pick={pick} className="h-full min-h-0" />
+            {side.map((pick, i) => (
+              // Staggered by a second each, so the three photos never change at the same moment.
+              <HeroTile key={pick.slug} pick={pick} delay={(i + 1) * 1000} className="h-full min-h-0" />
             ))}
           </div>
         )}
@@ -86,32 +89,28 @@ export function Hero() {
 function HeroTile({
   pick,
   priority = false,
+  delay = 0,
   className = "",
 }: {
   pick: ReturnType<typeof resolvePicks>[number];
   priority?: boolean;
+  delay?: number;
   className?: string;
 }) {
-  const detail = variantSummary(pick.product, pick.variant);
   return (
-    <Link
-      href={pick.href}
-      className={`group relative block overflow-hidden rounded-[var(--radius-card)] bg-surface-2 ${className}`}
-    >
-      <span className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.03]">
-        <SmartImage
-          src={pick.image}
-          alt={pick.alt}
-          priority={priority}
-          sizes={priority ? "(min-width: 1024px) 30vw, 55vw" : "(min-width: 1024px) 25vw, 45vw"}
-        />
-      </span>
-      <span className="absolute bottom-2.5 left-2.5 right-2.5 flex flex-col rounded-[var(--radius-control)] bg-white/95 px-2.5 py-1.5 text-left shadow-sm sm:bottom-3 sm:left-3 sm:right-auto sm:max-w-[calc(100%-1.5rem)] sm:px-3 sm:py-2">
-        <span className="truncate text-[0.8125rem] font-medium text-ink sm:text-sm">
-          {pick.label}
+    <RotationScope frames={pick.frames} delay={delay} className={className}>
+      <RotationLink className="group relative block h-full overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
+        <span className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.03]">
+          <RotatingImage
+            priority={priority}
+            sizes={priority ? "(min-width: 1024px) 30vw, 55vw" : "(min-width: 1024px) 25vw, 45vw"}
+          />
         </span>
-        {detail && <span className="hidden truncate text-xs text-muted min-[400px]:block">{detail}</span>}
-      </span>
-    </Link>
+        <span className="absolute bottom-2.5 left-2.5 right-2.5 z-[2] flex flex-col rounded-[var(--radius-control)] bg-white/95 px-2.5 py-1.5 text-left shadow-sm sm:bottom-3 sm:left-3 sm:right-auto sm:max-w-[calc(100%-1.5rem)] sm:px-3 sm:py-2">
+          <span className="truncate text-[0.8125rem] font-medium text-ink sm:text-sm">{pick.label}</span>
+          <RotationDetail className="hidden truncate text-xs text-muted min-[400px]:block" />
+        </span>
+      </RotationLink>
+    </RotationScope>
   );
 }

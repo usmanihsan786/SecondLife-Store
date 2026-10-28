@@ -10,6 +10,8 @@ import { faqDelivery, faqGenuine, faqHowToBuy, faqPhotos } from "@/data/faq";
 import { siteConfig } from "@/config/site";
 import { getProducts } from "@/lib/catalog";
 import { emptyFilters, filterProducts } from "@/lib/filters";
+import { productPath, variantImageAlt } from "@/lib/product-utils";
+import { productFrames } from "@/lib/rotation-frames";
 import { defaultShareImage, HOME_DESCRIPTION, HOME_TITLE } from "@/lib/seo";
 
 // `absolute` stops the layout's "%s | <store name>" template from adding anything to the homepage title.
@@ -40,6 +42,18 @@ export default function HomePage() {
     getProducts().filter((p) => p.featured),
     emptyFilters,
   );
+  // Each featured card starts on its usual cover photo, then rotates through the product's available colours and sizes.
+  const featuredFrames = Object.fromEntries(
+    featured.map(({ product, variant }) => [
+      product.id,
+      productFrames(product, {
+        start: variant,
+        first: product.cardImage
+          ? { src: product.cardImage, alt: variantImageAlt(product, variant), href: productPath(product) }
+          : undefined,
+      }),
+    ]),
+  );
 
   return (
     <>
@@ -56,7 +70,7 @@ export default function HomePage() {
               action={<ArrowLink href="/shop">View all furniture</ArrowLink>}
             />
             <div className="mt-8">
-              <ProductGrid items={featured} columns="wide" />
+              <ProductGrid items={featured} columns="wide" frames={featuredFrames} />
             </div>
           </Container>
         </section>

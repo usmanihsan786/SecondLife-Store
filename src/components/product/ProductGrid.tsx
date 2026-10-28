@@ -1,3 +1,4 @@
+import type { RotationFrame } from "@/components/ui/AutoRotate";
 import type { CatalogItem } from "@/lib/filters";
 import { ProductCard } from "./ProductCard";
 
@@ -15,7 +16,14 @@ const imageSizes: Record<Columns, string> = {
   wide: "(min-width: 1280px) 300px, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw",
 };
 
-export function ProductGrid({ items, columns = "catalog" }: { items: CatalogItem[]; columns?: Columns }) {
+type Props = {
+  items: CatalogItem[];
+  columns?: Columns;
+  /** Optional photo rotations by product id (homepage featured cards). */
+  frames?: Record<string, RotationFrame[]>;
+};
+
+export function ProductGrid({ items, columns = "catalog", frames }: Props) {
   return (
     <ul className={`grid gap-x-3 gap-y-9 sm:gap-x-6 sm:gap-y-12 ${grids[columns]}`}>
       {items.map((item, i) => (
@@ -27,6 +35,9 @@ export function ProductGrid({ items, columns = "catalog" }: { items: CatalogItem
             showVariant={item.narrowed}
             priority={i < 2}
             sizes={imageSizes[columns]}
+            frames={frames?.[item.product.id]}
+            // Staggered so neighbouring cards never change at the same moment.
+            rotationDelay={300 + i * 650}
           />
         </li>
       ))}
