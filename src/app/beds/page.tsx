@@ -6,8 +6,9 @@ import { faqDelivery, faqGenuine, faqHowToBuy } from "@/data/faq";
 import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Used IKEA Beds with Mattress – Dubai & UAE, Single to King",
-  description: "Second-hand IKEA MALM, BRIMNES and HEMNES beds sold with an IKEA mattress, plus ottoman storage beds. Single 90 cm to king 180 cm, with real photos.",
+  // Search Console (Oct 2026): bed searches use "for sale", the city and the size ("used double bed for sale in dubai").
+  title: "Used IKEA Beds for Sale in Dubai & UAE, with Mattress",
+  description: "Second-hand IKEA MALM, BRIMNES and HEMNES beds for sale in Dubai and the UAE, each with an IKEA mattress. Single, double, queen and king, with real photos.",
   alternates: { canonical: "/beds" },
 };
 
@@ -17,9 +18,9 @@ export default function BedsPage() {
       title="Used IKEA Beds with Mattress"
       intro={
         <p>
-          Genuine second-hand IKEA bed frames sold together with an IKEA mattress, from MALM, BRIMNES and HEMNES, plus
-          hydraulic ottoman storage beds, for customers in Dubai and across the UAE. Pick a size and colour to see that
-          bed.
+          Genuine second-hand IKEA beds for sale, each sold together with an IKEA mattress: MALM, BRIMNES and HEMNES in
+          single, double, queen and king sizes, plus hydraulic ottoman storage beds, for customers in Dubai and across the
+          UAE. Pick a size and colour to see that bed.
         </p>
       }
       breadcrumb={[{ name: "Used IKEA Beds", path: "/beds" }]}
@@ -33,11 +34,12 @@ export default function BedsPage() {
               <>
                 <p>IKEA beds in the UAE use European sizes. The size is the mattress size, width × length:</p>
                 <ul>
-                  <li><Link href="/beds?size=90x200">Single bed, 90 × 200 cm</Link></li>
-                  <li><Link href="/beds?size=140x200">Double bed, 140 × 200 cm</Link></li>
-                  <li><Link href="/beds?size=160x200">Queen bed, 160 × 200 cm</Link></li>
-                  <li><Link href="/beds?size=180x200">King bed, 180 × 200 cm</Link></li>
+                  <li><Link href="/beds?size=90x200">Used IKEA single bed, 90 × 200 cm</Link>: MALM</li>
+                  <li><Link href="/beds?size=140x200">Used IKEA double bed, 140 × 200 cm</Link>: MALM and BRIMNES</li>
+                  <li><Link href="/beds?size=160x200">Used IKEA queen bed, 160 × 200 cm</Link>: MALM and BRIMNES</li>
+                  <li><Link href="/beds?size=180x200">Used IKEA king bed, 180 × 200 cm</Link>: MALM and BRIMNES</li>
                 </ul>
+                <p>Each product page shows which colours and sizes are available now.</p>
                 <p>
                   Not sure which size fits your room? Read our <Link href="/guides/ikea-bed-sizes-uae">IKEA bed size guide</Link>.
                 </p>
