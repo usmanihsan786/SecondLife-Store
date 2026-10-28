@@ -5,7 +5,6 @@ import { ContentSections, Faq, LinkCards } from "@/components/content/ContentBlo
 import { faqDelivery, faqHowToBuy } from "@/data/faq";
 import { getProducts } from "@/lib/catalog";
 
-// The frame brand of the ottoman bed is still being confirmed, so this page does not call the frames IKEA.
 export const metadata: Metadata = {
   title: "Used Hydraulic Ottoman Storage Beds with IKEA Mattress",
   description: "Second-hand hydraulic ottoman storage beds sold with an IKEA mattress, in Queen 160 and King 180 cm, white or black. The base lifts up for storage underneath.",
@@ -17,7 +16,7 @@ export default function StorageBedsPage() {
     <CatalogPage
       title="Ottoman Storage Beds with Mattress"
       eyebrow="Used storage beds"
-      intro={<p>Hydraulic lift-up beds with storage underneath, sold together with an IKEA mattress.</p>}
+      intro={<p>Used, genuine IKEA hydraulic lift-up beds with storage underneath, sold together with an IKEA mattress.</p>}
       breadcrumb={[
         { name: "Used IKEA Beds", path: "/beds" },
         { name: "Storage Beds", path: "/storage-beds" },

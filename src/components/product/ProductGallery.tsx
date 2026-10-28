@@ -11,6 +11,8 @@ type Props = {
   images: string[];
   alt: string;
   kind: PlaceholderKind;
+  /** What each photo shows, in the same order as images. Added to that photo's alt text. */
+  notes?: string[];
 };
 
 const roundButton =
@@ -21,12 +23,13 @@ const roundButton =
  * Photos are shown whole (object-contain), never cropped, so buyers see the complete item. Tapping the photo opens
  * a full-screen view.
  */
-export function ProductGallery({ images, alt, kind }: Props) {
+export function ProductGallery({ images, alt, kind, notes = [] }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
   const count = images.length;
-  const photoAlt = (i: number) => (count > 1 ? `${alt}, photo ${i + 1} of ${count}` : alt);
+  const photoAlt = (i: number) =>
+    [alt, notes[i], count > 1 ? `photo ${i + 1} of ${count}` : undefined].filter(Boolean).join(", ");
 
   const goTo = useCallback((i: number) => {
     const track = trackRef.current;

@@ -106,7 +106,13 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
     <>
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12 xl:gap-20">
         <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
-          <ProductGallery key={variant.id} images={variant.images} alt={variantImageAlt(product, variant)} kind={kind} />
+          <ProductGallery
+            key={variant.id}
+            images={variant.images}
+            notes={variant.imageAlts}
+            alt={variantImageAlt(product, variant)}
+            kind={kind}
+          />
         </div>
 
         <div className="min-w-0">
