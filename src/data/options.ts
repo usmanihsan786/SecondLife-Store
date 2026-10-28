@@ -22,11 +22,36 @@ export const sizes = {
   king: { label: "King", short: "King" },
 } as const;
 
+// title and blurb are shown on the homepage category tiles; image is one of our own stock photos.
 export const categories = {
-  beds: { label: "Beds", href: "/beds" },
-  daybeds: { label: "Daybeds", href: "/daybeds" },
-  "sofa-beds": { label: "Sofa Beds", href: "/sofa-beds" },
-  "storage-beds": { label: "Storage Beds", href: "/storage-beds" },
+  beds: {
+    label: "Beds",
+    title: "Used IKEA Beds",
+    blurb: "MALM, BRIMNES and HEMNES, each with an IKEA mattress",
+    href: "/beds",
+    image: "/images/products/brimnes/white/160x200/01.webp",
+  },
+  daybeds: {
+    label: "Daybeds",
+    title: "Used IKEA Daybeds",
+    blurb: "BRIMNES and HEMNES, with two mattresses",
+    href: "/daybeds",
+    image: "/images/cards/hemnes-daybed.webp",
+  },
+  "sofa-beds": {
+    label: "Sofa Beds",
+    title: "Used IKEA Sofa Beds",
+    blurb: "FRIHETEN corner sofa beds with storage",
+    href: "/sofa-beds",
+    image: "/images/cards/friheten-sofa-bed.webp",
+  },
+  "storage-beds": {
+    label: "Storage Beds",
+    title: "Ottoman Storage Beds",
+    blurb: "Hydraulic lift-up beds with an IKEA mattress",
+    href: "/storage-beds",
+    image: "/images/cards/ottoman-bed.webp",
+  },
 } as const;
 
 export const series = {

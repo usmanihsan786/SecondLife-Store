@@ -67,35 +67,36 @@ export function CatalogView({ products, groups }: Props) {
   );
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[16.5rem_minmax(0,1fr)] xl:gap-12">
+    <div className="grid gap-8 lg:grid-cols-[14.5rem_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[16rem_minmax(0,1fr)] xl:gap-14">
       <FilterSidebar groups={groups} filters={filters} activeCount={activeCount} onToggle={toggle} onClear={clear} />
 
       <div className="min-w-0">
         <h2 className="sr-only">Available items</h2>
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div className="mb-6 flex items-center justify-between gap-3 border-b border-line pb-4">
           <p className="text-[0.9375rem] text-muted" aria-live="polite">
-            {items.length} {items.length === 1 ? "item" : "items"}
+            <span className="font-medium text-ink">{items.length}</span> {items.length === 1 ? "item" : "items"}
+            {activeCount > 0 && <span className="hidden sm:inline"> matching your filters</span>}
           </p>
           <FilterDrawer groups={groups} products={products} filters={filters} onApply={apply} />
         </div>
 
         {chips.length > 0 && (
-          <ul className="mb-6 flex flex-wrap items-center gap-2" aria-label="Active filters">
+          <ul className="-mt-1 mb-7 flex flex-wrap items-center gap-2" aria-label="Active filters">
             {chips.map((chip) => (
               <li key={`${chip.key}-${chip.value}`}>
                 <button
                   type="button"
                   onClick={() => toggle(chip.key, chip.value)}
-                  className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-line bg-paper pl-3.5 pr-2.5 text-sm text-ink hover:border-espresso/50"
+                  className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-surface-2 pl-3.5 pr-2.5 text-sm text-ink transition-colors hover:bg-line"
                 >
                   {chip.label}
-                  <CloseIcon size={15} className="text-muted" />
+                  <CloseIcon size={14} className="text-muted" />
                   <span className="sr-only">Remove filter</span>
                 </button>
               </li>
             ))}
             <li>
-              <button type="button" onClick={clear} className="min-h-10 px-2 text-sm text-accent-strong underline-offset-4 hover:underline">
+              <button type="button" onClick={clear} className="min-h-9 px-2 text-sm font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink">
                 Clear all
               </button>
             </li>

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Breadcrumbs, ContentSections, Faq, LinkCards } from "@/components/content/ContentBlocks";
+import { ContentSections, Faq, LinkCards } from "@/components/content/ContentBlocks";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { categoryLinks, faqGenuine, faqHowToBuy } from "@/data/faq";
 import { breadcrumbJsonLd, JsonLd } from "@/lib/seo";
@@ -23,26 +23,19 @@ const trail = [{ name: "Delivery & Areas", path: "/delivery-areas" }];
 export default function DeliveryAreasPage() {
   return (
     <>
-      <div className="border-b border-line/70 bg-sand/50">
-        <Container className="py-10 sm:py-14">
-          <Breadcrumbs trail={trail} />
-          <SectionHeading
-            as="h1"
-            eyebrow="Delivery & areas"
-            title="Used IKEA Furniture in the UAE: Ask About Your Area"
-            description={
-              <p>
-                We are based in the UAE and sell genuine second-hand IKEA beds, daybeds and sofa beds. Tell us your area
-                on WhatsApp and we will tell you whether we can deliver the item you want, and how.
-              </p>
-            }
-          />
-          <div className="mt-6">
-            <WhatsAppButton>Ask about delivery to your area</WhatsAppButton>
-          </div>
-        </Container>
-      </div>
-      <Container className="space-y-14 py-12 sm:py-16">
+      <PageHeader
+        trail={trail}
+        eyebrow="Delivery & areas"
+        title="Used IKEA Furniture in the UAE: Ask About Your Area"
+        description={
+          <p>
+            We are based in the UAE and sell genuine second-hand IKEA beds, daybeds and sofa beds. Tell us your area on
+            WhatsApp and we will tell you whether we can deliver the item you want, and how.
+          </p>
+        }
+        actions={<WhatsAppButton>Ask about delivery to your area</WhatsAppButton>}
+      />
+      <Container className="space-y-16 py-14 sm:py-20">
         <ContentSections
           sections={[
             {

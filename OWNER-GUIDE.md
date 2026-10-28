@@ -24,7 +24,7 @@ Open `src/data/products.ts`. Copy a whole product block, from its `{` to its clo
   shortName: "IKEA MALM Daybed",     // optional. Name used in WhatsApp messages
   series: "malm",                    // REQUIRED. malm | brimnes | hemnes | friheten | ottoman
   category: "daybeds",               // REQUIRED. beds | daybeds | sofa-beds | storage-beds
-  shortDescription: "Preloved MALM daybed in white.",   // REQUIRED. One line, used on search engines
+  shortDescription: "Used MALM daybed in white.",   // REQUIRED. One line, used on search engines
   description: "WRITE MY DESCRIPTION HERE",               // REQUIRED. Shown on the product page
   condition: "Excellent condition",  // REQUIRED
   includes: ["IKEA MALM daybed frame", "2 IKEA mattresses"], // optional

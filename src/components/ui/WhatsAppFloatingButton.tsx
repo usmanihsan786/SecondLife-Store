@@ -41,14 +41,12 @@ export function WhatsAppFloatingButton() {
     >
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 translate-x-1 whitespace-nowrap rounded-lg bg-espresso px-3 py-1.5 text-sm font-medium text-paper opacity-0 shadow-[var(--shadow-card)] transition-[opacity,transform] duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 md:block"
+        className="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 translate-x-1 whitespace-nowrap rounded-[var(--radius-control)] bg-ink px-3 py-1.5 text-sm font-medium text-paper opacity-0 shadow-[var(--shadow-card)] transition-[opacity,transform] duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 md:block"
       >
         WhatsApp us
       </span>
-      <span className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-[#25D366] text-white shadow-[0_8px_20px_-6px_rgb(37_211_102/0.55),0_2px_6px_rgb(37_33_30/0.18)] transition-[scale,box-shadow,background-color] duration-200 ease-out group-hover:scale-110 group-hover:bg-[#1FBF5B] group-hover:shadow-[0_12px_28px_-6px_rgb(37_211_102/0.65),0_4px_10px_rgb(37_33_30/0.22),0_0_0_6px_rgb(37_211_102/0.14)] group-active:scale-95 group-focus-visible:ring-2 group-focus-visible:ring-accent-strong group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-canvas motion-reduce:transition-none md:h-[60px] md:w-[60px]">
-        {/* Soft light that sweeps across now and then; styles in globals.css (hidden with reduced motion). */}
-        <span aria-hidden="true" className="whatsapp-shine" />
-        <WhatsAppIcon size={28} className="relative" />
+      <span className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-[#25D366] text-white shadow-[0_8px_20px_-6px_rgb(37_211_102/0.55),0_2px_6px_rgb(37_33_30/0.18)] transition-[scale,box-shadow,background-color] duration-200 ease-out group-hover:scale-105 group-hover:bg-[#1FBF5B] group-hover:shadow-[0_12px_28px_-6px_rgb(37_211_102/0.65),0_4px_10px_rgb(37_33_30/0.22),0_0_0_6px_rgb(37_211_102/0.14)] group-active:scale-95 group-focus-visible:ring-2 group-focus-visible:ring-ink group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-canvas motion-reduce:transition-none md:h-[60px] md:w-[60px]">
+        <WhatsAppIcon size={28} />
       </span>
     </a>
   );

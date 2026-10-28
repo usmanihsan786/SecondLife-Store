@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { MailIcon, MapPinIcon, PhoneIcon, WhatsAppIcon } from "@/components/icons";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { siteConfig } from "@/config/site";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -13,23 +13,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-const rowClass = "flex min-h-14 items-center gap-4 rounded-lg px-1 transition-colors hover:text-espresso";
+const rowClass = "flex min-h-16 items-center gap-4 px-1 transition-colors hover:text-accent-strong";
 
 export default function ContactPage() {
   return (
     <>
-      <div className="border-b border-line/70 bg-sand/50">
-        <Container className="py-10 sm:py-14">
-          <SectionHeading
-            as="h1"
-            eyebrow="Contact"
-            title="We are happy to help"
-            description={<p>The quickest way to reach us is WhatsApp. Ask about a piece, a size or a colour, or about delivery options in the UAE.</p>}
-          />
-        </Container>
-      </div>
+      <PageHeader
+        eyebrow="Contact"
+        title="We are happy to help"
+        description={<p>The quickest way to reach us is WhatsApp. Ask about a piece, a size or a colour, or about delivery options in the UAE.</p>}
+      />
 
-      <Container className="py-12 sm:py-16">
+      <Container className="py-14 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16">
           <div>
             <WhatsAppButton className="w-full sm:w-auto">Message us on WhatsApp</WhatsAppButton>
@@ -85,8 +80,8 @@ export default function ContactPage() {
             </ul>
           </div>
 
-          <div className="rounded-[var(--radius-card)] border border-line/70 bg-paper p-5 shadow-[var(--shadow-card)] sm:p-8">
-            <h2 className="font-display text-2xl font-semibold text-ink">Send us a message</h2>
+          <div className="rounded-[var(--radius-card)] bg-surface p-5 sm:p-8">
+            <h2 className="font-display text-[1.875rem] leading-tight text-ink">Send us a message</h2>
             <p className="mt-1 mb-6 text-[0.9375rem] text-muted">Tell us what you are looking for and we will get back to you.</p>
             <ContactForm />
           </div>

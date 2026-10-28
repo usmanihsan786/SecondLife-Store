@@ -12,11 +12,11 @@ type Props = {
 export function FilterSidebar({ groups, filters, activeCount, onToggle, onClear }: Props) {
   return (
     <aside aria-label="Filters" className="hidden lg:block">
-      <div className="sticky top-24">
-        <div className="mb-5 flex items-center justify-between">
-          <h2 className="text-base font-medium text-ink">Filters</h2>
+      <div>
+        <div className="mb-4 flex min-h-11 items-center justify-between border-b border-line pb-3">
+          <h2 className="font-display text-[1.5rem] leading-none text-ink">Filter</h2>
           {activeCount > 0 && (
-            <button type="button" onClick={onClear} className="min-h-11 px-1 text-sm text-accent-strong underline-offset-4 hover:underline">
+            <button type="button" onClick={onClear} className="min-h-11 px-1 text-sm font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink">
               Clear all
             </button>
           )}

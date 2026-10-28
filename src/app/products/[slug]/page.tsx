@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
-import { LinkCards, type PageLink } from "@/components/content/ContentBlocks";
+import { Breadcrumbs, LinkCards, type PageLink } from "@/components/content/ContentBlocks";
 import { categories, series } from "@/data/options";
 import { existingImage, getProductBySlug, getProducts } from "@/lib/catalog";
 import { filterProducts, emptyFilters } from "@/lib/filters";
@@ -120,43 +119,37 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
   const related = filterProducts(
     getProducts().filter((p) => p.id !== product.id && (p.category === product.category || p.series === product.series)),
     emptyFilters,
-  ).slice(0, 3);
+  ).slice(0, 4);
+
+  const trail = [
+    { name: categories[product.category].label, path: categories[product.category].href },
+    { name: product.name, path: productPath(product) },
+  ];
 
   return (
     <>
-      <Container className="pb-28 pt-4 sm:pt-6 lg:pb-16">
-        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-muted sm:mb-6">
-          <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <li><Link href="/" className="hover:text-espresso">Home</Link></li>
-            <li aria-hidden="true">/</li>
-            <li><Link href={categories[product.category].href} className="hover:text-espresso">{categories[product.category].label}</Link></li>
-            <li aria-hidden="true">/</li>
-            <li aria-current="page" className="min-w-0 truncate text-ink">{product.name}</li>
-          </ol>
-        </nav>
+      <Container className="pb-28 pt-4 sm:pt-6 lg:pb-20">
+        <div className="mb-5 sm:mb-7">
+          <Breadcrumbs trail={trail} />
+        </div>
 
         <ProductDetail product={product} />
 
         {related.length > 0 && (
-          <section className="mt-16 border-t border-line pt-12 sm:mt-20">
-            <SectionHeading title="You may also like" />
+          <section className="mt-16 border-t border-line pt-12 sm:mt-24 sm:pt-16">
+            <SectionHeading eyebrow="Related" title="You may also like" />
             <div className="mt-8">
-              <ProductGrid items={related} />
+              <ProductGrid items={related} columns="wide" />
             </div>
           </section>
         )}
 
-        <div className="mt-16 border-t border-line pt-12">
+        <div className="mt-16 border-t border-line pt-12 sm:pt-16">
           <LinkCards title="Helpful links" links={helpfulLinks(product)} />
         </div>
       </Container>
       <JsonLd data={productJsonLd(product)} />
-      <JsonLd
-        data={breadcrumbJsonLd([
-          { name: categories[product.category].label, path: categories[product.category].href },
-          { name: product.name, path: productPath(product) },
-        ])}
-      />
+      <JsonLd data={breadcrumbJsonLd(trail)} />
     </>
   );
 }

@@ -12,7 +12,7 @@ export function DesktopNav() {
   const pathname = usePathname();
   return (
     <nav aria-label="Main" className="hidden lg:block">
-      <ul className="flex items-center gap-1">
+      <ul className="flex items-center gap-0.5 xl:gap-1.5">
         {mainNav.map((item) => {
           const active = isActive(pathname, item.href);
           return (
@@ -20,12 +20,11 @@ export function DesktopNav() {
               <Link
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`relative inline-flex min-h-11 items-center px-3 text-[0.9375rem] transition-colors hover:text-espresso ${
-                  active ? "font-medium text-espresso" : "text-muted"
+                className={`relative inline-flex min-h-11 items-center px-2.5 text-[0.9375rem] transition-colors after:absolute after:inset-x-2.5 after:bottom-1.5 after:h-px after:origin-left after:bg-ink after:transition-transform after:duration-200 hover:text-ink hover:after:scale-x-100 xl:px-3 xl:after:inset-x-3 ${
+                  active ? "font-medium text-ink after:scale-x-100" : "text-ink/75 after:scale-x-0"
                 }`}
               >
                 {item.label}
-                {active && <span className="absolute inset-x-3 bottom-2 h-px bg-accent" aria-hidden="true" />}
               </Link>
             </li>
           );

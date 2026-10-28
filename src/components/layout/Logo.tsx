@@ -22,13 +22,13 @@ export function Logo({ size = "header" }: Props) {
         sizes={header ? "(min-width: 1024px) 48px, 40px" : "64px"}
         preload={header}
         loading={header ? "eager" : "lazy"}
-        className={header ? "h-9 w-9 min-[360px]:h-10 min-[360px]:w-10 lg:h-12 lg:w-12" : "h-16 w-16"}
+        className={header ? "h-9 w-9 min-[360px]:h-10 min-[360px]:w-10 lg:h-11 lg:w-11" : "h-14 w-14"}
       />
       <span
-        className={`font-display font-semibold leading-none tracking-[0.01em] text-espresso ${
+        className={`font-display leading-none text-ink ${
           header
-            ? "text-[1.0625rem] min-[360px]:text-[1.25rem] min-[400px]:text-[1.375rem] lg:text-[1.625rem]"
-            : "text-[1.75rem]"
+            ? "text-[1.1875rem] min-[360px]:text-[1.375rem] min-[400px]:text-[1.5rem] lg:text-[1.6875rem]"
+            : "text-[1.875rem]"
         }`}
       >
         {siteConfig.name}

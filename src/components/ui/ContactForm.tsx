@@ -8,7 +8,7 @@ import { whatsappUrl } from "@/lib/whatsapp";
 import { buttonClasses } from "./button";
 
 const fieldClass =
-  "mt-1.5 block w-full rounded-lg border border-line bg-paper px-3.5 py-3 text-base text-ink placeholder:text-muted/70 focus:border-espresso focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong/40";
+  "mt-1.5 block w-full rounded-lg border border-line bg-paper px-3.5 py-3 text-base text-ink placeholder:text-muted/70 focus:border-action focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong/40";
 
 /** Front-end only: composes a WhatsApp message (or an email) from what the visitor typed. */
 export function ContactForm() {
