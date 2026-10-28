@@ -46,7 +46,4 @@ seo-audit/competitor-profiles/raw/
 
 # Python cache files
 __pycache__/
-*.pycgit add .gitignore
-git commit -m "Ignore Python cache files"
-git push origin seo/uae-used-ikea-ranking-growth
-git status
+*.pyc
