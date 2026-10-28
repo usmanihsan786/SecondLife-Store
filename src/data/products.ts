@@ -198,6 +198,9 @@ export const products: Product[] = [
     shortName: "IKEA Hydraulic Ottoman Bed", // used in WhatsApp messages
     series: "ottoman",
     category: "storage-beds",
+    // ✏️ CONFIRM: is the ottoman frame an IKEA product? Until confirmed, no brand is claimed in Google structured data
+    // (the mattress is IKEA). Set brand: "IKEA" once confirmed, or the real brand name.
+    brand: null,
     // ✏️ SHORT DESCRIPTION: one or two sentences, used for Google and link previews
     shortDescription: "Used hydraulic ottoman storage bed with an IKEA mattress, in Queen and King.",
     // ✏️ DESCRIPTION: write your own description for this product here. Shown on the product page.

@@ -43,3 +43,7 @@ next-env.d.ts
 # SEO working files that must stay private (draft branding pending trademark clearance, third-party page copies)
 seo-audit/drafts/
 seo-audit/competitor-profiles/raw/
+
+# Python cache files
+__pycache__/
+*.pyc

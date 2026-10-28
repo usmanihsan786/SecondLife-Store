@@ -29,6 +29,11 @@ export type Product = {
   shortName?: string;
   series: SeriesId;
   category: CategoryId;
+  /**
+   * Brand used in Google structured data. Leave out for genuine IKEA items ("IKEA" is used).
+   * Set to null when the brand is not confirmed, so no brand is claimed.
+   */
+  brand?: string | null;
   /** Optional page title for Google, e.g. "Used IKEA MALM Bed with Mattress – 90, 140, 160, 180 cm, UAE". Falls back to name. */
   seoTitle?: string;
   /** One or two sentences. Used for search engines and link previews. */
