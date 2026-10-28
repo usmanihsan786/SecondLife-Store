@@ -256,7 +256,8 @@ export const guides: Guide[] = [
           <p>
             BRIMNES is a white range with a light, simple look. The range includes beds and a daybed, and some
             versions have drawers or a headboard with storage, so ask which features the bed you are looking at has.
-            We list BRIMNES beds in Double, Queen and King and a BRIMNES daybed.{" "}
+            We list <Link href="/products/ikea-brimnes-bed">BRIMNES beds</Link> in Double, Queen and King and a{" "}
+            <Link href="/products/ikea-brimnes-daybed">BRIMNES daybed</Link>.{" "}
             <Link href="/ikea-brimnes">See our used IKEA BRIMNES furniture</Link>.
           </p>
         ),
@@ -266,7 +267,8 @@ export const guides: Guide[] = [
         body: (
           <p>
             HEMNES has a traditional style with panelled details, which suits classic and family homes. The HEMNES
-            daybed is a popular choice for guest rooms because it works as a sofa and pulls out into a bed.{" "}
+            daybed is a popular choice for guest rooms because it works as a sofa and pulls out into a bed (see our{" "}
+            <Link href="/products/ikea-hemnes-daybed">used HEMNES daybed</Link>).{" "}
             <Link href="/ikea-hemnes">See our used IKEA HEMNES furniture</Link>.
           </p>
         ),
