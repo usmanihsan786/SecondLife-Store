@@ -6,12 +6,12 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
 import { Breadcrumbs, LinkCards, type PageLink } from "@/components/content/ContentBlocks";
-import { categories, series } from "@/data/options";
+import { categories, series, sizes } from "@/data/options";
 import { existingImage, getProductBySlug, getProducts } from "@/lib/catalog";
 import { filterProducts, emptyFilters } from "@/lib/filters";
-import { absoluteUrl, defaultVariant, isFullySoldOut, productPath, sizeSummary, variantPrice } from "@/lib/product-utils";
+import { absoluteUrl, colorLabel, defaultVariant, productPath, sizeSummary, variantPrice } from "@/lib/product-utils";
 import { breadcrumbJsonLd, JsonLd } from "@/lib/seo";
-import type { ResolvedProduct } from "@/types/product";
+import type { ResolvedProduct, ResolvedVariant } from "@/types/product";
 
 export const dynamicParams = false;
 
@@ -64,32 +64,77 @@ function previewImage(product: ResolvedProduct) {
   );
 }
 
-/** Product structured data. Offers are only included once a real numeric price has been entered. */
+/**
+ * Product structured data, or null when there is nothing valid to publish.
+ *
+ * Google's Product snippets need `offers`, `review` or `aggregateRating`; merchant listings need an `Offer` with a
+ * price above zero and a currency (Google Search Central, product-snippet and merchant-listing docs, Sep 2026).
+ * This site has no reviews, and an offer is only ever built from a real numeric price. So until at least one
+ * variant has a price, the Product block is left out rather than published as an "invalid item". The page is
+ * still fully indexable; the breadcrumb, organization and website markup stay.
+ *
+ * With prices: one `Offer` per priced variant, each linking to that colour and size. A product with one variant is
+ * a `Product`; one with several is a `ProductGroup` with a `Product` per variant (Google's product-variant markup,
+ * which merchant listings accept, unlike `AggregateOffer`).
+ */
 function productJsonLd(product: ResolvedProduct) {
-  const prices = product.variants.map((v) => variantPrice(product, v)).filter((p): p is number => typeof p === "number");
-  const image = product.variants.flatMap((v) => v.images).slice(0, 6).map((src) => `${siteConfig.url}${src}`);
-  return {
+  const priced = product.variants.filter((v) => {
+    const price = variantPrice(product, v);
+    return typeof price === "number" && price > 0;
+  });
+  if (priced.length === 0) return null;
+
+  const abs = (src: string) => (/^https?:\/\//.test(src) ? src : `${siteConfig.url}${src}`);
+  // Variant photos first; the product's cover photo (also our own stock) when a variant has none.
+  const photos = (v?: ResolvedVariant) => {
+    const list = v?.images.length ? v.images : product.variants.flatMap((x) => x.images);
+    const all = list.length ? list : product.cardImage ? [product.cardImage] : [];
+    return all.slice(0, 6).map(abs);
+  };
+  const offer = (v: ResolvedVariant) => ({
+    "@type": "Offer",
+    url: absoluteUrl(productPath(product, v)),
+    price: variantPrice(product, v),
+    priceCurrency: siteConfig.currency,
+    availability: v.availability === "available" ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
+    itemCondition: "https://schema.org/UsedCondition",
+  });
+  // `brand: null` in products.ts means the brand is not confirmed, so none is claimed.
+  const brand = product.brand === null ? {} : { brand: { "@type": "Brand", name: product.brand ?? "IKEA" } };
+  const common = {
     "@context": "https://schema.org",
-    "@type": "Product",
     name: product.name,
     description: product.description,
-    brand: { "@type": "Brand", name: "IKEA" },
+    ...brand,
     category: categories[product.category].label,
-    url: `${siteConfig.url}/products/${product.slug}`,
-    ...(image.length ? { image } : {}),
-    ...(prices.length
-      ? {
-          offers: {
-            "@type": "AggregateOffer",
-            priceCurrency: siteConfig.currency,
-            lowPrice: Math.min(...prices),
-            highPrice: Math.max(...prices),
-            offerCount: product.variants.length,
-            itemCondition: "https://schema.org/UsedCondition",
-            availability: isFullySoldOut(product) ? "https://schema.org/SoldOut" : "https://schema.org/InStock",
-          },
-        }
-      : {}),
+  };
+  const withImage = (images: string[]) => (images.length ? { image: images } : {});
+
+  if (product.variants.length === 1) {
+    const v = priced[0];
+    return { ...common, "@type": "Product", url: absoluteUrl(productPath(product)), ...withImage(photos(v)), offers: offer(v) };
+  }
+  const variesBy = [
+    ...(product.variants.some((v) => v.color) ? ["https://schema.org/color"] : []),
+    ...(product.variants.some((v) => v.size) ? ["https://schema.org/size"] : []),
+  ];
+  return {
+    ...common,
+    "@type": "ProductGroup",
+    productGroupID: product.slug,
+    url: absoluteUrl(productPath(product)),
+    variesBy,
+    hasVariant: priced.map((v) => ({
+      "@type": "Product",
+      name: [product.name, colorLabel(v.color), v.size ? sizes[v.size].label : undefined].filter(Boolean).join(", "),
+      sku: `${product.slug}-${v.id}`,
+      description: v.variantDescription ?? product.description,
+      ...brand,
+      ...(v.color ? { color: colorLabel(v.color) } : {}),
+      ...(v.size ? { size: sizes[v.size].label } : {}),
+      ...withImage(photos(v)),
+      offers: offer(v),
+    })),
   };
 }
 
@@ -121,6 +166,8 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
     emptyFilters,
   ).slice(0, 4);
 
+  const productSchema = productJsonLd(product);
+
   const trail = [
     { name: categories[product.category].label, path: categories[product.category].href },
     { name: product.name, path: productPath(product) },
@@ -148,7 +195,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
           <LinkCards title="Helpful links" links={helpfulLinks(product)} />
         </div>
       </Container>
-      <JsonLd data={productJsonLd(product)} />
+      {productSchema && <JsonLd data={productSchema} />}
       <JsonLd data={breadcrumbJsonLd(trail)} />
     </>
   );
