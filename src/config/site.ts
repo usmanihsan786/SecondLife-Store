@@ -52,7 +52,7 @@ export const siteConfig = {
   currency: "AED",
 
   // Shown wherever a price has not been entered yet.
-  priceFallback: "Contact for price",
+  priceFallback: "Ask for price",
 
   // Brand images. The header/footer logo is this mark plus the store name set in the site's own fonts.
   // width/height are each file's real pixel size; update them if you replace a file.
@@ -67,12 +67,30 @@ export const siteConfig = {
   },
 } as const;
 
+/** Header links on desktop. The logo links home. */
 export const mainNav = [
-  { label: "Home", href: "/" },
-  { label: "Shop", href: "/shop" },
+  { label: "Shop all", href: "/shop" },
   { label: "Beds", href: "/beds" },
   { label: "Daybeds", href: "/daybeds" },
   { label: "Sofa Beds", href: "/sofa-beds" },
+  { label: "Storage Beds", href: "/storage-beds" },
+  { label: "Guides", href: "/guides" },
   { label: "About", href: "/about" },
+] as const;
+
+/** Phone menu: shopping links first, then information pages. */
+export const shopNav = [
+  { label: "Shop all furniture", href: "/shop" },
+  { label: "Used IKEA beds", href: "/beds" },
+  { label: "Used IKEA daybeds", href: "/daybeds" },
+  { label: "Used IKEA sofa beds", href: "/sofa-beds" },
+  { label: "Ottoman storage beds", href: "/storage-beds" },
+] as const;
+
+export const infoNav = [
+  { label: "Home", href: "/" },
+  { label: "Buying guides", href: "/guides" },
+  { label: "Delivery & areas", href: "/delivery-areas" },
+  { label: "About us", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;

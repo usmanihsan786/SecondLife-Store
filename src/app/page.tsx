@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Faq, LinkCards } from "@/components/content/ContentBlocks";
-import { ConditionSection, ShopBySeries, WhatsAppCta, WhyBuy } from "@/components/home/Sections";
+import { Faq } from "@/components/content/ContentBlocks";
+import { ConditionSection, GuideCards, OrderSteps, ShopByCategory, ShopBySeries, WhatsAppCta, WhyBuy } from "@/components/home/Sections";
 import { Hero } from "@/components/home/Hero";
-import { ArrowRightIcon } from "@/components/icons";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { categoryLinks, faqDelivery, faqGenuine, faqHowToBuy, faqPhotos } from "@/data/faq";
-import { guideLinks } from "@/data/guides";
+import { ArrowLink, SectionHeading } from "@/components/ui/SectionHeading";
+import { faqDelivery, faqGenuine, faqHowToBuy, faqPhotos } from "@/data/faq";
 import { siteConfig } from "@/config/site";
 import { getProducts } from "@/lib/catalog";
 import { emptyFilters, filterProducts } from "@/lib/filters";
@@ -37,12 +35,6 @@ export const metadata: Metadata = {
 };
 
 // The real buying process (no cart): only facts the site already states elsewhere.
-const orderSteps = [
-  { title: "Choose your piece", text: "Pick the IKEA range, colour and size. Each option shows photos of our own stock." },
-  { title: "Message us on WhatsApp", text: "Tap the WhatsApp button. Your message already includes the exact item you chose." },
-  { title: "We confirm the details", text: "We confirm availability, send extra photos if you want them and tell you the delivery options for your area." },
-];
-
 export default function HomePage() {
   const featured = filterProducts(
     getProducts().filter((p) => p.featured),
@@ -52,7 +44,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <ShopBySeries />
+      <ShopByCategory />
 
       {featured.length > 0 && (
         <section className="pb-14 sm:pb-20">
@@ -61,14 +53,7 @@ export default function HomePage() {
               eyebrow="Featured"
               title="Featured used IKEA furniture"
               description={<p>A few favourites from our current selection.</p>}
-              action={
-                <Link
-                  href="/shop"
-                  className="inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-espresso underline-offset-4 hover:underline"
-                >
-                  View all furniture <ArrowRightIcon size={18} />
-                </Link>
-              }
+              action={<ArrowLink href="/shop">View all furniture</ArrowLink>}
             />
             <div className="mt-8">
               <ProductGrid items={featured} columns="wide" />
@@ -77,33 +62,19 @@ export default function HomePage() {
         </section>
       )}
 
-      <section className="pb-14 sm:pb-20" aria-labelledby="how-to-order">
-        <Container>
-          <h2 id="how-to-order" className="font-display text-[1.75rem] font-semibold leading-tight text-ink sm:text-[2.125rem]">
-            How to order on WhatsApp
-          </h2>
-          <ol className="mt-6 grid gap-4 sm:grid-cols-3">
-            {orderSteps.map((step, i) => (
-              <li key={step.title} className="rounded-[var(--radius-card)] border border-line/70 bg-paper p-5 shadow-[var(--shadow-card)]">
-                <span aria-hidden="true" className="font-display text-2xl font-semibold leading-none text-accent">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-2 text-base font-medium text-ink">{step.title}</h3>
-                <p className="mt-1 text-[0.9375rem] leading-relaxed text-muted">{step.text}</p>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </section>
-
-      <WhyBuy />
+      <ShopBySeries />
+      <OrderSteps />
       <ConditionSection />
+      <WhyBuy />
+      <div className="border-t border-line">
+        <GuideCards />
+      </div>
 
-      <section className="pb-14 sm:pb-20">
-        <Container className="space-y-14">
-          <LinkCards title="Shop used IKEA furniture by category" links={categoryLinks} />
-          <div className="max-w-3xl space-y-3 text-[0.9375rem] leading-relaxed text-ink/85 sm:text-base">
-            <h2 className="font-display text-2xl font-semibold leading-tight text-ink sm:text-[1.75rem]">
+      <section className="border-t border-line py-14 sm:py-20">
+        <Container className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] lg:gap-20">
+          <div className="max-w-xl space-y-3 text-[0.9375rem] leading-relaxed text-ink/85 sm:text-base">
+            <p className="text-xs font-medium uppercase tracking-[0.16em] text-accent-strong">Dubai and the UAE</p>
+            <h2 className="font-display text-[1.875rem] leading-[1.08] text-ink sm:text-[2.375rem]">
               IKEA used furniture in Dubai and the UAE
             </h2>
             <p>
@@ -111,7 +82,7 @@ export default function HomePage() {
               every daybed with two, and our photos show our own stock, colour by colour and size by size. Whether you are in
               Dubai, Sharjah, Ajman or Abu Dhabi, message us on WhatsApp to check availability and ask about delivery
               to your area.{" "}
-              <Link href="/delivery-areas" className="font-medium text-espresso underline underline-offset-4">
+              <Link href="/delivery-areas" className="font-medium text-ink underline decoration-accent underline-offset-4 hover:decoration-ink">
                 Delivery and areas
               </Link>
               .
@@ -137,7 +108,6 @@ export default function HomePage() {
               faqHowToBuy,
             ]}
           />
-          <LinkCards title="Buying guides" links={guideLinks} />
         </Container>
       </section>
 

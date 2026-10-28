@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { ContactClickTracker } from "@/components/analytics/ContactClickTracker";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -8,16 +8,16 @@ import { siteConfig } from "@/config/site";
 import { defaultShareImage, HOME_TITLE } from "@/lib/seo";
 import "./globals.css";
 
-const heading = Cormorant_Garamond({
+// Two font files in total: an editorial serif for headings (one weight) and a variable sans for everything else.
+const heading = Instrument_Serif({
   subsets: ["latin"],
-  weight: ["500", "600"],
+  weight: "400",
   variable: "--font-heading",
   display: "swap",
 });
 
-const body = Jost({
+const body = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400", "500"],
   variable: "--font-body",
   display: "swap",
 });
@@ -80,7 +80,7 @@ const siteJsonLd = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f4ef",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -92,7 +92,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-espresso focus:px-4 focus:py-3 focus:text-paper"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-action focus:px-4 focus:py-3 focus:text-paper"
         >
           Skip to content
         </a>

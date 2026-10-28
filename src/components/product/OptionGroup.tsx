@@ -73,12 +73,12 @@ export function OptionGroup({ legend, options, selected, onChange }: Props) {
                   move(i, -1);
                 }
               }}
-              className={`relative inline-flex min-h-12 min-w-[4.5rem] touch-manipulation items-center gap-2.5 rounded-lg border px-3.5 py-2 text-left text-[0.9375rem] transition-[border-color,background-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+              className={`relative inline-flex min-h-12 min-w-[4.75rem] touch-manipulation items-center gap-2.5 rounded-[var(--radius-control)] border px-3.5 py-2 text-left text-[0.9375rem] transition-[border-color,background-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                 checked
-                  ? "border-espresso bg-paper font-medium text-ink shadow-[inset_0_0_0_1px_var(--color-espresso)]"
+                  ? "border-ink bg-paper font-medium text-ink shadow-[inset_0_0_0_1px_var(--color-ink)]"
                   : disabled
-                    ? "cursor-not-allowed border-dashed border-line bg-transparent text-muted/80"
-                    : "cursor-pointer border-line bg-paper text-ink hover:border-espresso/50"
+                    ? "cursor-not-allowed border-dashed border-line-strong bg-transparent text-muted"
+                    : "cursor-pointer border-line-strong bg-paper text-ink hover:border-ink"
               }`}
             >
               {option.swatch && (
@@ -98,7 +98,7 @@ export function OptionGroup({ legend, options, selected, onChange }: Props) {
                   </span>
                 )}
               </span>
-              {checked && <CheckIcon size={16} className="ml-auto shrink-0 text-espresso" />}
+              {checked && <CheckIcon size={16} className="ml-auto shrink-0 text-ink" />}
             </button>
           );
         })}

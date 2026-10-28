@@ -1,44 +1,54 @@
 import Link from "next/link";
-import { CameraIcon, ChatIcon, ShieldCheckIcon, SparkleIcon, SwatchIcon, TagIcon, TruckIcon } from "@/components/icons";
+import { ArrowRightIcon, CameraIcon, ChatIcon, ShieldCheckIcon, SparkleIcon, SwatchIcon, TruckIcon } from "@/components/icons";
 import { buttonClasses } from "@/components/ui/button";
 import { Container } from "@/components/ui/Container";
 import { placeholderKind } from "@/components/ui/ImagePlaceholder";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { ArrowLink, SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
-import { series, type SeriesId } from "@/data/options";
+import { categories, series, type CategoryId, type SeriesId } from "@/data/options";
+import { guides } from "@/data/guides";
 import { existingImage, getProducts } from "@/lib/catalog";
 import { CollectionCard } from "./CollectionCard";
 
-export function ShopBySeries() {
-  const products = getProducts();
-  const entries = (Object.keys(series) as SeriesId[])
-    .map((id) => ({ id, items: products.filter((p) => p.series === id) }))
-    .filter((e) => e.items.length > 0);
+const countLabel = (n: number) => `${n} ${n === 1 ? "product" : "products"}`;
 
-  // Editorial layout: wide first card on phones, 2 + 3 on tablets, one row on desktop.
-  const spans = ["col-span-2 md:col-span-3 lg:col-span-1", "md:col-span-3 lg:col-span-1"];
+/** Large photo tiles for the four product categories. Counts come from the product data. */
+export function ShopByCategory() {
+  const products = getProducts();
+  const entries = (Object.keys(categories) as CategoryId[])
+    .map((id) => ({ id, ...categories[id], count: products.filter((p) => p.category === id).length }))
+    .filter((c) => c.count > 0);
 
   return (
     <section className="py-14 sm:py-20">
       <Container>
         <SectionHeading
-          eyebrow="Collections"
-          title="Shop by series"
-          description={<p>Browse by the IKEA range you know.</p>}
+          eyebrow="Categories"
+          title="Shop used IKEA furniture by category"
+          action={<ArrowLink href="/shop">Shop all furniture</ArrowLink>}
         />
-        <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-6 lg:grid-cols-5">
-          {entries.map(({ id, items }, i) => (
-            <li key={id} className={spans[i] ?? "md:col-span-2 lg:col-span-1"}>
-              <CollectionCard
-                title={series[id].label}
-                description={series[id].blurb}
-                href={series[id].href}
-                image={existingImage(series[id].image)}
-                kind={placeholderKind(items[0].category)}
-                meta={`${items.length} ${items.length === 1 ? "product" : "products"}`}
-                wide={i === 0}
-              />
+        <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+          {entries.map((c) => (
+            <li key={c.id}>
+              <Link href={c.href} className="group block">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
+                  <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
+                    <SmartImage
+                      src={existingImage(c.image)}
+                      alt=""
+                      kind={placeholderKind(c.id)}
+                      sizes="(min-width: 1024px) 25vw, 50vw"
+                    />
+                  </div>
+                </div>
+                <h3 className="mt-3 flex items-center justify-between gap-2 text-[1.0625rem] font-medium leading-snug text-ink sm:mt-4 sm:text-lg">
+                  {c.title}
+                  <ArrowRightIcon size={18} className="hidden shrink-0 text-accent-strong transition-transform group-hover:translate-x-1 sm:block" />
+                </h3>
+                <p className="mt-1 text-sm leading-snug text-muted">{c.blurb}</p>
+                <p className="mt-1.5 text-xs text-muted">{countLabel(c.count)}</p>
+              </Link>
             </li>
           ))}
         </ul>
@@ -47,48 +57,67 @@ export function ShopBySeries() {
   );
 }
 
+/** The IKEA ranges we stock, as a row of collection cards (a swipeable row on phones). */
+export function ShopBySeries() {
+  const products = getProducts();
+  const entries = (Object.keys(series) as SeriesId[])
+    .map((id) => ({ id, items: products.filter((p) => p.series === id) }))
+    .filter((e) => e.items.length > 0);
+
+  return (
+    <section className="border-y border-line bg-surface py-14 sm:py-20">
+      <Container>
+        <SectionHeading
+          eyebrow="Collections"
+          title="Shop by IKEA series"
+          description={<p>Browse by the range you know, from clean-lined MALM to classic HEMNES.</p>}
+        />
+      </Container>
+      <div className="mx-auto mt-8 max-w-[82.5rem] lg:px-10">
+        <ul
+          className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-1 sm:gap-5 sm:scroll-px-6 sm:px-6 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0"
+          aria-label="IKEA series"
+        >
+          {entries.map(({ id, items }) => (
+            <li key={id} className="w-[68%] shrink-0 snap-start min-[480px]:w-[42%] md:w-[30%] lg:w-auto">
+              <CollectionCard
+                title={series[id].label}
+                description={series[id].blurb}
+                href={series[id].href}
+                image={existingImage(series[id].image)}
+                kind={placeholderKind(items[0].category)}
+                meta={countLabel(items.length)}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 const benefits = [
-  {
-    icon: ShieldCheckIcon,
-    title: "Genuine IKEA furniture",
-    text: "Real IKEA pieces from well-known ranges such as MALM, BRIMNES, HEMNES and FRIHETEN.",
-  },
-  {
-    icon: SparkleIcon,
-    title: "Excellent condition",
-    text: "Second-hand furniture chosen for its condition, with clear photos of each option.",
-  },
-  {
-    icon: TagIcon,
-    title: "Affordable alternative",
-    text: "A more affordable way to furnish your home than buying new.",
-  },
-  {
-    icon: SwatchIcon,
-    title: "Multiple sizes & colours",
-    text: "From single beds to king size, in white, gray, black, brown and beige.",
-  },
-  {
-    icon: TruckIcon,
-    title: "Based in the UAE",
-    text: "A local furniture selection. Ask us about available delivery options in the UAE.",
-  },
+  { icon: ShieldCheckIcon, title: "Genuine IKEA items", text: "Real IKEA pieces from MALM, BRIMNES, HEMNES and FRIHETEN." },
+  { icon: CameraIcon, title: "Photos of our own stock", text: "Each colour and size shows our own photos, not catalogue images." },
+  { icon: SparkleIcon, title: "Condition stated clearly", text: "Every listing says its condition. Ask us for close-ups of anything." },
+  { icon: SwatchIcon, title: "Sizes and colours", text: "Single to king, in white, gray, black, brown and beige, where available." },
+  { icon: ChatIcon, title: "Direct WhatsApp enquiries", text: "Your message names the exact item, so you get a quick, clear answer." },
+  { icon: TruckIcon, title: "Delivery enquiries", text: "Tell us your area in the UAE and we will tell you the delivery options." },
 ];
 
+/** Short, verifiable reasons to buy here, with line icons instead of marketing cards. */
 export function WhyBuy() {
   return (
-    <section className="border-y border-line/70 bg-sand/50 py-14 sm:py-20">
+    <section className="py-14 sm:py-20">
       <Container>
-        <SectionHeading eyebrow="Why buy from us" title="Good furniture, honestly presented" align="center" />
-        <ul className="mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
+        <SectionHeading eyebrow="Why shop with us" title="Good furniture, honestly presented" />
+        <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-7 sm:mt-10 sm:gap-x-10 sm:gap-y-8 lg:grid-cols-3">
           {benefits.map(({ icon: Icon, title, text }) => (
-            <li key={title} className="flex gap-4 lg:flex-col lg:gap-3">
-              <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-paper text-accent-strong shadow-[var(--shadow-card)]">
-                <Icon size={22} />
-              </span>
+            <li key={title} className="flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:gap-4 sm:pt-5">
+              <Icon size={22} className="shrink-0 text-accent-strong sm:mt-0.5" />
               <div>
-                <h3 className="text-base font-medium text-ink">{title}</h3>
-                <p className="mt-1 text-[0.9375rem] leading-relaxed text-muted">{text}</p>
+                <h3 className="text-[0.9375rem] font-medium leading-snug text-ink sm:text-base">{title}</h3>
+                <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted sm:text-[0.9375rem]">{text}</p>
               </div>
             </li>
           ))}
@@ -98,26 +127,27 @@ export function WhyBuy() {
   );
 }
 
-const CONDITION_IMAGE = "/images/hero/condition.webp";
+// One of our own stock photos (a used IKEA HEMNES bed), not a staged or generated image.
+const CONDITION_IMAGE = "/images/cards/hemnes-bed.webp";
 
 export function ConditionSection() {
   const image = existingImage(CONDITION_IMAGE);
   const points = [
-    { icon: ShieldCheckIcon, text: "Every piece is second-hand, not brand new." },
-    { icon: SparkleIcon, text: "We inspect furniture and select it for good condition." },
-    { icon: CameraIcon, text: "Photos are shown for each colour and size we have." },
-    { icon: ChatIcon, text: "Ask us for extra photos or details before you decide." },
+    "Every piece is second-hand, not brand new.",
+    "We inspect furniture and select it for good condition.",
+    "Photos are shown for each colour and size we have.",
+    "Ask us for extra photos, close-ups or measurements before you decide.",
   ];
   return (
-    <section className="py-14 sm:py-20">
-      <Container className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
-        <div className="relative order-last aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-sand lg:order-first">
-          <SmartImage src={image} alt="Used IKEA furniture in good condition" kind="room" sizes="(min-width: 1024px) 50vw, 100vw" />
+    <section className="border-y border-line bg-surface">
+      <Container className="grid items-center gap-8 py-14 sm:py-20 lg:grid-cols-2 lg:gap-20">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-card)] bg-surface-2 sm:aspect-[16/11] lg:aspect-[4/5]">
+          <SmartImage src={image} alt="Used IKEA HEMNES bed in white, from our stock" sizes="(min-width: 1024px) 40vw, 100vw" />
         </div>
-        <div>
+        <div className="lg:max-w-lg">
           <SectionHeading
             eyebrow="Condition"
-            title="Quality furniture, carefully selected"
+            title="Used furniture, carefully selected"
             description={
               <p>
                 Our furniture is used IKEA furniture. Before we list a piece, we inspect it and only choose items in good
@@ -125,15 +155,97 @@ export function ConditionSection() {
               </p>
             }
           />
-          <ul className="mt-6 space-y-3">
-            {points.map(({ icon: Icon, text }) => (
-              <li key={text} className="flex items-start gap-3 text-[0.9375rem] text-ink">
-                <Icon size={20} className="mt-0.5 shrink-0 text-accent-strong" />
+          <ul className="mt-7 divide-y divide-line border-y border-line">
+            {points.map((text) => (
+              <li key={text} className="flex items-start gap-3 py-3.5 text-[0.9375rem] text-ink">
+                <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                 {text}
               </li>
             ))}
           </ul>
+          <div className="mt-7">
+            <WhatsAppButton variant="secondary" message="Hello, could you send me more photos of an item on your website?">
+              Ask for more photos
+            </WhatsAppButton>
+          </div>
         </div>
+      </Container>
+    </section>
+  );
+}
+
+const orderSteps = [
+  { title: "Choose your piece", text: "Pick the IKEA range, colour and size. Each option shows photos of our own stock." },
+  { title: "Message us on WhatsApp", text: "Tap the WhatsApp button. Your message already includes the exact item you chose." },
+  { title: "We confirm the details", text: "We confirm availability, send extra photos if you want them and tell you the delivery options for your area." },
+];
+
+/** Three steps from browsing to buying. */
+export function OrderSteps() {
+  return (
+    <section className="py-14 sm:py-20" aria-labelledby="order-steps">
+      <Container>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,2fr)] lg:gap-16">
+          <div>
+            <p className="mb-2.5 text-xs font-medium uppercase tracking-[0.16em] text-accent-strong">How it works</p>
+            <h2 id="order-steps" className="font-display text-[1.875rem] leading-[1.08] text-ink sm:text-[2.375rem]">
+              How to order on WhatsApp
+            </h2>
+            <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted sm:text-base">
+              No account and no checkout. You talk to us directly before anything is agreed.
+            </p>
+          </div>
+          <ol className="grid gap-6 sm:grid-cols-3 sm:gap-6">
+            {orderSteps.map((step, i) => (
+              <li key={step.title} className="grid grid-cols-[2.25rem_1fr] border-t border-ink pt-4 sm:block sm:pt-5">
+                <span aria-hidden="true" className="font-display text-[2rem] leading-none text-accent sm:text-[2.5rem]">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="text-base font-medium text-ink sm:mt-3">{step.title}</h3>
+                  <p className="mt-1 text-[0.9375rem] leading-relaxed text-muted sm:mt-1.5">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/** The existing buying guides as editorial cards. */
+export function GuideCards({
+  title = "Buying guides",
+  eyebrow = "Before you buy",
+  showAllLink = true,
+}: {
+  title?: string;
+  eyebrow?: string;
+  showAllLink?: boolean;
+}) {
+  return (
+    <section className="py-14 sm:py-20">
+      <Container>
+        <SectionHeading eyebrow={eyebrow} title={title} action={showAllLink ? <ArrowLink href="/guides">All guides</ArrowLink> : undefined} />
+        <ul className="no-scrollbar -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-5 sm:gap-y-10 sm:overflow-visible sm:px-0 lg:grid-cols-4">
+          {guides.map((g) => (
+            <li key={g.slug} className="w-[78%] shrink-0 snap-start sm:w-auto">
+              <Link href={`/guides/${g.slug}`} className="group block">
+                <div className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
+                  <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
+                    <SmartImage src={g.cardImage ? existingImage(g.cardImage) : null} alt="" kind="room" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
+                  </div>
+                </div>
+                <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-accent-strong">Guide</p>
+                <h3 className="mt-1.5 text-[1.0625rem] font-medium leading-snug text-ink transition-colors group-hover:text-accent-strong">
+                  {g.title}
+                </h3>
+                <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">{g.description}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Container>
     </section>
   );
@@ -143,19 +255,16 @@ export function WhatsAppCta() {
   return (
     <section className="pb-16 sm:pb-24">
       <Container>
-        <div className="rounded-2xl bg-espresso px-6 py-10 text-center sm:px-12 sm:py-14">
-          <h2 className="font-display text-[1.75rem] font-semibold leading-tight text-paper sm:text-4xl">
-            Looking for a specific size or colour?
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-[0.9375rem] text-paper/80 sm:text-base">
-            Tell us what you are looking for and we will let you know what we have.
-          </p>
-          <div className="mt-7 flex flex-col justify-center gap-3 min-[420px]:flex-row">
-            <WhatsAppButton variant="light">Message Us on WhatsApp</WhatsAppButton>
-            <Link
-              href="/shop"
-              className={buttonClasses("ghost", "lg", "text-paper ring-1 ring-paper/30 hover:bg-paper/10 hover:text-paper")}
-            >
+        <div className="grid items-center gap-6 rounded-[var(--radius-card)] bg-ink px-6 py-10 sm:px-12 sm:py-14 lg:grid-cols-[1fr_auto] lg:gap-12">
+          <div>
+            <h2 className="font-display text-[2rem] leading-tight text-white sm:text-[2.5rem]">Looking for a specific size or colour?</h2>
+            <p className="mt-3 max-w-xl text-[0.9375rem] text-white/75 sm:text-base">
+              Tell us what you are looking for and we will let you know what we have.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 min-[420px]:flex-row lg:flex-col xl:flex-row">
+            <WhatsAppButton variant="light">Message us on WhatsApp</WhatsAppButton>
+            <Link href="/shop" className={buttonClasses("outline-light", "lg")}>
               Browse furniture
             </Link>
           </div>

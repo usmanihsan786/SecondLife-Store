@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { colors } from "@/data/options";
 import {
+  formatPrice,
   priceSummary,
   productColors,
   productPath,
@@ -8,7 +9,6 @@ import {
   sizeSummary,
   variantImageAlt,
   variantPrice,
-  formatPrice,
   variantSummary,
 } from "@/lib/product-utils";
 import type { ResolvedProduct, ResolvedVariant } from "@/types/product";
@@ -24,9 +24,22 @@ type Props = {
   /** Show the specific colour and size instead of the product's range. */
   showVariant?: boolean;
   priority?: boolean;
+  /** Passed to the photo so the browser downloads the right width for the grid it sits in. */
+  sizes?: string;
 };
 
-export function ProductCard({ product, variant, soldOut, showVariant = false, priority }: Props) {
+/**
+ * Photo-first product card: no box, no shadow. The whole card is one link (the title's link stretches over it).
+ * Shows the series, name, sizes, colours, condition, availability and the price or "Ask for price".
+ */
+export function ProductCard({
+  product,
+  variant,
+  soldOut,
+  showVariant = false,
+  priority,
+  sizes = "(min-width: 1280px) 300px, (min-width: 1024px) 25vw, 50vw",
+}: Props) {
   // A card for a specific filtered variant shows that variant's photo; otherwise the product's own cover photo comes first.
   const image =
     (showVariant ? undefined : product.cardImage) ??
@@ -38,52 +51,57 @@ export function ProductCard({ product, variant, soldOut, showVariant = false, pr
   const price = showVariant ? formatPrice(variantPrice(product, variant)) : priceSummary(product);
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-line/70 bg-paper shadow-[var(--shadow-card)] transition-shadow duration-300 hover:shadow-[0_2px_4px_rgb(74_54_40/0.06),0_14px_32px_-12px_rgb(74_54_40/0.22)]">
-      <div className="relative aspect-[4/3] overflow-hidden bg-sand">
-        <div className="absolute inset-0 transition-transform duration-500 ease-out motion-safe:group-hover:scale-[1.03]">
+    <article className="group relative flex h-full flex-col">
+      <div className="relative aspect-square overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
+        <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
           <SmartImage
             src={image}
             alt={variantImageAlt(product, variant)}
             kind={placeholderKind(product.category)}
-            sizes="(min-width: 1280px) 400px, (min-width: 640px) 50vw, 100vw"
+            sizes={sizes}
             priority={priority}
+            className={`object-cover ${soldOut ? "opacity-70" : ""}`}
           />
         </div>
-        {soldOut && <SoldOutBadge className="absolute left-3 top-3" />}
+        {soldOut && <SoldOutBadge className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3" />}
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-[0.14em] text-accent-strong">{seriesLabel(product)}</p>
-          <h3 className="mt-1 text-[1.0625rem] font-medium leading-snug text-ink">
-            <Link href={href} className="after:absolute after:inset-0 focus-visible:outline-none">
-              {product.name}
-            </Link>
-          </h3>
-          {details && <p className="mt-1 text-sm text-muted">{details}</p>}
-        </div>
+      <div className="flex flex-1 flex-col pt-3 sm:pt-4">
+        <p className="text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-accent-strong sm:text-xs">{seriesLabel(product)}</p>
+        <h3 className="mt-1 text-[0.9375rem] font-medium leading-snug text-ink sm:text-base">
+          <Link href={href} className="after:absolute after:inset-0 focus-visible:outline-none">
+            {product.name}
+          </Link>
+        </h3>
+        {details && <p className="mt-1 text-[0.8125rem] text-muted sm:text-sm">{details}</p>}
 
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line/70 pt-3">
-          <p className="text-[0.9375rem] font-medium text-espresso">{price}</p>
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 pt-3">
+          <p className="text-sm font-medium text-ink">{price}</p>
           {colorIds.length > 0 && (
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
               <span className="sr-only">Colours: {colorIds.map((c) => colors[c].label).join(", ")}</span>
               {colorIds.map((c) => (
                 <span
                   key={c}
                   title={colors[c].label}
                   aria-hidden="true"
-                  className={`h-4 w-4 rounded-full border border-ink/15 ${showVariant && variant.color === c ? "ring-2 ring-accent ring-offset-2 ring-offset-paper" : ""}`}
+                  className={`h-3.5 w-3.5 rounded-full border border-ink/15 ${showVariant && variant.color === c ? "ring-1 ring-ink ring-offset-2 ring-offset-canvas" : ""}`}
                   style={{ backgroundColor: colors[c].swatch }}
                 />
               ))}
             </div>
           )}
         </div>
-        <p className="text-[0.8125rem] text-muted">{product.condition}</p>
+        <p className="mt-1 text-[0.8125rem] text-muted">
+          {product.condition}
+          {!soldOut && <span className="text-ok"> · Available</span>}
+        </p>
       </div>
       {/* Whole-card focus ring, since the link covers the card */}
-      <span className="pointer-events-none absolute inset-0 rounded-[var(--radius-card)] ring-accent-strong ring-offset-2 group-has-[a:focus-visible]:ring-2" aria-hidden="true" />
+      <span
+        className="pointer-events-none absolute -inset-1.5 rounded-[calc(var(--radius-card)+4px)] ring-ink group-has-[a:focus-visible]:ring-2"
+        aria-hidden="true"
+      />
     </article>
   );
 }

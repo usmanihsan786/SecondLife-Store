@@ -2,7 +2,7 @@ import type { CategoryId, ColorId, SeriesId, SizeId } from "@/data/options";
 
 export type Availability = "available" | "sold-out";
 
-/** A price in AED, a custom text such as "Contact for price", or null for "not set yet". */
+/** A price in AED, a custom text such as "Ask for price", or null for "not set yet". */
 export type Price = number | string | null;
 
 export type ProductVariant = {

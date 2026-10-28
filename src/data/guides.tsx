@@ -22,6 +22,10 @@ export type Guide = {
   published?: string;
   /** ✏️ Optional photo for the guide, e.g. "/images/guides/bed-sizes.webp". Must be your own real photo. */
   image?: string;
+  /** Short name for the footer and guide cards, e.g. "IKEA bed sizes in cm". Falls back to title. */
+  navLabel?: string;
+  /** Photo shown on the guide's card. One of our own stock photos, used to illustrate the topic only. */
+  cardImage?: string;
   intro: string;
   sections: ContentSection[];
   faq?: FaqItem[];
@@ -32,6 +36,8 @@ export type Guide = {
 export const guides: Guide[] = [
   {
     slug: "ikea-bed-sizes-uae",
+    navLabel: "IKEA bed sizes in cm",
+    cardImage: "/images/products/malm/white/160x200/01.webp",
     title: "IKEA Bed Sizes Explained: Single, Double, Queen and King in cm",
     seoTitle: "IKEA Bed Sizes in UAE: Single, Double, Queen, King (cm)",
     description:
@@ -132,6 +138,8 @@ export const guides: Guide[] = [
   },
   {
     slug: "buying-used-ikea-furniture-uae",
+    navLabel: "What to check when buying used IKEA",
+    cardImage: "/images/products/brimnes/white/daybed/01.webp",
     title: "Buying Used IKEA Furniture in the UAE: A Practical Guide",
     seoTitle: "Buying Used IKEA Furniture in the UAE – What to Check",
     description:
@@ -222,6 +230,8 @@ export const guides: Guide[] = [
   },
   {
     slug: "ikea-malm-vs-brimnes-vs-hemnes",
+    navLabel: "MALM vs BRIMNES vs HEMNES",
+    cardImage: "/images/products/malm/brown/160x200/01.webp",
     title: "IKEA MALM vs BRIMNES vs HEMNES: Which Bed Should You Buy Used?",
     seoTitle: "IKEA MALM vs BRIMNES vs HEMNES: Used Bed Comparison",
     description:
@@ -282,6 +292,8 @@ export const guides: Guide[] = [
   },
   {
     slug: "ikea-daybed-vs-sofa-bed",
+    navLabel: "Daybed or sofa bed?",
+    cardImage: "/images/products/friheten/beige/01.webp",
     title: "IKEA Daybed or Sofa Bed? Choosing for a Small Apartment or Guest Room",
     seoTitle: "IKEA Daybed vs Sofa Bed – Which Is Better for Your Home?",
     description:

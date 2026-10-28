@@ -4,7 +4,7 @@ import type { Product } from "@/types/product";
  * ALL PRODUCTS LIVE HERE. This is the only place products are defined.
  *
  * Quick reference (full instructions in OWNER-GUIDE.md):
- * - Price:        set `price` on the product, e.g. price: 1200   (null shows "Contact for price")
+ * - Price:        set `price` on the product, e.g. price: 1200   (null shows "Ask for price")
  * - Sold out:     set availability: "sold-out" on a variant
  * - Back in stock: set availability: "available"
  * - Photos:       put 01.webp, 02.webp … in /public/images/products/<imageFolder>/

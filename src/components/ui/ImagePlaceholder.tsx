@@ -63,7 +63,7 @@ type Props = {
 export function ImagePlaceholder({ kind = "bed", label, className = "" }: Props) {
   return (
     <div
-      className={`@container absolute inset-0 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-sand to-linen/70 ${className}`}
+      className={`@container absolute inset-0 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-surface to-surface-2/70 ${className}`}
       role={label ? "img" : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}

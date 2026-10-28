@@ -161,13 +161,18 @@ All paths below are inside your project folder.
 **Link-preview image** (required)  
 `/public/images/brand/share.png`: 1200 × 630 px, shown when a page without its own photo is shared.
 
-**Homepage hero photo** (optional)  
-`/public/images/hero/hero.webp`  
-A wide room photo, about 1600 × 1300 px.
+**Homepage hero photos** (automatic)  
+The hero shows the first photo of three real items from your stock (set in `heroPicks` in
+`src/components/home/Hero.tsx`), each linking to that exact item. Sold-out items are skipped. The styled room images
+`/public/images/hero/hero.webp` and `condition.webp` are no longer used: they did not show your own stock.
 
-**Homepage condition section photo** (optional)  
-`/public/images/hero/condition.webp`  
-4:3, about 1600 × 1200 px.
+**Homepage condition section photo**  
+Uses `/public/images/cards/hemnes-bed.webp`, one of your own stock photos (`CONDITION_IMAGE` in
+`src/components/home/Sections.tsx`).
+
+**Category tiles and guide cards**  
+Category photos are set in `src/data/options.ts` (`categories.*.image`); guide card photos in `src/data/guides.tsx`
+(`cardImage`). Use your own photos only.
 
 **Shop by series cards** (optional)  
 `/public/images/collections/malm.webp`  

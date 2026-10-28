@@ -6,15 +6,15 @@ import { buttonClasses } from "./button";
 type Props = {
   message?: string;
   children?: ReactNode;
-  variant?: "primary" | "secondary" | "light";
-  size?: "md" | "lg";
+  variant?: Parameters<typeof buttonClasses>[0];
+  size?: Parameters<typeof buttonClasses>[1];
   className?: string;
 };
 
 export function WhatsAppButton({ message, children = "Contact on WhatsApp", variant = "primary", size = "lg", className = "" }: Props) {
   return (
     <a href={whatsappUrl(message)} target="_blank" rel="noopener noreferrer" className={buttonClasses(variant, size, className)}>
-      <WhatsAppIcon size={20} />
+      <WhatsAppIcon size={19} />
       {children}
     </a>
   );

@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <Container className="flex flex-col items-center py-20 text-center sm:py-28">
       <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent-strong">Page not found</p>
-      <h1 className="mt-3 max-w-xl font-display text-[2rem] font-semibold leading-tight text-ink sm:text-[2.75rem]">
+      <h1 className="mt-3 max-w-xl font-display text-[2.5rem] leading-[1.05] text-ink sm:text-[3.25rem]">
         We could not find that page
       </h1>
       <p className="mt-3 max-w-md text-base text-muted">

@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { colors, series, sizes } from "@/data/options";
+import { PhoneIcon } from "@/components/icons";
+import { siteConfig } from "@/config/site";
+import { categories, colors, series, sizes } from "@/data/options";
 import type { ColorId, SizeId } from "@/data/options";
 import {
   colorLabel,
@@ -26,6 +28,8 @@ import { ProductInquiry } from "./ProductInquiry";
 import { VariantSelector } from "./VariantSelector";
 
 const noopSubscribe = () => () => {};
+
+const inlineLink = "underline decoration-accent underline-offset-4 hover:decoration-ink";
 
 export function ProductDetail({ product }: { product: ResolvedProduct }) {
   // Open a specific variant from a link such as ?color=brown&size=160x200. Invalid values are ignored.
@@ -90,14 +94,17 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
 
   const soldOut = variant.availability === "sold-out";
   const summary = variantSummary(product, variant);
-  const price = formatPrice(variantPrice(product, variant));
+  const rawPrice = variantPrice(product, variant);
+  const price = formatPrice(rawPrice);
   const kind = placeholderKind(product.category);
   const colorIds = productColors(product);
   const sizeIds = productSizes(product);
+  const isBed = product.category === "beds" || product.category === "storage-beds";
+  const hasMattress = product.includes?.some((item) => /mattress/i.test(item)) ?? false;
 
   return (
     <>
-      <div className="grid gap-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-12 xl:gap-16">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12 xl:gap-20">
         <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
           <ProductGallery key={variant.id} images={variant.images} alt={variantImageAlt(product, variant)} kind={kind} />
         </div>
@@ -105,21 +112,23 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
         <div className="min-w-0">
           <Link
             href={series[product.series].href}
-            className="text-xs font-medium uppercase tracking-[0.16em] text-accent-strong hover:text-espresso"
+            className="inline-flex min-h-8 items-center text-xs font-medium uppercase tracking-[0.16em] text-accent-strong hover:text-ink"
           >
             {series[product.series].label} series
           </Link>
-          <h1 className="mt-2 font-display text-[1.875rem] font-semibold leading-[1.15] text-ink sm:text-[2.25rem]">
-            Used {product.name}
-          </h1>
-          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
-            <span>{product.condition}</span>
-            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-muted/50" />
-            <span>Used, genuine IKEA</span>
+          <h1 className="mt-1 font-display text-[2.125rem] leading-[1.06] text-ink sm:text-[2.75rem]">Used {product.name}</h1>
+          <ul className="mt-4 flex flex-wrap gap-2 text-[0.8125rem] text-ink">
+            <li className="rounded-full bg-surface-2 px-3 py-1">{product.condition}</li>
+            <li className="rounded-full bg-surface-2 px-3 py-1">Used, genuine IKEA</li>
+            {hasMattress && <li className="rounded-full bg-surface-2 px-3 py-1">Mattress included</li>}
+          </ul>
+
+          <div className="mt-6" aria-live="polite">
+            <p className="text-[1.375rem] font-medium leading-tight text-ink">{price}</p>
+            {typeof rawPrice !== "number" && (
+              <p className="mt-1 text-sm text-muted">Message us for the price of the exact size and colour you choose.</p>
+            )}
           </div>
-          <p className="mt-5 text-xl font-medium text-espresso" aria-live="polite">
-            {price}
-          </p>
 
           <div className="mt-7 border-t border-line pt-7">
             <VariantSelector
@@ -144,31 +153,38 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
             </p>
           </div>
 
-          <p className="mt-6 whitespace-pre-line text-[0.9375rem] leading-relaxed text-ink/85 sm:text-base">
-            {product.description}
-          </p>
-          {variant.variantDescription && (
-            <p className="mt-4 whitespace-pre-line rounded-lg border-l-2 border-accent bg-paper px-4 py-3 text-[0.9375rem] leading-relaxed text-ink/85">
-              <span className="block text-xs font-medium uppercase tracking-[0.14em] text-accent-strong">
-                About this {[colorLabel(variant.color), variant.size ? sizes[variant.size].short : undefined].filter(Boolean).join(" ") || "item"}
-              </span>
-              {variant.variantDescription}
-            </p>
-          )}
-
-          <div ref={ctaRef} className="mt-7" data-cta="product_inquiry">
+          <div ref={ctaRef} className="mt-6" data-cta="product_inquiry">
             <ProductInquiry product={product} variant={variant} />
-            <p className="mt-3 text-center text-sm text-muted">
-              We reply on WhatsApp. Ask us about available delivery options in the UAE.
-            </p>
+            <a
+              href={`tel:${siteConfig.phoneLink}`}
+              className="mt-2 flex min-h-11 w-full items-center justify-center gap-2 text-[0.9375rem] text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink"
+            >
+              <PhoneIcon size={16} />
+              Or call {siteConfig.phoneDisplay}
+            </a>
+            <p className="mt-1 text-center text-sm text-muted">We reply on WhatsApp. Ask us about available delivery options in the UAE.</p>
           </div>
 
-          <section aria-labelledby="details-heading" className="mt-10 border-t border-line pt-7">
-            <h2 id="details-heading" className="text-sm font-medium uppercase tracking-[0.14em] text-ink">
+          <div className="mt-9 border-t border-line pt-7">
+            <h2 className="text-xs font-medium uppercase tracking-[0.14em] text-ink">About this item</h2>
+            <p className="mt-3 whitespace-pre-line text-[0.9375rem] leading-[1.7] text-ink/85 sm:text-base">{product.description}</p>
+            {variant.variantDescription && (
+              <p className="mt-4 whitespace-pre-line border-l-2 border-accent bg-surface px-4 py-3 text-[0.9375rem] leading-relaxed text-ink/85">
+                <span className="block text-xs font-medium uppercase tracking-[0.14em] text-accent-strong">
+                  About this {[colorLabel(variant.color), variant.size ? sizes[variant.size].short : undefined].filter(Boolean).join(" ") || "item"}
+                </span>
+                {variant.variantDescription}
+              </p>
+            )}
+          </div>
+
+          <section aria-labelledby="details-heading" className="mt-9 border-t border-line pt-7">
+            <h2 id="details-heading" className="text-xs font-medium uppercase tracking-[0.14em] text-ink">
               Details
             </h2>
-            <dl className="mt-4 divide-y divide-line/70 text-[0.9375rem]">
+            <dl className="mt-3 divide-y divide-line text-[0.9375rem]">
               <DetailRow label="Series">{series[product.series].label}</DetailRow>
+              <DetailRow label="Category">{categories[product.category].label}</DetailRow>
               <DetailRow label="Condition">{product.condition}</DetailRow>
               {product.includes && product.includes.length > 0 && (
                 <DetailRow label="Includes">
@@ -179,28 +195,56 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
                   </ul>
                 </DetailRow>
               )}
-              {colorIds.length > 0 && (
-                <DetailRow label="Colours">{colorIds.map((c) => colors[c].label).join(", ")}</DetailRow>
-              )}
+              {colorIds.length > 0 && <DetailRow label="Colours">{colorIds.map((c) => colors[c].label).join(", ")}</DetailRow>}
               {sizeIds.length > 0 && (
-                <DetailRow label="Sizes">
+                <DetailRow label={isBed ? "Mattress sizes" : "Sizes"}>
                   {sizeIds
                     .map((s) => (product.sizeNames?.[s] ? `${sizes[s].label} (${product.sizeNames[s]})` : sizes[s].label))
                     .join(", ")}
                 </DetailRow>
               )}
+              <DetailRow label="Measurements">Ask us for the exact measurements of this item.</DetailRow>
             </dl>
-            <p className="mt-5 rounded-lg bg-sand/70 p-4 text-sm leading-relaxed text-muted">
-              This is used furniture. We select pieces in good condition, and the photos show the item for each
-              option. If you would like more photos or measurements, just ask us on WhatsApp.
+          </section>
+
+          <section aria-labelledby="before-heading" className="mt-9 rounded-[var(--radius-card)] bg-surface p-5 sm:p-6">
+            <h2 id="before-heading" className="font-display text-[1.5rem] leading-tight text-ink">
+              Before you buy
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              This is used furniture. We select pieces in good condition, and the photos show the item for each option. As with
+              any used furniture, there may be light signs of use.
             </p>
+            <ul className="mt-4 space-y-2.5 text-[0.9375rem] text-ink">
+              <Check>Ask us for extra photos or close-ups of anything you want to check.</Check>
+              <Check>
+                Confirm the measurements fit your room
+                {isBed && (
+                  <>
+                    {" "}(see our{" "}
+                    <Link href="/guides/ikea-bed-sizes-uae" className={inlineLink}>
+                      IKEA bed size guide
+                    </Link>
+                    )
+                  </>
+                )}
+                .
+              </Check>
+              <Check>
+                Tell us your area so we can confirm the{" "}
+                <Link href="/delivery-areas" className={inlineLink}>
+                  delivery options
+                </Link>
+                .
+              </Check>
+            </ul>
           </section>
         </div>
       </div>
 
       {/* Phone-only sticky inquiry bar */}
       <div
-        className={`fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[var(--shadow-sheet)] backdrop-blur-sm transition-[transform,opacity] duration-300 lg:hidden ${
+        className={`fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[var(--shadow-sheet)] backdrop-blur-sm transition-[transform,opacity] duration-300 lg:hidden ${
           showStickyBar ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
         }`}
         aria-hidden={!showStickyBar}
@@ -221,9 +265,18 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
   );
 }
 
+function Check({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="flex gap-3">
+      <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+      <span>{children}</span>
+    </li>
+  );
+}
+
 function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-[6.5rem_minmax(0,1fr)] gap-4 py-3">
+    <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-4 py-3">
       <dt className="text-muted">{label}</dt>
       <dd className="text-ink">{children}</dd>
     </div>

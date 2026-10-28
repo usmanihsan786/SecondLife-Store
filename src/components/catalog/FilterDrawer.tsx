@@ -60,7 +60,7 @@ export function FilterDrawer({ groups, products, filters, onApply }: Props) {
         <FilterIcon size={18} />
         Filters
         {activeCount > 0 && (
-          <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-espresso px-1.5 text-xs text-paper">
+          <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-ink px-1.5 text-xs text-white">
             {activeCount}
             <span className="sr-only"> active</span>
           </span>
@@ -78,12 +78,13 @@ export function FilterDrawer({ groups, products, filters, onApply }: Props) {
           if (e.target === e.currentTarget) close();
         }}
       >
-        <div className="mx-auto flex max-h-[88dvh] w-full max-w-2xl flex-col rounded-t-2xl bg-canvas">
-          <div className="flex shrink-0 items-center justify-between border-b border-line px-4 py-2 sm:px-6">
-            <h2 id="filter-drawer-title" className="text-lg font-medium text-ink">
+        <div className="mx-auto flex max-h-[88dvh] w-full max-w-2xl flex-col rounded-t-xl bg-canvas">
+          <span aria-hidden="true" className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-line-strong" />
+          <div className="flex shrink-0 items-center justify-between border-b border-line px-4 py-1 sm:px-6">
+            <h2 id="filter-drawer-title" className="font-display text-[1.625rem] leading-none text-ink">
               Filters
             </h2>
-            <button type="button" onClick={close} className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-lg text-espresso hover:bg-sand">
+            <button type="button" onClick={close} className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-control)] text-ink hover:bg-surface">
               <CloseIcon size={22} />
               <span className="sr-only">Close filters</span>
             </button>
@@ -93,7 +94,7 @@ export function FilterDrawer({ groups, products, filters, onApply }: Props) {
             <FilterOptions groups={groups} filters={draft} onToggle={toggle} idPrefix="drawer" />
           </div>
 
-          <div className="flex shrink-0 gap-3 border-t border-line bg-paper px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6">
+          <div className="flex shrink-0 gap-3 border-t border-line bg-surface px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6">
             <button
               type="button"
               onClick={() => {

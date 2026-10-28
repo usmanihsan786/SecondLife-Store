@@ -1,31 +1,49 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens. Documented in DESIGN-SYSTEM.md; change values here, never hard-code colours in components.
+ * Contrast (WCAG): ink 15.9:1, muted 5.4:1, accent-strong 5.6:1, ok 6.2:1 on white; accent (#a28b6c) is
+ * decorative only (3.3:1) and is never used for text.
+ */
 @theme {
-  /* Palette */
-  --color-canvas: #f7f4ef;
-  --color-sand: #efe8de;
-  --color-linen: #e6d8c7;
-  --color-paper: #fffdfa;
-  --color-line: #e3d9cc;
-  --color-accent: #9a7455;
-  --color-accent-strong: #7a5a40;
-  --color-espresso: #4a3628;
-  --color-espresso-hover: #3b2b20;
-  --color-ink: #25211e;
-  --color-muted: #675d54;
-  --color-sold: #8a3b2e;
-  --color-sold-soft: #f6e6e1;
-  --color-ok: #3f6b45;
-  --color-ok-soft: #e6efe4;
+  /* Surfaces */
+  --color-canvas: #ffffff; /* page background */
+  --color-paper: #ffffff; /* cards, sheets, inputs */
+  --color-surface: #f7f7f4; /* warm section background */
+  --color-surface-2: #efeee8; /* image wells, selected chips, subtle fills */
+  --color-line: #e6e5e0; /* soft borders and dividers */
+  --color-line-strong: #d3d1c9; /* input and control borders */
+
+  /* Text */
+  --color-ink: #202320; /* headings and body text */
+  --color-muted: #666b66; /* secondary text */
+
+  /* Brand accent: natural oak, taken from the house-and-lamp mark */
+  --color-accent: #a28b6c;
+  --color-accent-strong: #7a6548; /* accent for text and icons */
+
+  /* Actions: one refined dark neutral */
+  --color-action: #202320;
+  --color-action-hover: #3a3f3a;
+
+  /* States */
+  --color-ok: #3e6b4c; /* available */
+  --color-ok-soft: #e8f0ea;
+  --color-sold: #686c68; /* sold out / unavailable: neutral, not alarming */
+  --color-sold-soft: #efefec;
 
   /* Type */
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-heading), Georgia, serif;
 
-  /* Shape */
-  --radius-card: 0.875rem;
-  --shadow-card: 0 1px 2px rgb(74 54 40 / 0.05), 0 6px 20px -8px rgb(74 54 40 / 0.12);
-  --shadow-sheet: 0 -10px 40px -10px rgb(37 33 30 / 0.25);
+  /* Shape and depth: small radii, almost no shadow. Photos carry the design. */
+  --radius-card: 0.5rem;
+  --radius-control: 0.375rem;
+  --shadow-card: 0 1px 2px rgb(32 35 32 / 0.04), 0 8px 24px -12px rgb(32 35 32 / 0.14);
+  --shadow-sheet: 0 -10px 40px -10px rgb(32 35 32 / 0.22);
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   --animate-fade-in: fade-in 0.35s ease-out both;
   --animate-rise: rise 0.5s ease-out both;
@@ -60,12 +78,18 @@
     text-wrap: pretty;
   }
   :focus-visible {
-    outline: 2px solid var(--color-accent-strong);
+    outline: 2px solid var(--color-ink);
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 2px;
   }
   ::selection {
-    background: var(--color-linen);
+    background: var(--color-surface-2);
+  }
+  /* Instrument Serif has one weight: never let the browser fake a bold. */
+  .font-display {
+    font-weight: 400;
+    font-synthesis-weight: none;
+    letter-spacing: -0.012em;
   }
   html:has(dialog[open]) {
     overflow: hidden;
@@ -99,7 +123,7 @@ dialog.drawer[open]::backdrop {
 dialog.drawer-right {
   inset: 0 0 0 auto;
   height: 100dvh;
-  width: min(22rem, 100%);
+  width: min(24rem, 100%);
   transform: translateX(100%);
 }
 dialog.drawer-right[open] {
@@ -130,52 +154,6 @@ dialog.drawer-bottom[open] {
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
-}
-
-/* Floating WhatsApp button: a soft diagonal light that sweeps across now and then (once every 4s). */
-@keyframes whatsapp-shine {
-  0% {
-    transform: translateX(-150%) rotate(20deg);
-  }
-  40%,
-  100% {
-    transform: translateX(250%) rotate(20deg);
-  }
-}
-.whatsapp-shine {
-  position: absolute;
-  top: -50%;
-  bottom: -50%;
-  left: 0;
-  width: 60%;
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgb(255 255 255 / 0.12) 35%,
-    rgb(255 255 255 / 0.45) 50%,
-    rgb(255 255 255 / 0.12) 65%,
-    transparent 100%
-  );
-  transform: translateX(-150%) rotate(20deg);
-  animation: whatsapp-shine 4s ease-in-out 1.5s infinite;
-}
-/* On hover the light is a little brighter and sweeps more often. */
-.group:hover .whatsapp-shine {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgb(255 255 255 / 0.18) 35%,
-    rgb(255 255 255 / 0.65) 50%,
-    rgb(255 255 255 / 0.18) 65%,
-    transparent 100%
-  );
-  animation: whatsapp-shine 2.2s ease-in-out infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  .whatsapp-shine {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
