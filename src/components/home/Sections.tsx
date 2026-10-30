@@ -45,7 +45,7 @@ export function ShopByCategory() {
         <ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-6 sm:mt-8 sm:gap-5 lg:grid-cols-4">
           {entries.map((c, i) => (
             <li key={c.id}>
-              <RotationScope swipe frames={c.frames.length ? c.frames : [{ src: "", alt: "", href: c.href }]} delay={400 + i * 700}>
+              <RotationScope frames={c.frames.length ? c.frames : [{ src: "", alt: "", href: c.href }]} delay={400 + i * 700}>
                 <RotationLink className="group block active:opacity-90" data-track="category" data-category={c.id}>
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
                     <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
@@ -245,20 +245,23 @@ export function GuideCards({
     <section className="py-12 sm:py-20">
       <Container>
         <SectionHeading eyebrow={eyebrow} title={title} action={showAllLink ? <ArrowLink href="/guides">All guides</ArrowLink> : undefined} />
-        <ul className="no-scrollbar -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-5 sm:gap-y-10 sm:overflow-visible sm:px-0 lg:grid-cols-4">
+        {/* On phones a compact list (photo beside the title), from sm a grid: nothing scrolls sideways. */}
+        <ul className="mt-8 divide-y divide-line border-y border-line sm:grid sm:grid-cols-2 sm:gap-x-5 sm:gap-y-10 sm:divide-y-0 sm:border-0 lg:grid-cols-4">
           {guides.map((g) => (
-            <li key={g.slug} className="w-[78%] shrink-0 snap-start sm:w-auto">
-              <Link href={`/guides/${g.slug}`} className="group block">
-                <div className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
+            <li key={g.slug}>
+              <Link href={`/guides/${g.slug}`} className="group flex gap-4 py-4 sm:block sm:py-0" draggable={false}>
+                <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-[var(--radius-card)] bg-surface-2 sm:aspect-[3/2] sm:w-auto">
                   <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
-                    <SmartImage src={g.cardImage ? existingImage(g.cardImage) : null} alt="" kind="room" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
+                    <SmartImage src={g.cardImage ? existingImage(g.cardImage) : null} alt="" kind="room" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 96px" />
                   </div>
                 </div>
-                <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-accent-strong">Guide</p>
-                <h3 className="mt-1.5 text-[1.0625rem] font-medium leading-snug text-ink transition-colors group-hover:text-accent-strong">
-                  {g.title}
-                </h3>
-                <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">{g.description}</p>
+                <div className="min-w-0">
+                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-accent-strong sm:mt-4">Guide</p>
+                  <h3 className="mt-1.5 text-[1.0625rem] font-medium leading-snug text-ink transition-colors group-hover:text-accent-strong">
+                    {g.title}
+                  </h3>
+                  <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">{g.description}</p>
+                </div>
               </Link>
             </li>
           ))}

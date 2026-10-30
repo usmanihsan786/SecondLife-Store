@@ -63,9 +63,9 @@ function Review({ review }: { review: ReviewCard }) {
 
 function ReviewList({ reviews }: { reviews: ReviewCard[] }) {
   return (
-    <ul className="no-scrollbar -mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-2 sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 lg:grid-cols-3">
+    <ul className="mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
       {reviews.map((r) => (
-        <li key={r.id} className="w-[86%] max-w-[24rem] shrink-0 snap-start sm:w-auto sm:max-w-none">
+        <li key={r.id}>
           <Review review={r} />
         </li>
       ))}

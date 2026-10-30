@@ -46,7 +46,7 @@ export function TrustBanner() {
       <Container className="grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16 lg:py-20">
         <div className="lg:order-2">
           {frames.length > 0 && (
-            <RotationScope frames={frames} swipe delay={600} className="relative">
+            <RotationScope frames={frames} delay={600} className="relative">
               <RotationLink className="group relative block aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-white/5">
                 <RotatingImage sizes="(min-width: 1024px) 45vw, 100vw" />
                 <RotationDots className="absolute right-3 top-3 z-[2] drop-shadow-[0_1px_2px_rgb(0_0_0/0.45)]" />

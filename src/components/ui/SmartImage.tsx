@@ -23,6 +23,7 @@ export function SmartImage({ src, alt, sizes, kind, priority, eager, className =
 
   return (
     <Image
+      draggable={false}
       src={src}
       alt={alt}
       fill

@@ -104,7 +104,7 @@ export function ProductCard({
 
   const card = (
     <article className="group @container relative flex h-full flex-col" {...track}>
-      <div className="relative aspect-square overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-surface-2 min-[360px]:aspect-square">
         <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
           {rotating ? (
             <RotatingImage sizes={imageSizes} priority={priority} className={imageClass} />
@@ -117,14 +117,15 @@ export function ProductCard({
       </div>
 
       <div className="flex flex-1 flex-col pt-3 sm:pt-4">
-        <p className="text-xs font-medium uppercase tracking-[0.14em] text-accent-strong">{seriesLabel(product)}</p>
-        <h3 className="mt-1 text-base font-medium leading-snug text-ink">
+        {/* Variant cards name the model in the title, so the series label would only repeat it. */}
+        {!showVariant && <p className="mb-1 text-xs font-medium uppercase tracking-[0.14em] text-accent-strong">{seriesLabel(product)}</p>}
+        <h3 className="text-base font-medium leading-snug text-ink">
           {followsPhoto ? (
-            <RotationLink className={titleLinkClass} data-card-link="">
+            <RotationLink className={titleLinkClass} data-card-link="" draggable={false}>
               {title}
             </RotationLink>
           ) : (
-            <Link href={href} className={titleLinkClass} data-card-link="">
+            <Link href={href} className={titleLinkClass} data-card-link="" draggable={false}>
               {title}
             </Link>
           )}
@@ -154,22 +155,31 @@ export function ProductCard({
           sizeSummary(product) && <p className="mt-1 text-sm text-muted">{sizeSummary(product)}</p>
         )}
 
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 pt-3">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1 pt-3">
           <p className="text-[0.9375rem] font-medium text-ink">{showVariant ? formatPrice(variantPrice(product, variant)) : priceSummary(product)}</p>
-          {!showVariant && colorIds.length > 0 && (
-            <div className="flex items-center gap-1">
-              <span className="sr-only">Colours: {colorIds.map((c) => colors[c].label).join(", ")}</span>
-              {colorIds.map((c) => (
-                <span key={c} title={colors[c].label} aria-hidden="true" className="h-3.5 w-3.5 rounded-full border border-ink/15" style={{ backgroundColor: colors[c].swatch }} />
-              ))}
-            </div>
+          {showVariant ? (
+            // Condition is shown on the product page; it is not repeated here as one label for every item.
+            <p className={`flex items-center gap-1.5 text-sm ${soldOut ? "font-medium text-sold" : "text-ok"}`}>
+              <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${soldOut ? "bg-sold" : "bg-ok"}`} />
+              {soldOut ? "Sold out" : "Available"}
+            </p>
+          ) : (
+            colorIds.length > 0 && (
+              <div className="flex items-center gap-1">
+                <span className="sr-only">Colours: {colorIds.map((c) => colors[c].label).join(", ")}</span>
+                {colorIds.map((c) => (
+                  <span key={c} title={colors[c].label} aria-hidden="true" className="h-3.5 w-3.5 rounded-full border border-ink/15" style={{ backgroundColor: colors[c].swatch }} />
+                ))}
+              </div>
+            )
           )}
         </div>
-        {/* Condition is shown on the product page; it is not repeated here as one label for every item. */}
-        <p className={`mt-1.5 flex items-center gap-1.5 text-sm ${soldOut ? "font-medium text-sold" : "text-ok"}`}>
-          <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${soldOut ? "bg-sold" : "bg-ok"}`} />
-          {soldOut ? "Sold out" : "Available"}
-        </p>
+        {!showVariant && (
+          <p className={`mt-1.5 flex items-center gap-1.5 text-sm ${soldOut ? "font-medium text-sold" : "text-ok"}`}>
+            <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${soldOut ? "bg-sold" : "bg-ok"}`} />
+            {soldOut ? "Sold out" : "Available"}
+          </p>
+        )}
 
         {/* Above the card's stretched link, so it opens WhatsApp instead of the product page. */}
         {showVariant ? (
@@ -177,6 +187,7 @@ export function ProductCard({
             href={whatsappUrl(message)}
             target="_blank"
             rel="noopener noreferrer"
+            draggable={false}
             aria-label={`${soldOut ? "Ask for similar to" : "Ask on WhatsApp about"} ${[title, variant.color && colors[variant.color].label, sizeText(product, variant)].filter(Boolean).join(", ")}`}
             className={buttonClasses("secondary", "sm", `relative z-10 mt-3.5 w-full gap-1.5 ${soldOut ? "text-muted" : ""}`)}
           >
@@ -193,7 +204,11 @@ export function ProductCard({
         ) : (
           followsPhoto &&
           !soldOut && (
-            <RotationWhatsApp className={buttonClasses("secondary", "md", "relative z-10 mt-4 w-full")}>Ask on WhatsApp</RotationWhatsApp>
+            <RotationWhatsApp className={buttonClasses("secondary", "sm", "relative z-10 mt-3.5 w-full gap-1.5")}>
+              <span>
+                <span className="hidden @[13.5rem]:inline">Ask on </span>WhatsApp
+              </span>
+            </RotationWhatsApp>
           )
         )}
       </div>

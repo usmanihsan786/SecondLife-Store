@@ -112,14 +112,9 @@ type ScopeProps = {
   interval?: number;
   /** Extra wait before the first change, so cards next to each other do not change at the same moment. */
   delay?: number;
-  /** Let touch users swipe left/right to change the photo. Only for cards that are not inside a horizontal shelf. */
-  swipe?: boolean;
   className?: string;
   children: ReactNode;
 };
-
-/** After a swipe, the automatic rotation waits this long before carrying on. */
-const MANUAL_HOLD = 6000;
 
 /**
  * Rotates a card's photo every few seconds. The first frame is what the server renders, so hydration is stable and
@@ -127,7 +122,7 @@ const MANUAL_HOLD = 6000;
  * the pointer and keyboard focus are elsewhere, the next photo has loaded, the visitor has not paused photos, and
  * the visitor has not asked for reduced motion.
  */
-export function RotationScope({ frames, interval = 3000, delay = 0, swipe = false, className = "", children }: ScopeProps) {
+export function RotationScope({ frames, interval = 3000, delay = 0, className = "", children }: ScopeProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -136,7 +131,6 @@ export function RotationScope({ frames, interval = 3000, delay = 0, swipe = fals
   const [pageHidden, setPageHidden] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [started, setStarted] = useState(false);
-  const [holding, setHolding] = useState(false);
   const pausedByVisitor = usePhotosPaused();
   // Photos that have finished downloading. The rotation only moves on once the next photo is ready.
   const [loaded, setLoaded] = useState<ReadonlySet<string>>(() => new Set());
@@ -188,7 +182,7 @@ export function RotationScope({ frames, interval = 3000, delay = 0, swipe = fals
   }, [hasFrames, visible, started]);
 
   const nextReady = loaded.has(frames[(index + 1) % frames.length]?.src);
-  const paused = !autoplay || !started || !visible || hovered || focused || pageHidden || holding || !nextReady;
+  const paused = !autoplay || !started || !visible || hovered || focused || pageHidden || !nextReady;
   const firstChange = useRef(true);
 
   useEffect(() => {
@@ -201,55 +195,11 @@ export function RotationScope({ frames, interval = 3000, delay = 0, swipe = fals
     return () => window.clearTimeout(id);
   }, [paused, index, interval, delay, frames.length]);
 
-  // Release a manual hold after a while.
-  useEffect(() => {
-    if (!holding) return;
-    const id = window.setTimeout(() => setHolding(false), MANUAL_HOLD);
-    return () => window.clearTimeout(id);
-  }, [holding, index]);
-
-  // Touch swipe: left/right changes the photo. A swipe never also counts as a tap on the card.
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || !swipe || !hasFrames) return;
-    let x = 0;
-    let y = 0;
-    let swiped = false;
-    const onStart = (e: TouchEvent) => {
-      x = e.touches[0].clientX;
-      y = e.touches[0].clientY;
-      swiped = false;
-    };
-    const onEnd = (e: TouchEvent) => {
-      const dx = e.changedTouches[0].clientX - x;
-      const dy = e.changedTouches[0].clientY - y;
-      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-      swiped = true;
-      setStarted(true);
-      setHolding(true);
-      setIndex((i) => (i + (dx < 0 ? 1 : -1) + frames.length) % frames.length);
-    };
-    const onClick = (e: MouseEvent) => {
-      if (!swiped) return;
-      swiped = false;
-      e.preventDefault();
-      e.stopPropagation();
-    };
-    el.addEventListener("touchstart", onStart, { passive: true });
-    el.addEventListener("touchend", onEnd, { passive: true });
-    el.addEventListener("click", onClick, true);
-    return () => {
-      el.removeEventListener("touchstart", onStart);
-      el.removeEventListener("touchend", onEnd);
-      el.removeEventListener("click", onClick, true);
-    };
-  }, [swipe, hasFrames, frames.length]);
-
   return (
     <RotationContext.Provider value={{ frames, index, preload: started && hasFrames, loaded, markLoaded }}>
       <div
         ref={ref}
-        className={`${swipe && hasFrames ? "touch-pan-y" : ""} ${className}`}
+        className={className}
         data-rotation=""
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -302,6 +252,7 @@ export function RotatingImage({ sizes, priority = false, className = "object-cov
         const current = i === index;
         return (
           <Image
+            draggable={false}
             key={frame.src}
             src={frame.src}
             alt={current ? frame.alt : ""}
@@ -362,7 +313,7 @@ export function RotationDetail({ className, fallback }: { className?: string; fa
 export function RotationWhatsApp({ className, children }: { className?: string; children: ReactNode }) {
   const { frames, index } = useRotation();
   return (
-    <a href={whatsappUrl(frames[index].inquiry)} target="_blank" rel="noopener noreferrer" className={className}>
+    <a href={whatsappUrl(frames[index].inquiry)} target="_blank" rel="noopener noreferrer" draggable={false} className={className}>
       <WhatsAppIcon size={17} />
       {children}
     </a>

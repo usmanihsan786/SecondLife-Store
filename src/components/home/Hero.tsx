@@ -122,7 +122,7 @@ function HeroTile({
   sizes: string;
 }) {
   return (
-    <RotationScope frames={pick.frames} delay={delay} swipe className={className}>
+    <RotationScope frames={pick.frames} delay={delay} className={className}>
       <RotationLink className="group relative block h-full overflow-hidden rounded-[var(--radius-card)] bg-surface-2 active:opacity-95">
         <span className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.03]">
           <RotatingImage priority={priority} sizes={sizes} />
