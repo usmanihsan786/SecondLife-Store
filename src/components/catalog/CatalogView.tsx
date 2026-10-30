@@ -9,7 +9,7 @@ import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import {
   countActive,
   emptyFilters,
-  filterProducts,
+  filterVariants,
   filtersFromParams,
   filtersToQuery,
   type FilterGroup,
@@ -45,7 +45,9 @@ export function CatalogView({ products, groups }: Props) {
   // The customer's own choices. null means "not changed yet", so the filters from the URL are used.
   const [chosen, setFilters] = useState<Filters | null>(null);
   const filters = chosen ?? fromUrl;
-  const items = useMemo(() => filterProducts(products, filters), [products, filters]);
+  // One card per real colour + size, so every option is visible without opening the product page.
+  const items = useMemo(() => filterVariants(products, filters), [products, filters]);
+  const productCount = new Set(items.map((i) => i.product.id)).size;
   const activeCount = countActive(filters);
 
   const apply = (next: Filters) => {
@@ -74,7 +76,13 @@ export function CatalogView({ products, groups }: Props) {
         <h2 className="sr-only">Available items</h2>
         <div className="mb-6 flex items-center justify-between gap-3 border-b border-line pb-4">
           <p className="text-[0.9375rem] text-muted" aria-live="polite">
-            <span className="font-medium text-ink">{items.length}</span> {items.length === 1 ? "item" : "items"}
+            <span className="font-medium text-ink">{items.length}</span> {items.length === 1 ? "size and colour" : "sizes and colours"}
+            {productCount > 0 && (
+              <>
+                {" "}
+                from <span className="font-medium text-ink">{productCount}</span> {productCount === 1 ? "product" : "products"}
+              </>
+            )}
             {activeCount > 0 && <span className="hidden sm:inline"> matching your filters</span>}
           </p>
           <FilterDrawer groups={groups} products={products} filters={filters} onApply={apply} />

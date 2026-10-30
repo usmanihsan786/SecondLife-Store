@@ -99,7 +99,34 @@ export function filterProducts(products: ResolvedProduct[], f: Filters): Catalog
   return items.sort((a, b) => Number(a.soldOut) - Number(b.soldOut));
 }
 
-export const countActive = (f: Filters) => Object.values(f).reduce((n, values) => n + values.length, 0);
+const colorOrder = Object.keys(colors);
+const sizeOrder = Object.keys(sizes);
+const position = (order: string[], id?: string) => (id ? order.indexOf(id) : -1);
+
+/** A product's variants in a stable order: colour as listed in data/options.ts, then size. */
+export function orderedVariants(product: ResolvedProduct) {
+  return [...product.variants].sort(
+    (a, b) => position(colorOrder, a.color) - position(colorOrder, b.color) || position(sizeOrder, a.size) - position(sizeOrder, b.size),
+  );
+}
+
+/**
+ * One item per real variant (product + colour + size) matching the filters, so every colour and size gets its own
+ * card. Available variants come first; within that, products keep their order and variants their colour/size order.
+ */
+export function filterVariants(products: ResolvedProduct[], f: Filters): CatalogItem[] {
+  const items: CatalogItem[] = [];
+  for (const product of products) {
+    if (f.series.length && !f.series.includes(product.series)) continue;
+    if (f.category.length && !f.category.includes(product.category)) continue;
+    for (const variant of orderedVariants(product)) {
+      if (variantMatches(variant, f)) items.push({ product, variant, soldOut: variant.availability !== "available", narrowed: true });
+    }
+  }
+  return items.sort((a, b) => Number(a.soldOut) - Number(b.soldOut));
+}
+
+export const countActive =(f: Filters) => Object.values(f).reduce((n, values) => n + values.length, 0);
 
 export function filtersFromParams(params: Record<string, string | string[] | undefined>, groups: FilterGroup[]) {
   const filters: Filters = { ...emptyFilters };

@@ -27,6 +27,7 @@ import { AvailabilityBadge } from "./Badges";
 import { ProductGallery } from "./ProductGallery";
 import { ProductInquiry } from "./ProductInquiry";
 import { VariantSelector } from "./VariantSelector";
+import { VariantTiles } from "./VariantTiles";
 
 const noopSubscribe = () => () => {};
 /** The phone header's height (h-16) plus a little room: content under it is out of sight. */
@@ -87,6 +88,20 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
     trackVariant(findVariant(product, color, nextSize));
   };
 
+  // A tile picks one exact variant. On phones the gallery is above the fold line, so bring it back into view.
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const chooseVariant = (next: ResolvedVariant) => {
+    setSelectedColor(next.color);
+    setSelectedSize(next.size);
+    rememberInUrl(next);
+    trackVariant(next);
+    const gallery = galleryRef.current;
+    if (gallery && gallery.getBoundingClientRect().top < 0) {
+      const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      gallery.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+    }
+  };
+
   // Show the phone sticky bar only once the main button has scrolled off the top, so it never covers the options.
   useEffect(() => {
     const cta = ctaRef.current;
@@ -119,7 +134,7 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
   return (
     <>
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12 xl:gap-20">
-        <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+        <div ref={galleryRef} className="min-w-0 scroll-mt-20 lg:sticky lg:top-24 lg:self-start">
           <ProductGallery
             key={variant.id}
             images={variant.images}
@@ -184,6 +199,8 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
             </a>
             <p className="mt-1 text-center text-sm text-muted">We reply on WhatsApp. Ask us about available delivery options in the UAE.</p>
           </div>
+
+          <VariantTiles product={product} selectedId={variant.id} onSelect={chooseVariant} />
 
           <div className="mt-9 border-t border-line pt-7">
             <h2 className="text-xs font-medium uppercase tracking-[0.14em] text-ink">About this item</h2>

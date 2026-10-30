@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { colors } from "@/data/options";
+import { WhatsAppIcon } from "@/components/icons";
+import { colors, sizes } from "@/data/options";
 import {
   formatPrice,
   priceSummary,
@@ -9,12 +10,20 @@ import {
   sizeSummary,
   variantImageAlt,
   variantPrice,
-  variantSummary,
 } from "@/lib/product-utils";
+import { productInquiryMessage, similarItemsMessage, whatsappUrl } from "@/lib/whatsapp";
 import type { ResolvedProduct, ResolvedVariant } from "@/types/product";
 import { placeholderKind } from "@/components/ui/ImagePlaceholder";
 import { SmartImage } from "@/components/ui/SmartImage";
-import { RotatingImage, RotationDots, RotationLink, RotationScope, RotationWhatsApp, type RotationFrame } from "@/components/ui/AutoRotate";
+import {
+  RotatingImage,
+  RotationDetail,
+  RotationDots,
+  RotationLink,
+  RotationScope,
+  RotationWhatsApp,
+  type RotationFrame,
+} from "@/components/ui/AutoRotate";
 import { buttonClasses } from "@/components/ui/button";
 import { SoldOutBadge } from "./Badges";
 
@@ -23,14 +32,17 @@ type Props = {
   /** The variant whose photo and details the card shows. */
   variant: ResolvedVariant;
   soldOut: boolean;
-  /** Show the specific colour and size instead of the product's range. */
+  /**
+   * A card for one exact variant (colour + size): its own photos only, its colour and size, its price, stock and
+   * WhatsApp message, and a link that opens the product page on that variant.
+   */
   showVariant?: boolean;
   priority?: boolean;
   /** Passed to the photo so the browser downloads the right width for the grid it sits in. */
   sizes?: string;
   /**
-   * Optional photo rotation (homepage). The first frame must be the card's normal photo. The card's link follows the
-   * photo on screen, so it opens the colour and size shown.
+   * Optional photo rotation across a product's variants (homepage featured cards). The first frame must be the card's
+   * normal photo. The card's link and size line follow the photo on screen. Not used for variant cards.
    */
   frames?: RotationFrame[];
   rotationDelay?: number;
@@ -38,9 +50,17 @@ type Props = {
   list?: string;
 };
 
+/** "160 × 200 cm" plus the friendly name when the product has one, e.g. "160 × 200 cm · Queen". */
+function sizeText(product: ResolvedProduct, variant: ResolvedVariant) {
+  if (!variant.size) return undefined;
+  const name = product.sizeNames?.[variant.size];
+  const label = sizes[variant.size].label;
+  return name && name !== label ? `${label} · ${name}` : label;
+}
+
 /**
  * Photo-first product card: no box, no shadow. The whole card is one link (the title's link stretches over it).
- * Shows the series, name, sizes, colours, condition, availability and the price or "Ask for price".
+ * Product cards show the range of sizes and colours; variant cards show one exact colour and size.
  */
 export function ProductCard({
   product,
@@ -48,41 +68,48 @@ export function ProductCard({
   soldOut,
   showVariant = false,
   priority,
-  sizes = "(min-width: 1280px) 300px, (min-width: 1024px) 25vw, 50vw",
+  sizes: imageSizes = "(min-width: 1280px) 300px, (min-width: 1024px) 25vw, 50vw",
   frames,
   rotationDelay = 0,
   list = "catalog",
 }: Props) {
-  // A card for a specific filtered variant shows that variant's photo; otherwise the product's own cover photo comes first.
-  const image =
-    (showVariant ? undefined : product.cardImage) ??
-    variant.images[0] ??
-    product.variants.find((v) => v.images.length)?.images[0];
-  const colorIds = productColors(product);
+  // A variant card only ever shows that variant's own photos: never another colour's or size's, never the cover photo.
+  const image = showVariant
+    ? variant.images[0]
+    : (product.cardImage ?? variant.images[0] ?? product.variants.find((v) => v.images.length)?.images[0]);
   const href = productPath(product, showVariant ? variant : undefined);
-  const details = showVariant ? variantSummary(product, variant) : sizeSummary(product);
-  const price = showVariant ? formatPrice(variantPrice(product, variant)) : priceSummary(product);
+  const alt = variantImageAlt(product, variant);
+  const message = soldOut ? similarItemsMessage(product, variant) : productInquiryMessage(product, variant);
 
-  const rotating = !!frames && frames.length > 1;
+  // Variant cards rotate through the photos of that same colour and size only, all opening the same page.
+  const ownFrames: RotationFrame[] | undefined =
+    showVariant && variant.images.length > 1
+      ? variant.images.map((src, i) => ({ src, alt: variantImageAlt(product, variant, i), href, inquiry: message }))
+      : undefined;
+  const rotation = showVariant ? ownFrames : frames;
+  const rotating = !!rotation && rotation.length > 1;
+  // Product cards with a cross-variant rotation follow the photo with their link; variant cards keep one link.
+  const followsPhoto = rotating && !showVariant;
+
   const imageClass = `object-cover ${soldOut ? "opacity-70" : ""}`;
   const titleLinkClass = "after:absolute after:inset-0 focus-visible:outline-none";
-  const track = { "data-track": "product_card", "data-product": product.slug, "data-list": list };
+  const track = {
+    "data-track": "product_card",
+    "data-product": product.slug,
+    "data-list": list,
+    ...(showVariant ? { "data-variant": variant.id } : {}),
+  };
+  const colorIds = productColors(product);
+  const title = showVariant ? (product.shortName ?? product.name) : product.name;
 
   const card = (
-    <article className="group relative flex h-full flex-col" {...track}>
+    <article className="group @container relative flex h-full flex-col" {...track}>
       <div className="relative aspect-square overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
         <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
           {rotating ? (
-            <RotatingImage sizes={sizes} priority={priority} className={imageClass} />
+            <RotatingImage sizes={imageSizes} priority={priority} className={imageClass} />
           ) : (
-            <SmartImage
-              src={image}
-              alt={variantImageAlt(product, variant)}
-              kind={placeholderKind(product.category)}
-              sizes={sizes}
-              priority={priority}
-              className={imageClass}
-            />
+            <SmartImage src={image} alt={alt} kind={placeholderKind(product.category)} sizes={imageSizes} priority={priority} className={imageClass} />
           )}
         </div>
         {soldOut && <SoldOutBadge className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3" />}
@@ -92,45 +119,82 @@ export function ProductCard({
       <div className="flex flex-1 flex-col pt-3 sm:pt-4">
         <p className="text-xs font-medium uppercase tracking-[0.14em] text-accent-strong">{seriesLabel(product)}</p>
         <h3 className="mt-1 text-base font-medium leading-snug text-ink">
-          {rotating ? (
+          {followsPhoto ? (
             <RotationLink className={titleLinkClass} data-card-link="">
-              {product.name}
+              {title}
             </RotationLink>
           ) : (
             <Link href={href} className={titleLinkClass} data-card-link="">
-              {product.name}
+              {title}
             </Link>
           )}
         </h3>
-        {details && <p className="mt-1 text-sm text-muted">{details}</p>}
+
+        {showVariant ? (
+          <dl className="mt-1.5 space-y-0.5 text-sm text-ink">
+            {variant.color && (
+              <div className="flex items-center gap-2">
+                <dt className="sr-only">Colour</dt>
+                <span aria-hidden="true" className="h-3.5 w-3.5 shrink-0 rounded-full border border-ink/15" style={{ backgroundColor: colors[variant.color].swatch }} />
+                <dd>{colors[variant.color].label}</dd>
+              </div>
+            )}
+            {variant.size && (
+              <div>
+                <dt className="sr-only">Size</dt>
+                <dd className="font-medium">{sizeText(product, variant)}</dd>
+              </div>
+            )}
+          </dl>
+        ) : rotating ? (
+          <p className="mt-1 text-sm text-muted">
+            <RotationDetail fallback={sizeSummary(product)} />
+          </p>
+        ) : (
+          sizeSummary(product) && <p className="mt-1 text-sm text-muted">{sizeSummary(product)}</p>
+        )}
 
         <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 pt-3">
-          <p className="text-[0.9375rem] font-medium text-ink">{price}</p>
-          {colorIds.length > 0 && (
+          <p className="text-[0.9375rem] font-medium text-ink">{showVariant ? formatPrice(variantPrice(product, variant)) : priceSummary(product)}</p>
+          {!showVariant && colorIds.length > 0 && (
             <div className="flex items-center gap-1">
               <span className="sr-only">Colours: {colorIds.map((c) => colors[c].label).join(", ")}</span>
               {colorIds.map((c) => (
-                <span
-                  key={c}
-                  title={colors[c].label}
-                  aria-hidden="true"
-                  className={`h-3.5 w-3.5 rounded-full border border-ink/15 ${showVariant && variant.color === c ? "ring-1 ring-ink ring-offset-2 ring-offset-canvas" : ""}`}
-                  style={{ backgroundColor: colors[c].swatch }}
-                />
+                <span key={c} title={colors[c].label} aria-hidden="true" className="h-3.5 w-3.5 rounded-full border border-ink/15" style={{ backgroundColor: colors[c].swatch }} />
               ))}
             </div>
           )}
         </div>
         {/* Condition is shown on the product page; it is not repeated here as one label for every item. */}
-        <p className={`mt-1.5 flex items-center gap-1.5 text-sm ${soldOut ? "text-sold" : "text-ok"}`}>
+        <p className={`mt-1.5 flex items-center gap-1.5 text-sm ${soldOut ? "font-medium text-sold" : "text-ok"}`}>
           <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${soldOut ? "bg-sold" : "bg-ok"}`} />
           {soldOut ? "Sold out" : "Available"}
         </p>
-        {rotating && !soldOut && (
-          // Above the card's stretched link, so it opens WhatsApp instead of the product page.
-          <RotationWhatsApp className={buttonClasses("secondary", "md", "relative z-10 mt-4 w-full")}>
-            Ask on WhatsApp
-          </RotationWhatsApp>
+
+        {/* Above the card's stretched link, so it opens WhatsApp instead of the product page. */}
+        {showVariant ? (
+          <a
+            href={whatsappUrl(message)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${soldOut ? "Ask for similar to" : "Ask on WhatsApp about"} ${[title, variant.color && colors[variant.color].label, sizeText(product, variant)].filter(Boolean).join(", ")}`}
+            className={buttonClasses("secondary", "sm", `relative z-10 mt-3.5 w-full gap-1.5 ${soldOut ? "text-muted" : ""}`)}
+          >
+            <WhatsAppIcon size={17} />
+            {/* Narrow two-column cards on phones get the short label; the link's accessible name is always complete. */}
+            {soldOut ? (
+              "Ask for similar"
+            ) : (
+              <span>
+                <span className="hidden @[13.5rem]:inline">Ask on </span>WhatsApp
+              </span>
+            )}
+          </a>
+        ) : (
+          followsPhoto &&
+          !soldOut && (
+            <RotationWhatsApp className={buttonClasses("secondary", "md", "relative z-10 mt-4 w-full")}>Ask on WhatsApp</RotationWhatsApp>
+          )
         )}
       </div>
       {/* Whole-card focus ring, since the link covers the card */}
@@ -142,7 +206,7 @@ export function ProductCard({
   );
 
   return rotating ? (
-    <RotationScope frames={frames} delay={rotationDelay} className="h-full">
+    <RotationScope frames={rotation} delay={rotationDelay} className="h-full">
       {card}
     </RotationScope>
   ) : (
