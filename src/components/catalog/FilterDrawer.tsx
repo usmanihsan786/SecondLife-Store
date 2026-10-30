@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CloseIcon, FilterIcon } from "@/components/icons";
 import { buttonClasses } from "@/components/ui/button";
-import { countActive, emptyFilters, filterProducts, type FilterGroup, type FilterKey, type Filters } from "@/lib/filters";
+import { countActive, emptyFilters, filterVariants, type FilterGroup, type FilterKey, type Filters } from "@/lib/filters";
 import type { ResolvedProduct } from "@/types/product";
 import { FilterOptions } from "./FilterOptions";
 
@@ -20,7 +20,7 @@ export function FilterDrawer({ groups, products, filters, onApply }: Props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [draft, setDraft] = useState<Filters>(filters);
   const activeCount = countActive(filters);
-  const draftResults = filterProducts(products, draft).length;
+  const draftResults = filterVariants(products, draft).length;
 
   // The <dialog> follows isFilterOpen. showModal() puts it in the top layer, above the sticky header.
   useEffect(() => {

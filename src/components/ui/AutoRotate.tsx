@@ -352,9 +352,9 @@ export function RotationLink({
 }
 
 /** The text that describes the photo on screen. */
-export function RotationDetail({ className }: { className?: string }) {
+export function RotationDetail({ className, fallback }: { className?: string; fallback?: ReactNode }) {
   const { frames, index } = useRotation();
-  const detail = frames[index].detail;
+  const detail = frames[index].detail ?? fallback;
   return detail ? <span className={className}>{detail}</span> : null;
 }
 

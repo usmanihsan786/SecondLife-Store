@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Faq } from "@/components/content/ContentBlocks";
 import { ConditionSection, GuideCards, OrderSteps, ShopByCategory, ShopBySeries, WhatsAppCta, WhyBuy } from "@/components/home/Sections";
 import { Hero } from "@/components/home/Hero";
+import { VariantCollection } from "@/components/home/VariantCollection";
 import { CustomerReviews } from "@/components/reviews/CustomerReviews";
 import { TrustBanner } from "@/components/sales/TrustBanner";
 import { ProductGrid } from "@/components/product/ProductGrid";
@@ -90,6 +91,7 @@ export default function HomePage() {
         </section>
       )}
 
+      <VariantCollection />
       <ShopBySeries />
       <TrustBanner />
       <OrderSteps />
