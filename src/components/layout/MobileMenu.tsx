@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { infoNav, shopNav, siteConfig } from "@/config/site";
+import { series } from "@/data/options";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { ArrowRightIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "@/components/icons";
 import { buttonClasses } from "@/components/ui/button";
@@ -84,6 +85,21 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
                   </li>
                 );
               })}
+            </ul>
+            <p className="mt-7 px-1 text-xs font-medium uppercase tracking-[0.16em] text-muted">IKEA series</p>
+            <ul className="mt-3 flex flex-wrap gap-2 px-1">
+              {Object.values(series).map((range) => (
+                <li key={range.href}>
+                  <Link
+                    href={range.href}
+                    onClick={close}
+                    aria-current={isActive(pathname, range.href) ? "page" : undefined}
+                    className="inline-flex min-h-11 items-center rounded-full border border-line-strong px-4 text-[0.9375rem] text-ink transition-colors hover:border-ink aria-[current=page]:border-ink aria-[current=page]:bg-ink aria-[current=page]:text-white"
+                  >
+                    {range.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
             <p className="mt-8 px-1 text-xs font-medium uppercase tracking-[0.16em] text-muted">Information</p>
             <ul className="mt-2 grid grid-cols-2 gap-x-4">

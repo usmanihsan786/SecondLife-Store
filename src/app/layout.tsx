@@ -3,8 +3,10 @@ import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { ContactClickTracker } from "@/components/analytics/ContactClickTracker";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { AuthenticSalesNotification } from "@/components/sales/AuthenticSalesNotification";
 import { WhatsAppFloatingButton } from "@/components/ui/WhatsAppFloatingButton";
 import { siteConfig } from "@/config/site";
+import { developmentSampleNotice, saleNotices } from "@/lib/sales";
 import { defaultShareImage, HOME_TITLE } from "@/lib/seo";
 import "./globals.css";
 
@@ -102,6 +104,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <Footer />
         <WhatsAppFloatingButton />
+        {/* Verified sales only (data/sales.ts); empty until real sales are recorded. */}
+        <AuthenticSalesNotification
+          notices={saleNotices()}
+          devSample={process.env.NODE_ENV === "development" ? developmentSampleNotice() : undefined}
+        />
         <ContactClickTracker />
         <script
           type="application/ld+json"

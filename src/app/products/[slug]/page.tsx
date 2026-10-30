@@ -196,7 +196,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
           <section className="mt-16 border-t border-line pt-12 sm:mt-24 sm:pt-16">
             <SectionHeading eyebrow="Related" title="You may also like" />
             <div className="mt-8">
-              <ProductGrid items={related} columns="wide" />
+              <ProductGrid items={related} columns="wide" priorityCount={0} list="related" />
             </div>
           </section>
         )}

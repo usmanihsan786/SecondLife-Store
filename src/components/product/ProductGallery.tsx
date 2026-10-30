@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "@/components/icons";
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import type { PlaceholderKind } from "@/components/ui/ImagePlaceholder";
+import { usePhotosPaused } from "@/components/ui/AutoRotate";
 import { SmartImage } from "@/components/ui/SmartImage";
 
 type Props = {
@@ -18,8 +19,14 @@ type Props = {
 const roundButton =
   "inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-ink shadow-[var(--shadow-card)] transition-[opacity,background-color] hover:bg-white disabled:pointer-events-none disabled:opacity-0";
 
+/** How long each photo stays before the gallery moves on by itself. */
+const AUTOPLAY_MS = 3000;
+
 /**
  * Swipeable on touch screens (native scroll snapping), with arrows and thumbnails on larger screens.
+ * While on screen it moves to the next photo every few seconds; it stops for good as soon as the visitor touches,
+ * clicks or uses the keyboard in the gallery, pauses on hover, and never moves with reduced motion, a hidden tab
+ * or the page-wide "Pause photos" switch.
  * Photos are shown whole (object-contain), never cropped, so buyers see the complete item. Tapping the photo opens
  * a full-screen view.
  */
@@ -53,6 +60,43 @@ export function ProductGallery({ images, alt, kind, notes = [] }: Props) {
     };
   }, []);
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const pausedByVisitor = usePhotosPaused();
+  const [stopped, setStopped] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [pageHidden, setPageHidden] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || count < 2) return;
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.5 });
+    observer.observe(el);
+    const stop = () => setStopped(true);
+    el.addEventListener("pointerdown", stop);
+    el.addEventListener("touchstart", stop, { passive: true });
+    el.addEventListener("keydown", stop);
+    el.addEventListener("wheel", stop, { passive: true });
+    const onVisibility = () => setPageHidden(document.visibilityState === "hidden");
+    document.addEventListener("visibilitychange", onVisibility);
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    return () => {
+      observer.disconnect();
+      el.removeEventListener("pointerdown", stop);
+      el.removeEventListener("touchstart", stop);
+      el.removeEventListener("keydown", stop);
+      el.removeEventListener("wheel", stop);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [count]);
+
+  useEffect(() => {
+    if (count < 2 || stopped || hovered || !visible || pageHidden || reducedMotion || pausedByVisitor) return;
+    const id = window.setTimeout(() => goTo((index + 1) % count), AUTOPLAY_MS);
+    return () => window.clearTimeout(id);
+  }, [count, stopped, hovered, visible, pageHidden, reducedMotion, pausedByVisitor, index, goTo]);
+
   const openViewer = () => {
     const dialog = viewerRef.current;
     if (dialog && typeof dialog.showModal === "function") dialog.showModal();
@@ -67,7 +111,13 @@ export function ProductGallery({ images, alt, kind, notes = [] }: Props) {
   }
 
   return (
-    <section aria-label="Product photos" className="animate-fade-in">
+    <section
+      ref={sectionRef}
+      aria-label="Product photos"
+      className="animate-fade-in"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div className="relative">
         <div
           ref={trackRef}
@@ -94,6 +144,8 @@ export function ProductGallery({ images, alt, kind, notes = [] }: Props) {
                   kind={kind}
                   sizes="(min-width: 1024px) 55vw, 100vw"
                   priority={i === 0}
+                  // The next photo loads ahead of time, so moving to it never shows a blank frame.
+                  eager={visible && i === (index + 1) % count}
                   className="object-contain"
                 />
               </button>
@@ -137,8 +189,9 @@ export function ProductGallery({ images, alt, kind, notes = [] }: Props) {
                   i === index ? "ring-2 ring-ink" : "opacity-70 hover:opacity-100"
                 }`}
               >
-                {/* The first thumbnail shares the main photo's src, so it must be eager too or Next flags the LCP image as lazy. */}
-                <SmartImage src={src} alt="" kind={kind} sizes="80px" priority={i === 0} />
+                {/* The first thumbnail shares the main photo's src, so it must be eager too or Next flags the LCP image as
+                    lazy; low priority, so its small file doesn't compete with the main photo. */}
+                <SmartImage src={src} alt="" kind={kind} sizes="80px" eager={i === 0} />
               </button>
             </li>
           ))}

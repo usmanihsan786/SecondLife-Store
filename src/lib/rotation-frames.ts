@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { RotationFrame } from "@/components/ui/AutoRotate";
 import { productPath, variantImageAlt, variantSummary } from "@/lib/product-utils";
+import { productInquiryMessage } from "@/lib/whatsapp";
 import type { ResolvedProduct, ResolvedVariant } from "@/types/product";
 
 // Server-only: builds the photo rotations shown on homepage cards from the real product data and photos.
@@ -62,6 +63,7 @@ function framesFor(product: ResolvedProduct, variants: ResolvedVariant[], photos
       alt: [variantImageAlt(product, v), v.imageAlts?.[k]].filter(Boolean).join(", "),
       href: productPath(product, v),
       detail: variantSummary(product, v),
+      inquiry: productInquiryMessage(product, v),
     })),
   );
 }

@@ -3,8 +3,11 @@ import Link from "next/link";
 import { Faq } from "@/components/content/ContentBlocks";
 import { ConditionSection, GuideCards, OrderSteps, ShopByCategory, ShopBySeries, WhatsAppCta, WhyBuy } from "@/components/home/Sections";
 import { Hero } from "@/components/home/Hero";
+import { CustomerReviews } from "@/components/reviews/CustomerReviews";
+import { TrustBanner } from "@/components/sales/TrustBanner";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Container } from "@/components/ui/Container";
+import { RotationPauseButton } from "@/components/ui/AutoRotate";
 import { ArrowLink, SectionHeading } from "@/components/ui/SectionHeading";
 import { faqDelivery, faqGenuine, faqHowToBuy, faqPhotos } from "@/data/faq";
 import { siteConfig } from "@/config/site";
@@ -12,6 +15,7 @@ import { getProducts } from "@/lib/catalog";
 import { emptyFilters, filterProducts } from "@/lib/filters";
 import { productPath, variantImageAlt } from "@/lib/product-utils";
 import { productFrames } from "@/lib/rotation-frames";
+import { productInquiryMessage } from "@/lib/whatsapp";
 import { defaultShareImage, HOME_DESCRIPTION, HOME_TITLE } from "@/lib/seo";
 
 // `absolute` stops the layout's "%s | <store name>" template from adding anything to the homepage title.
@@ -49,7 +53,12 @@ export default function HomePage() {
       productFrames(product, {
         start: variant,
         first: product.cardImage
-          ? { src: product.cardImage, alt: variantImageAlt(product, variant), href: productPath(product) }
+          ? {
+              src: product.cardImage,
+              alt: variantImageAlt(product, variant),
+              href: productPath(product),
+              inquiry: productInquiryMessage(product),
+            }
           : undefined,
       }),
     ]),
@@ -61,30 +70,37 @@ export default function HomePage() {
       <ShopByCategory />
 
       {featured.length > 0 && (
-        <section className="pb-14 sm:pb-20">
+        <section className="pb-12 sm:pb-20">
           <Container>
             <SectionHeading
               eyebrow="Featured"
               title="Featured used IKEA furniture"
               description={<p>A few favourites from our current selection.</p>}
-              action={<ArrowLink href="/shop">View all furniture</ArrowLink>}
+              action={
+                <div className="flex items-center gap-5">
+                  <ArrowLink href="/shop">View all furniture</ArrowLink>
+                  <RotationPauseButton />
+                </div>
+              }
             />
-            <div className="mt-8">
-              <ProductGrid items={featured} columns="wide" frames={featuredFrames} />
+            <div className="mt-6 sm:mt-8">
+              <ProductGrid items={featured} columns="shelf" frames={featuredFrames} priorityCount={0} list="home_featured" />
             </div>
           </Container>
         </section>
       )}
 
       <ShopBySeries />
+      <TrustBanner />
       <OrderSteps />
       <ConditionSection />
       <WhyBuy />
+      <CustomerReviews />
       <div className="border-t border-line">
         <GuideCards />
       </div>
 
-      <section className="border-t border-line py-14 sm:py-20">
+      <section className="border-t border-line py-12 sm:py-20">
         <Container className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] lg:gap-20">
           <div className="max-w-xl space-y-3 text-[0.9375rem] leading-relaxed text-ink/85 sm:text-base">
             <p className="text-xs font-medium uppercase tracking-[0.16em] text-accent-strong">Dubai · Sharjah · Ajman · Abu Dhabi</p>

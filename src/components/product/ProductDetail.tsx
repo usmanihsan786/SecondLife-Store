@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { PhoneIcon } from "@/components/icons";
 import { siteConfig } from "@/config/site";
+import { trackEvent } from "@/lib/analytics";
 import { categories, colors, series, sizes } from "@/data/options";
 import type { ColorId, SizeId } from "@/data/options";
 import {
@@ -28,6 +29,8 @@ import { ProductInquiry } from "./ProductInquiry";
 import { VariantSelector } from "./VariantSelector";
 
 const noopSubscribe = () => () => {};
+/** The phone header's height (h-16) plus a little room: content under it is out of sight. */
+const HEADER_OFFSET = 72;
 
 const inlineLink = "underline decoration-accent underline-offset-4 hover:decoration-ink";
 
@@ -58,6 +61,13 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
     window.history.replaceState(window.history.state, "", productPath(product, next));
   };
 
+  // One product_view per page load; variant_select for each colour or size the visitor picks.
+  useEffect(() => {
+    trackEvent("product_view", { product_slug: product.slug, page_path: window.location.pathname });
+  }, [product.slug]);
+  const trackVariant = (next?: ResolvedVariant) =>
+    next && trackEvent("variant_select", { product_slug: product.slug, variant: next.id, availability: next.availability });
+
   const chooseColor = (nextColor: ColorId) => {
     // Keep the current size if that combination exists, otherwise move to the first size this colour comes in.
     const sameColor = product.variants.filter((v) => v.color === nextColor);
@@ -67,20 +77,24 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
     setSelectedColor(nextColor);
     setSelectedSize(nextSize);
     rememberInUrl(findVariant(product, nextColor, nextSize));
+    trackVariant(findVariant(product, nextColor, nextSize));
   };
 
   const chooseSize = (nextSize: SizeId) => {
     setSelectedColor(color);
     setSelectedSize(nextSize);
     rememberInUrl(findVariant(product, color, nextSize));
+    trackVariant(findVariant(product, color, nextSize));
   };
 
   // Show the phone sticky bar only once the main button has scrolled off the top, so it never covers the options.
   useEffect(() => {
     const cta = ctaRef.current;
     if (!cta) return;
-    const observer = new IntersectionObserver(([entry]) =>
-      setShowStickyBar(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+    // The top margin skips the strip behind the sticky header: a button hidden under it counts as scrolled away.
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting && entry.boundingClientRect.top < (entry.rootBounds?.top ?? 0)),
+      { rootMargin: `-${HEADER_OFFSET}px 0px 0px 0px` },
     );
     observer.observe(cta);
     return () => observer.disconnect();
@@ -159,7 +173,7 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
             </p>
           </div>
 
-          <div ref={ctaRef} className="mt-6" data-cta="product_inquiry">
+          <div ref={ctaRef} className="mt-6" data-cta="product_inquiry" data-hide-floating="">
             <ProductInquiry product={product} variant={variant} />
             <a
               href={`tel:${siteConfig.phoneLink}`}

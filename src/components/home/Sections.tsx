@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { placeholderKind } from "@/components/ui/ImagePlaceholder";
 import { ArrowLink, SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
-import { RotatingImage, RotationLink, RotationScope } from "@/components/ui/AutoRotate";
+import { RotatingImage, RotationDots, RotationLink, RotationScope } from "@/components/ui/AutoRotate";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { categories, series, type CategoryId, type SeriesId } from "@/data/options";
 import { guides } from "@/data/guides";
@@ -35,18 +35,18 @@ export function ShopByCategory() {
     .filter((c) => c.count > 0);
 
   return (
-    <section className="py-14 sm:py-20">
+    <section className="py-12 sm:py-20">
       <Container>
         <SectionHeading
           eyebrow="Categories"
           title="Shop used IKEA furniture by category"
           action={<ArrowLink href="/shop">Shop all furniture</ArrowLink>}
         />
-        <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+        <ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-6 sm:mt-8 sm:gap-5 lg:grid-cols-4">
           {entries.map((c, i) => (
             <li key={c.id}>
-              <RotationScope frames={c.frames.length ? c.frames : [{ src: "", alt: "", href: c.href }]} delay={400 + i * 700}>
-                <RotationLink className="group block">
+              <RotationScope swipe frames={c.frames.length ? c.frames : [{ src: "", alt: "", href: c.href }]} delay={400 + i * 700}>
+                <RotationLink className="group block active:opacity-90" data-track="category" data-category={c.id}>
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-surface-2">
                     <div className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-out-soft)] motion-safe:group-hover:scale-[1.04]">
                       {c.frames.length ? (
@@ -55,13 +55,15 @@ export function ShopByCategory() {
                         <SmartImage src={null} alt="" kind={placeholderKind(c.id)} sizes="(min-width: 1024px) 25vw, 50vw" />
                       )}
                     </div>
+                    <RotationDots className="absolute bottom-3 left-3 z-[2] drop-shadow-[0_1px_2px_rgb(0_0_0/0.45)]" />
                   </div>
-                  <h3 className="mt-3 flex items-center justify-between gap-2 text-[1.0625rem] font-medium leading-snug text-ink sm:mt-4 sm:text-lg">
+                  <h3 className="mt-3 flex items-start justify-between gap-2 text-base font-medium leading-snug text-ink sm:mt-4 sm:text-lg">
                     {c.title}
-                    <ArrowRightIcon size={18} className="hidden shrink-0 text-accent-strong transition-transform group-hover:translate-x-1 sm:block" />
+                    <ArrowRightIcon size={18} className="mt-0.5 hidden shrink-0 text-accent-strong transition-transform group-hover:translate-x-1 sm:block" />
                   </h3>
-                  <p className="mt-1 text-sm leading-snug text-muted">{c.blurb}</p>
-                  <p className="mt-1.5 text-xs text-muted">{countLabel(c.count)}</p>
+                  {/* On phones the two-column tiles keep just the name and count; the description shows from sm. */}
+                  <p className="mt-1 hidden text-sm leading-snug text-muted sm:block">{c.blurb}</p>
+                  <p className="mt-1 text-[0.8125rem] text-muted sm:mt-1.5">{countLabel(c.count)}</p>
                 </RotationLink>
               </RotationScope>
             </li>
@@ -72,7 +74,7 @@ export function ShopByCategory() {
   );
 }
 
-/** The IKEA ranges we stock, as a row of collection cards (a swipeable row on phones). */
+/** The IKEA ranges we stock: an editorial list on phones, a row of collection cards from md. */
 export function ShopBySeries() {
   const products = getProducts();
   const entries = (Object.keys(series) as SeriesId[])
@@ -80,21 +82,19 @@ export function ShopBySeries() {
     .filter((e) => e.items.length > 0);
 
   return (
-    <section className="border-y border-line bg-surface py-14 sm:py-20">
+    <section className="border-y border-line bg-surface py-12 sm:py-20">
       <Container>
         <SectionHeading
           eyebrow="Collections"
           title="Shop by IKEA series"
           description={<p>Browse by the range you know, from clean-lined MALM to classic HEMNES.</p>}
         />
-      </Container>
-      <div className="mx-auto mt-8 max-w-[82.5rem] lg:px-10">
         <ul
-          className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-1 sm:gap-5 sm:scroll-px-6 sm:px-6 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0"
+          className="mt-6 divide-y divide-line border-y border-line sm:mt-8 md:grid md:grid-cols-3 md:gap-x-5 md:gap-y-10 md:divide-y-0 md:border-0 lg:grid-cols-5"
           aria-label="IKEA series"
         >
-          {entries.map(({ id, items }) => (
-            <li key={id} className="w-[68%] shrink-0 snap-start min-[480px]:w-[42%] md:w-[30%] lg:w-auto">
+          {entries.map(({ id, items }, i) => (
+            <li key={id}>
               <CollectionCard
                 title={series[id].label}
                 description={series[id].blurb}
@@ -102,11 +102,13 @@ export function ShopBySeries() {
                 image={existingImage(series[id].image)}
                 kind={placeholderKind(items[0].category)}
                 meta={countLabel(items.length)}
+                frames={categoryFrames(items, { href: series[id].href, image: existingImage(series[id].image) })}
+                delay={500 + i * 600}
               />
             </li>
           ))}
         </ul>
-      </div>
+      </Container>
     </section>
   );
 }
@@ -123,16 +125,16 @@ const benefits = [
 /** Short, verifiable reasons to buy here, with line icons instead of marketing cards. */
 export function WhyBuy() {
   return (
-    <section className="py-14 sm:py-20">
+    <section className="py-12 sm:py-20">
       <Container>
         <SectionHeading eyebrow="Why shop with us" title="Good furniture, honestly presented" />
-        <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-7 sm:mt-10 sm:gap-x-10 sm:gap-y-8 lg:grid-cols-3">
+        <ul className="mt-6 grid grid-cols-1 gap-y-5 sm:mt-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-8 lg:grid-cols-3">
           {benefits.map(({ icon: Icon, title, text }) => (
-            <li key={title} className="flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:gap-4 sm:pt-5">
-              <Icon size={22} className="shrink-0 text-accent-strong sm:mt-0.5" />
+            <li key={title} className="flex gap-4 border-t border-line pt-4 sm:pt-5">
+              <Icon size={22} className="mt-0.5 shrink-0 text-accent-strong" />
               <div>
-                <h3 className="text-[0.9375rem] font-medium leading-snug text-ink sm:text-base">{title}</h3>
-                <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted sm:text-[0.9375rem]">{text}</p>
+                <h3 className="text-base font-medium leading-snug text-ink">{title}</h3>
+                <p className="mt-1 text-[0.9375rem] leading-relaxed text-muted">{text}</p>
               </div>
             </li>
           ))}
@@ -155,7 +157,7 @@ export function ConditionSection() {
   ];
   return (
     <section className="border-y border-line bg-surface">
-      <Container className="grid items-center gap-8 py-14 sm:py-20 lg:grid-cols-2 lg:gap-20">
+      <Container className="grid items-center gap-8 py-12 sm:py-20 lg:grid-cols-2 lg:gap-20">
         <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-card)] bg-surface-2 sm:aspect-[16/11] lg:aspect-[4/5]">
           <SmartImage src={image} alt="Used IKEA HEMNES bed in white, from our stock" sizes="(min-width: 1024px) 40vw, 100vw" />
         </div>
@@ -198,7 +200,7 @@ const orderSteps = [
 /** Three steps from browsing to buying. */
 export function OrderSteps() {
   return (
-    <section className="py-14 sm:py-20" aria-labelledby="order-steps">
+    <section className="py-12 sm:py-20" aria-labelledby="order-steps">
       <Container>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,2fr)] lg:gap-16">
           <div>
@@ -240,7 +242,7 @@ export function GuideCards({
   showAllLink?: boolean;
 }) {
   return (
-    <section className="py-14 sm:py-20">
+    <section className="py-12 sm:py-20">
       <Container>
         <SectionHeading eyebrow={eyebrow} title={title} action={showAllLink ? <ArrowLink href="/guides">All guides</ArrowLink> : undefined} />
         <ul className="no-scrollbar -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-5 sm:gap-y-10 sm:overflow-visible sm:px-0 lg:grid-cols-4">

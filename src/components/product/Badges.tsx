@@ -4,7 +4,7 @@ import type { Availability } from "@/types/product";
 export function SoldOutBadge({ className = "" }: { className?: string }) {
   return (
     <span
-      className={`inline-flex items-center rounded-[var(--radius-control)] bg-white/95 px-2 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-sold ${className}`}
+      className={`inline-flex items-center rounded-[var(--radius-control)] bg-white/95 px-2 py-1 text-xs font-medium uppercase tracking-[0.12em] text-sold ${className}`}
     >
       Sold out
     </span>

@@ -14,7 +14,7 @@ const headingClass = "text-xs font-medium uppercase tracking-[0.16em] text-ink";
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="mt-auto border-t border-line bg-surface">
+    <footer className="mt-auto border-t border-line bg-surface" data-hide-floating="">
       <Container className="pt-14 pb-24 sm:pt-16 md:pb-28 max-lg:in-data-sticky-bar:pb-44!">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.25fr_1fr] lg:gap-12">
           <div className="max-w-sm">
