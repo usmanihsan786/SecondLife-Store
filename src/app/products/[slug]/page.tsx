@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
 import { Breadcrumbs, LinkCards, type PageLink } from "@/components/content/ContentBlocks";
-import { categories, series, sizes } from "@/data/options";
+import { categories, series, sizes, type CategoryId } from "@/data/options";
 import { existingImage, getProductBySlug, getProducts } from "@/lib/catalog";
 import { filterProducts, emptyFilters } from "@/lib/filters";
 import { absoluteUrl, colorLabel, defaultVariant, productPath, sizeSummary, variantPrice } from "@/lib/product-utils";
@@ -138,6 +138,14 @@ function productJsonLd(product: ResolvedProduct) {
   };
 }
 
+/** Categories shoppers compare with each other, used to fill the "You may also like" section. */
+const alternativeCategories: Partial<Record<CategoryId, CategoryId[]>> = {
+  daybeds: ["sofa-beds"],
+  "sofa-beds": ["daybeds"],
+  beds: ["storage-beds"],
+  "storage-beds": ["beds"],
+};
+
 /** Links that help shoppers (and Google) move from a product to its range, category and buying help. */
 function helpfulLinks(product: ResolvedProduct): PageLink[] {
   const range = series[product.series];
@@ -161,10 +169,12 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
   const product = getProductBySlug(slug);
   if (!product) notFound();
 
-  const related = filterProducts(
-    getProducts().filter((p) => p.id !== product.id && (p.category === product.category || p.series === product.series)),
-    emptyFilters,
-  ).slice(0, 4);
+  // Same category or series first, then the usual alternative (a daybed or a sofa bed, a bed frame or a storage bed),
+  // so products that are the only one of their kind still point shoppers somewhere useful.
+  const others = getProducts().filter((p) => p.id !== product.id);
+  const close = others.filter((p) => p.category === product.category || p.series === product.series);
+  const alternatives = others.filter((p) => !close.includes(p) && alternativeCategories[product.category]?.includes(p.category));
+  const related = [...filterProducts(close, emptyFilters), ...filterProducts(alternatives, emptyFilters)].slice(0, 4);
 
   const productSchema = productJsonLd(product);
 
@@ -186,7 +196,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
           <section className="mt-16 border-t border-line pt-12 sm:mt-24 sm:pt-16">
             <SectionHeading eyebrow="Related" title="You may also like" />
             <div className="mt-8">
-              <ProductGrid items={related} columns="wide" />
+              <ProductGrid items={related} columns="wide" priorityCount={0} list="related" />
             </div>
           </section>
         )}

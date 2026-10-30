@@ -80,7 +80,7 @@ export function ImagePlaceholder({ kind = "bed", label, className = "" }: Props)
       >
         {drawings[kind]}
       </svg>
-      <span className="hidden whitespace-nowrap text-[0.6875rem] font-medium uppercase tracking-[0.18em] text-muted/80 @[220px]:block">Photo coming soon</span>
+      <span className="hidden whitespace-nowrap text-xs font-medium uppercase tracking-[0.18em] text-muted/80 @[220px]:block">Photo coming soon</span>
     </div>
   );
 }

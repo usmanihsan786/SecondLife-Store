@@ -14,6 +14,8 @@ export type ProductVariant = {
   imageFolder?: string;
   /** Optional explicit photo list. When left out, every photo in imageFolder is used in filename order. */
   images?: string[];
+  /** Optional short description of each photo, in the same order, added to its alt text (e.g. "storage base lifted open"). */
+  imageAlts?: string[];
   availability: Availability;
   /** Optional price for this exact variant. Overrides the product price. */
   price?: Price;

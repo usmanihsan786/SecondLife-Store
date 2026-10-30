@@ -198,23 +198,43 @@ export const products: Product[] = [
     shortName: "IKEA Hydraulic Ottoman Bed", // used in WhatsApp messages
     series: "ottoman",
     category: "storage-beds",
-    // ✏️ CONFIRM: is the ottoman frame an IKEA product? Until confirmed, no brand is claimed in Google structured data
-    // (the mattress is IKEA). Set brand: "IKEA" once confirmed, or the real brand name.
-    brand: null,
     // ✏️ SHORT DESCRIPTION: one or two sentences, used for Google and link previews
     shortDescription: "Used hydraulic ottoman storage bed with an IKEA mattress, in Queen and King.",
     // ✏️ DESCRIPTION: write your own description for this product here. Shown on the product page.
     description:
-      "A used hydraulic ottoman storage bed, sold together with an IKEA mattress. The base lifts up to give you storage space underneath the bed. Available in white or black, as a Queen (160 × 200 cm) or King (180 × 200 cm).",
+      "A used, genuine IKEA hydraulic ottoman storage bed, sold together with an IKEA mattress. The base lifts up to give you storage space underneath the bed. Available in white or black, as a Queen (160 × 200 cm) or King (180 × 200 cm).",
     condition,
-    includes: ["Hydraulic ottoman bed frame", "IKEA mattress"],
+    includes: ["IKEA hydraulic ottoman bed frame", "IKEA mattress"],
     sizeNames: { "160x200": "Queen", "180x200": "King" },
     price: null, // PRICE
     featured: false,
     cardImage: "/images/cards/ottoman-bed.webp", // CARD PHOTO: optional cover photo for this product's card
     variants: [
-      { color: "white", size: "160x200", imageFolder: "ottoman/white/160x200", availability: "available" },
-      { color: "white", size: "180x200", imageFolder: "ottoman/white/180x200", availability: "available" },
+      {
+        color: "white",
+        size: "160x200",
+        imageFolder: "ottoman/white/160x200",
+        imageAlts: ["closed, with the mattress on top", "hydraulic base lifted to show the storage space underneath"],
+        availability: "available",
+      },
+      {
+        color: "white",
+        size: "180x200",
+        imageFolder: "ottoman/white/180x200",
+        imageAlts: [
+          "King size, closed, seen from the front",
+          "King size, hydraulic lift-up storage open",
+          "King size, closed, seen from another angle",
+        ],
+        availability: "available",
+      },
+      {
+        color: "white",
+        size: "140x200",
+        imageFolder: "ottoman/white/140x200",
+        imageAlts: ["closed", "hydraulic lift-up storage open"],
+        availability: "sold-out",
+      },
       { color: "black", size: "160x200", imageFolder: "ottoman/black/160x200", availability: "available" },
       { color: "black", size: "180x200", imageFolder: "ottoman/black/180x200", availability: "available" },
     ],
