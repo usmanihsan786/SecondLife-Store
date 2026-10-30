@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Faq } from "@/components/content/ContentBlocks";
-import { ConditionSection, GuideCards, OrderSteps, ShopByCategory, ShopBySeries, WhatsAppCta, WhyBuy } from "@/components/home/Sections";
+import { ConditionSection, GuideCards, OrderSteps, ShopByCategory, WhatsAppCta, WhyBuy } from "@/components/home/Sections";
 import { Hero } from "@/components/home/Hero";
 import { VariantCollection } from "@/components/home/VariantCollection";
 import { CustomerReviews } from "@/components/reviews/CustomerReviews";
@@ -85,14 +85,14 @@ export default function HomePage() {
               }
             />
             <div className="mt-6 sm:mt-8">
-              <ProductGrid items={featured} columns="shelf" frames={featuredFrames} priorityCount={0} list="home_featured" />
+              <ProductGrid items={featured} columns="featured" frames={featuredFrames} priorityCount={0} list="home_featured" />
             </div>
           </Container>
         </section>
       )}
 
+      {/* The range groups in VariantCollection link to every IKEA range page, so "Shop by series" is not repeated here. */}
       <VariantCollection />
-      <ShopBySeries />
       <TrustBanner />
       <OrderSteps />
       <ConditionSection />
