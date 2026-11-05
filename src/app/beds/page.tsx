@@ -76,6 +76,17 @@ export default function BedsPage() {
             answer: <p>Yes. Every bed on this page is sold together with an IKEA mattress in the same size as the frame.</p>,
           },
           {
+            // Search Console (Oct–Nov 2026): "used beds price in uae" and "used beds price in dubai".
+            question: "How much does a used IKEA bed cost?",
+            answer: (
+              <p>
+                The price depends on the IKEA range, the size and the colour, so we confirm the current price when you ask.
+                Send us the bed you like on WhatsApp (the button on each bed adds its colour and size) and we will reply
+                with its price and the delivery options for your area.
+              </p>
+            ),
+          },
+          {
             question: "What is the difference between queen and king?",
             answer: <p>In IKEA sizes, queen is 160 × 200 cm and king is 180 × 200 cm.</p>,
           },
