@@ -249,7 +249,7 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
               Before you buy
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              This is used furniture. We select pieces in good condition, and the photos show the item for each option. As with
+              This is used furniture. We select pieces in good condition, and where available, the photos show the actual item for each option. As with
               any used furniture, there may be light signs of use.
             </p>
             <ul className="mt-4 space-y-2.5 text-[0.9375rem] text-ink">
