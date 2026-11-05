@@ -119,7 +119,7 @@ const benefits = [
   { icon: SparkleIcon, title: "Condition stated clearly", text: "Every listing says its condition. Ask us for close-ups of anything." },
   { icon: SwatchIcon, title: "Sizes and colours", text: "Single to king, in white, gray, black, brown and beige, where available." },
   { icon: ChatIcon, title: "Direct WhatsApp enquiries", text: "Your message names the exact item, so you get a quick, clear answer." },
-  { icon: TruckIcon, title: "Delivery enquiries", text: "Tell us your area in the UAE and we will tell you the delivery options." },
+  { icon: TruckIcon, title: "Delivery across the UAE", text: "We deliver to all seven emirates. Tell us your area and we will confirm the cost and timing." },
 ];
 
 /** Short, verifiable reasons to buy here, with line icons instead of marketing cards. */
@@ -194,7 +194,7 @@ export function ConditionSection() {
 const orderSteps = [
   { title: "Choose your piece", text: "Pick the IKEA range, colour and size. Each option shows photos of our own stock." },
   { title: "Message us on WhatsApp", text: "Tap the WhatsApp button. Your message already includes the exact item you chose." },
-  { title: "We confirm the details", text: "We confirm availability, send extra photos if you want them and tell you the delivery options for your area." },
+  { title: "We confirm the details", text: "We confirm availability, send extra photos if you want them and tell you the delivery cost and timing for your area." },
 ];
 
 /** Three steps from browsing to buying. */

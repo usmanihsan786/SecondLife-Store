@@ -82,7 +82,7 @@ export default function BedsPage() {
               <p>
                 The price depends on the IKEA range, the size and the colour, so we confirm the current price when you ask.
                 Send us the bed you like on WhatsApp (the button on each bed adds its colour and size) and we will reply
-                with its price and the delivery options for your area.
+                with its price and the delivery cost and timing for your area.
               </p>
             ),
           },

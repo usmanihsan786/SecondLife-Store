@@ -160,7 +160,7 @@ function helpfulLinks(product: ResolvedProduct): PageLink[] {
   } else {
     links.push({ href: "/guides/ikea-daybed-vs-sofa-bed", label: "IKEA daybed or sofa bed?" });
   }
-  links.push({ href: "/delivery-areas", label: "Delivery and areas", description: "Ask about delivery to your area" });
+  links.push({ href: "/delivery-areas", label: "Delivery across the UAE", description: "All seven emirates; ask for cost and timing" });
   return links;
 }
 

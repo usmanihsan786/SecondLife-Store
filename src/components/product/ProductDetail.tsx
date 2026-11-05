@@ -197,7 +197,7 @@ export function ProductDetail({ product }: { product: ResolvedProduct }) {
               <PhoneIcon size={16} />
               Or call {siteConfig.phoneDisplay}
             </a>
-            <p className="mt-1 text-center text-sm text-muted">We reply on WhatsApp. Ask us about available delivery options in the UAE.</p>
+            <p className="mt-1 text-center text-sm text-muted">We reply on WhatsApp and deliver across the UAE. Ask us for the delivery cost and timing.</p>
           </div>
 
           <VariantTiles product={product} selectedId={variant.id} onSelect={chooseVariant} />
