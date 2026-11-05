@@ -6,8 +6,9 @@ import { faqDelivery, faqGenuine, faqHowToBuy } from "@/data/faq";
 import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Used IKEA Sofa Beds & Sofa Cum Beds – FRIHETEN, UAE",
-  description: "Second-hand IKEA FRIHETEN corner sofa cum bed with storage, in gray and beige. A sofa every day and a bed for guests, for Dubai and the UAE. Ask on WhatsApp.",
+  // Search Console (Oct–Nov 2026): this page is reached by "used sofa bed" and "used sofa bed for sale in dubai".
+  title: "Used IKEA Sofa Beds for Sale in Dubai & UAE – FRIHETEN",
+  description: "Second-hand IKEA FRIHETEN corner sofa cum bed with storage for sale in Dubai and the UAE, in gray and beige, with real photos of each sofa. Ask on WhatsApp.",
   alternates: { canonical: "/sofa-beds" },
 };
 
@@ -30,6 +31,23 @@ export default function SofaBedsPage() {
                 for a living room that sometimes has to host guests. Choose gray or beige to see photos of that sofa
                 cum bed.
               </p>
+            ),
+          },
+          {
+            heading: "Buying a used IKEA sofa bed in Dubai and the UAE",
+            body: (
+              <>
+                <p>
+                  Each colour has its own photos of the actual sofa bed, so you can see the one you would get: the{" "}
+                  <Link href="/products/ikea-friheten-sofa-bed?color=gray">used IKEA FRIHETEN sofa bed in gray</Link> or the{" "}
+                  <Link href="/products/ikea-friheten-sofa-bed?color=beige">used IKEA FRIHETEN sofa bed in beige</Link>.
+                </p>
+                <p>
+                  Before you decide, ask us on WhatsApp for close-ups of the cover and the pull-out bed, the measurements, and
+                  the delivery options for your area, whether you are in Dubai, Sharjah, Ajman, Abu Dhabi or elsewhere in the
+                  UAE. See <Link href="/delivery-areas">delivery and areas</Link> for how this works.
+                </p>
+              </>
             ),
           },
           {
