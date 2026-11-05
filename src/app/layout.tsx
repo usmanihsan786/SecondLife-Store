@@ -64,7 +64,7 @@ const siteJsonLd = {
       logo: `${siteConfig.url}${siteConfig.logo.mark}`,
       description: "Independent reseller of used, genuine IKEA furniture in the UAE. Not affiliated with or endorsed by IKEA.",
       telephone: siteConfig.phoneLink,
-      // ✏️ CONFIRM: add the cities or emirates you deliver to (e.g. { "@type": "City", name: "Dubai" }) once confirmed.
+      // Delivery confirmed across the whole UAE (owner, 6 Nov 2026), so the country is the accurate service area.
       areaServed: { "@type": "Country", name: siteConfig.serviceArea },
       ...(sameAs.length ? { sameAs } : {}),
     },

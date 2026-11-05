@@ -44,8 +44,8 @@ export default function SofaBedsPage() {
                 </p>
                 <p>
                   Before you decide, ask us on WhatsApp for close-ups of the cover and the pull-out bed, the measurements, and
-                  the delivery options for your area, whether you are in Dubai, Sharjah, Ajman, Abu Dhabi or elsewhere in the
-                  UAE. See <Link href="/delivery-areas">delivery and areas</Link> for how this works.
+                  the delivery cost and timing for your area. We deliver across the UAE, from Dubai, Sharjah and Ajman to Abu
+                  Dhabi and the northern emirates. See <Link href="/delivery-areas">delivery across the UAE</Link>.
                 </p>
               </>
             ),

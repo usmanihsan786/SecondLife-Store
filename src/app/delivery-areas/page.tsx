@@ -9,12 +9,14 @@ import { breadcrumbJsonLd, JsonLd } from "@/lib/seo";
 
 /**
  * One page for location searches, instead of near-identical city pages (which Google treats as doorway pages).
- * ✏️ CONFIRM: this page makes no delivery promise. Once you confirm the areas you deliver to (and any fees, timings
- * or assembly), replace the "ask us" wording with those facts.
+ * Confirmed by the owner (6 Nov 2026): delivery across the whole UAE, all seven emirates. Fees and timings are not
+ * published yet, so customers ask for them on WhatsApp; never state a price, a time or free delivery here unless confirmed.
  */
+const emirates = ["Dubai", "Sharjah", "Ajman", "Abu Dhabi", "Ras Al Khaimah", "Fujairah", "Umm Al Quwain"];
+
 export const metadata: Metadata = {
   title: "Used IKEA Furniture in Dubai, Sharjah, Ajman & Abu Dhabi",
-  description: "Looking for used IKEA furniture in Dubai, Sharjah, Ajman or Abu Dhabi? Browse genuine second-hand IKEA beds, daybeds and sofa beds and ask us about delivery to your area.",
+  description: "Genuine used IKEA beds, daybeds and sofa beds, delivered to all seven emirates: Dubai, Sharjah, Ajman, Abu Dhabi and the rest of the UAE. Ask on WhatsApp for cost and timing.",
   alternates: { canonical: "/delivery-areas" },
 };
 
@@ -26,14 +28,24 @@ export default function DeliveryAreasPage() {
       <PageHeader
         trail={trail}
         eyebrow="Delivery & areas"
-        title="Used IKEA Furniture in the UAE: Ask About Your Area"
+        title="Used IKEA Furniture, Delivered Across the UAE"
         description={
-          <p>
-            We are based in the UAE and sell genuine second-hand IKEA beds, daybeds and sofa beds. Tell us your area on
-            WhatsApp and we will tell you whether we can deliver the item you want, and how.
-          </p>
+          <>
+            <p>
+              We are based in the UAE and sell genuine second-hand IKEA beds, daybeds and sofa beds, and we deliver to all
+              seven emirates. Tell us your area on WhatsApp and we will confirm the delivery cost and timing for the item
+              you want.
+            </p>
+            <ul aria-label="Emirates we deliver to" className="mt-5 flex flex-wrap gap-2">
+              {emirates.map((e) => (
+                <li key={e} className="rounded-full border border-line-strong bg-paper px-3.5 py-1.5 text-sm text-ink">
+                  {e}
+                </li>
+              ))}
+            </ul>
+          </>
         }
-        actions={<WhatsAppButton>Ask about delivery to your area</WhatsAppButton>}
+        actions={<WhatsAppButton>Ask about delivery cost and timing</WhatsAppButton>}
       />
       <Container className="space-y-16 py-14 sm:py-20">
         <ContentSections
@@ -43,8 +55,8 @@ export default function DeliveryAreasPage() {
               body: (
                 <p>
                   Furnishing an apartment or villa in Dubai? Browse our <Link href="/beds">used IKEA beds with mattress</Link>,{" "}
-                  <Link href="/daybeds">IKEA daybeds</Link> and <Link href="/sofa-beds">IKEA sofa beds</Link>, then send us
-                  your area and we will tell you what delivery options there are.
+                  <Link href="/daybeds">IKEA daybeds</Link> and <Link href="/sofa-beds">IKEA sofa beds</Link>. We deliver
+                  across Dubai; send us your area and we will confirm the cost and timing.
                 </p>
               ),
             },
@@ -52,7 +64,8 @@ export default function DeliveryAreasPage() {
               heading: "Second-hand IKEA furniture in Sharjah and Ajman",
               body: (
                 <p>
-                  In Sharjah or Ajman? Send us your area before you decide. Popular choices for family homes are the{" "}
+                  We deliver to Sharjah and Ajman. Send us your area for the cost and timing. Popular choices for family
+                  homes are the{" "}
                   <Link href="/products/ikea-hemnes-daybed">IKEA HEMNES daybed</Link> for guest rooms and the{" "}
                   <Link href="/products/ikea-malm-bed">IKEA MALM bed</Link> in every size from single to king.
                 </p>
@@ -62,17 +75,17 @@ export default function DeliveryAreasPage() {
               heading: "Used IKEA furniture in Abu Dhabi",
               body: (
                 <p>
-                  In Abu Dhabi? Message us with your area before you decide, and we will tell you whether we can deliver
-                  the exact item.
+                  We deliver to Abu Dhabi too. Message us with your area and the item you like, and we will confirm the
+                  delivery cost and timing before you decide.
                 </p>
               ),
             },
             {
-              heading: "Other emirates",
+              heading: "Ras Al Khaimah, Fujairah and Umm Al Quwain",
               body: (
                 <p>
-                  Live in Al Ain, Ras Al Khaimah, Fujairah or Umm Al Quwain? Ask us on WhatsApp. We will tell you honestly
-                  whether we can deliver to you.
+                  We deliver to the northern emirates as well, so customers in Ras Al Khaimah, Fujairah and Umm Al Quwain can
+                  order the same beds, daybeds and sofa beds. Ask us on WhatsApp for the cost and timing to your area.
                 </p>
               ),
             },
@@ -82,7 +95,7 @@ export default function DeliveryAreasPage() {
                 <ul className="space-y-1">
                   <li>Choose a piece, colour and size on our website.</li>
                   <li>Tap the WhatsApp button. Your message includes the exact item.</li>
-                  <li>We confirm availability, send extra photos if you want them and tell you the delivery options.</li>
+                  <li>We confirm availability, send extra photos if you want them and tell you the delivery cost and timing.</li>
                 </ul>
               ),
             },

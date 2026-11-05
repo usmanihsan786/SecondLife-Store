@@ -12,14 +12,14 @@ export const faqGenuine: FaqItem = {
   ),
 };
 
-// ✏️ CONFIRM: once your delivery areas, fees or timings are fixed, state them here instead of "ask us".
+// Confirmed by the owner (6 Nov 2026): delivery to all seven emirates. Fees and timings are quoted on WhatsApp, not here.
 export const faqDelivery: FaqItem = {
-  question: "Can you deliver to Dubai, Sharjah, Ajman or Abu Dhabi?",
+  question: "Do you deliver across the UAE?",
   answer: (
     <p>
-      Message us on WhatsApp with your area, whether that is Dubai, Sharjah, Ajman, Abu Dhabi or elsewhere in the UAE,
-      and we will tell you whether delivery is possible for the item you want and how it would work.{" "}
-      <Link href="/delivery-areas">Delivery and areas</Link>.
+      Yes. We deliver to all seven emirates: Dubai, Sharjah, Ajman, Abu Dhabi, Ras Al Khaimah, Fujairah and Umm Al
+      Quwain. Message us on WhatsApp with your area and the item you want, and we will confirm the delivery cost and
+      timing. <Link href="/delivery-areas">Delivery across the UAE</Link>.
     </p>
   ),
 };

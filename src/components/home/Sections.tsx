@@ -115,11 +115,11 @@ export function ShopBySeries() {
 
 const benefits = [
   { icon: ShieldCheckIcon, title: "Genuine IKEA items", text: "Real IKEA pieces from MALM, BRIMNES, HEMNES and FRIHETEN." },
-  { icon: CameraIcon, title: "Photos of our own stock", text: "Each colour and size shows our own photos, not catalogue images." },
+  { icon: CameraIcon, title: "Photos of our own stock", text: "Photos of the actual furniture where available, not catalogue images." },
   { icon: SparkleIcon, title: "Condition stated clearly", text: "Every listing says its condition. Ask us for close-ups of anything." },
   { icon: SwatchIcon, title: "Sizes and colours", text: "Single to king, in white, gray, black, brown and beige, where available." },
   { icon: ChatIcon, title: "Direct WhatsApp enquiries", text: "Your message names the exact item, so you get a quick, clear answer." },
-  { icon: TruckIcon, title: "Delivery enquiries", text: "Tell us your area in the UAE and we will tell you the delivery options." },
+  { icon: TruckIcon, title: "Delivery across the UAE", text: "We deliver to all seven emirates. Tell us your area and we will confirm the cost and timing." },
 ];
 
 /** Short, verifiable reasons to buy here, with line icons instead of marketing cards. */
@@ -152,7 +152,7 @@ export function ConditionSection() {
   const points = [
     "Every piece is second-hand, not brand new.",
     "We inspect furniture and select it for good condition.",
-    "Photos are shown for each colour and size we have.",
+    "Photos of the actual furniture are shown where available.",
     "Ask us for extra photos, close-ups or measurements before you decide.",
   ];
   return (
@@ -192,9 +192,9 @@ export function ConditionSection() {
 }
 
 const orderSteps = [
-  { title: "Choose your piece", text: "Pick the IKEA range, colour and size. Each option shows photos of our own stock." },
+  { title: "Choose your piece", text: "Pick the IKEA range, colour and size, with photos of our own stock where available." },
   { title: "Message us on WhatsApp", text: "Tap the WhatsApp button. Your message already includes the exact item you chose." },
-  { title: "We confirm the details", text: "We confirm availability, send extra photos if you want them and tell you the delivery options for your area." },
+  { title: "We confirm the details", text: "We confirm availability, send extra photos if you want them and tell you the delivery cost and timing for your area." },
 ];
 
 /** Three steps from browsing to buying. */

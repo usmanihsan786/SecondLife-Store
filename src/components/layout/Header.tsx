@@ -22,7 +22,7 @@ function UtilityBar() {
             {siteConfig.phoneDisplay}
           </a>
           <Link href="/delivery-areas" className="hidden min-h-9 items-center transition-colors hover:text-white md:inline-flex">
-            Delivery enquiries across the UAE
+            Delivery across the UAE
           </Link>
         </div>
       </Container>

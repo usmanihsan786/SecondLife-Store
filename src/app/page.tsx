@@ -111,19 +111,19 @@ export default function HomePage() {
             </h2>
             <p>
               We are based in the UAE and sell genuine used IKEA furniture. Every bed comes with an IKEA mattress,
-              every daybed with two, and our photos show our own stock, colour by colour and size by size.
+              every daybed with two, and our website features photos of actual furniture where available.
             </p>
             <p>
               Looking for IKEA used furniture in Dubai, Sharjah, Ajman or Abu Dhabi? Choose the piece, size and colour here,
-              then message us on WhatsApp with your area. We will confirm whether it is still available and whether
-              delivery to your area is possible.
+              then message us on WhatsApp with your area. We deliver across the UAE, to all seven emirates, and we will
+              confirm that it is still available and the delivery cost and timing.
             </p>
             <p>
               See{" "}
               <Link href="/delivery-areas" className="font-medium text-ink underline decoration-accent underline-offset-4 hover:decoration-ink">
                 used IKEA furniture in Sharjah, Ajman and Abu Dhabi
               </Link>{" "}
-              for how buying and delivery enquiries work in each emirate.
+              for how buying and delivery work in each emirate.
             </p>
           </div>
           <Faq
