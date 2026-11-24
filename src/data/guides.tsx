@@ -232,11 +232,12 @@ export const guides: Guide[] = [
     slug: "ikea-malm-vs-brimnes-vs-hemnes",
     navLabel: "MALM vs BRIMNES vs HEMNES",
     cardImage: "/images/products/malm/brown/160x200/01.webp",
-    title: "IKEA MALM vs BRIMNES vs HEMNES: Which Bed Should You Buy Used?",
-    seoTitle: "IKEA MALM vs BRIMNES vs HEMNES: Used Bed Comparison",
+    title: "IKEA MALM vs BRIMNES vs HEMNES: Which Bed or Daybed Should You Buy Used?",
+    // Search Console (Oct-Nov 2026): most searches reaching this guide compare the BRIMNES and HEMNES daybeds.
+    seoTitle: "IKEA MALM vs BRIMNES vs HEMNES Beds & Daybeds Compared",
     description:
-      "MALM, BRIMNES and HEMNES are three of IKEA's best-known bed ranges. Compare their style, sizes and storage to choose the right used IKEA bed for your room.",
-    updated: "2026-10-22",
+      "Compare IKEA MALM, BRIMNES and HEMNES beds, plus the BRIMNES vs HEMNES daybed: style, colours, sizes and mattresses, to choose the right used IKEA piece.",
+    updated: "2026-11-24",
     intro:
       "MALM, BRIMNES and HEMNES are the IKEA bed ranges people ask us about most. All three use standard IKEA mattress sizes, but they look and feel different. Here is how they compare when you are buying second-hand.",
     sections: [
@@ -271,6 +272,32 @@ export const guides: Guide[] = [
             <Link href="/products/ikea-hemnes-daybed">used HEMNES daybed</Link>).{" "}
             <Link href="/ikea-hemnes">See our used IKEA HEMNES furniture</Link>.
           </p>
+        ),
+      },
+      {
+        heading: "IKEA BRIMNES vs HEMNES daybed",
+        body: (
+          <>
+            <p>
+              Both are daybeds: a sofa by day and a bed at night, and each one we sell comes with two IKEA mattresses.
+              The main differences are style and colour:
+            </p>
+            <ul>
+              <li>
+                <strong>BRIMNES daybed:</strong> a bright, simple look that suits modern rooms. We have it in white.{" "}
+                <Link href="/products/ikea-brimnes-daybed">See our used BRIMNES daybed</Link>.
+              </li>
+              <li>
+                <strong>HEMNES daybed:</strong> a classic look with panelled details, and it pulls out into a bed. We have
+                it in white and gray. <Link href="/products/ikea-hemnes-daybed">See our used HEMNES daybed</Link>.
+              </li>
+            </ul>
+            <p>
+              Choose BRIMNES for a light, modern room, or HEMNES if you prefer a traditional style or want gray. Ask us on
+              WhatsApp for the measurements of the exact daybed before you decide, or compare all{" "}
+              <Link href="/daybeds">used IKEA daybeds</Link>.
+            </p>
+          </>
         ),
       },
       {
